@@ -15,6 +15,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::get('/login', 'AuthController@loginForm')->middleware('guest');
+Route::post('/login', 'AuthController@login')->name('auth.login');
+
+Route::get('/register', 'AuthController@registerForm');
+Route::post('/register', 'AuthController@register')->name('auth.register');
+
+Route::group(['middleware' => ['web', 'auth']], function () {
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::delete('/logout', 'AuthController@logout')->name('auth.logout');
+
+});
 
 
