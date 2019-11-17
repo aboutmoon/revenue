@@ -28,7 +28,7 @@ Route::post('/register', 'Auth\RegisterController@register')->name('auth.registe
 Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::delete('/logout', 'Auth\LoginController@logout')->name('auth.logout');
-
+    Route::resource('users', 'UsersController');
 });
 
 
