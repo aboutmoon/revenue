@@ -20,7 +20,7 @@
 
                 <form action="{{ route('auth.register') }}" method="post">
                     <div class="input-group mb-3">
-                        <input name="username" type="text" class="form-control" placeholder="Full name">
+                        <input name="name" type="text" class="form-control" placeholder="Full name">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
@@ -62,6 +62,7 @@
                         </div>
                         <!-- /.col -->
                         <div class="col-4">
+                            @csrf
                             <button type="submit" class="btn btn-primary btn-block">Register</button>
                         </div>
                         <!-- /.col -->

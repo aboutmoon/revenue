@@ -11,21 +11,23 @@
 |
 */
 
+use App\Http\Controllers\Auth;
+
 Route::get('/', function () {
     return view('welcome');
 });
 
 
 
-Route::get('/login', 'AuthController@loginForm')->middleware('guest');
-Route::post('/login', 'AuthController@login')->name('auth.login');
+Route::get('/login', 'Auth\LoginController@showLoginForm')->middleware('guest');
+Route::post('/login', 'Auth\LoginController@login')->name('auth.login');
 
-Route::get('/register', 'AuthController@registerForm');
-Route::post('/register', 'AuthController@register')->name('auth.register');
+Route::get('/register', 'Auth\RegisterController@showRegistrationForm');
+Route::post('/register', 'Auth\RegisterController@register')->name('auth.register');
 
 Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/home', 'HomeController@index')->name('home');
-    Route::delete('/logout', 'AuthController@logout')->name('auth.logout');
+    Route::delete('/logout', 'Auth\LoginController@logout')->name('auth.logout');
 
 });
 
