@@ -9,7 +9,7 @@ class UsersController extends Controller
 {
     public function index(){
         $users = User::all();
-        dd($users);
+//        dd($users);
         return view('pages.users.index', compact('users'));
     }
 }
