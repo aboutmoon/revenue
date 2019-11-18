@@ -53,11 +53,11 @@ class AuthController extends Controller
     }
 
     public function loginForm() {
-        return view('pages.auth.login');
+        return view('auth.login');
     }
 
     public function registerForm() {
-        return view('pages.auth.register');
+        return view('auth.register');
     }
 
     public function register() {

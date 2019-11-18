@@ -11,6 +11,6 @@ class PermissionsController extends Controller
     public function index(Request $request) {
         $permissions = Permission::all();
 //        dd($permissions);
-        return view('pages.permissions.index', compact('permissions'));
+        return view('permissions.index', compact('permissions'));
     }
 }
