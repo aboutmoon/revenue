@@ -32,6 +32,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::resource('permissions', 'PermissionsController');
     Route::resource('roles', 'RolesController');
     Route::resource('accounts', 'AccountsController');
+    Route::resource('locations', 'LocationsController');
 });
 
 
