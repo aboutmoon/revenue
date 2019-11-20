@@ -34,6 +34,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::resource('accounts', 'AccountsController');
     Route::resource('locations', 'LocationsController');
     Route::resource('items', 'ItemsController');
+    Route::resource('criterias', 'CriteriaController');
 });
 
 
