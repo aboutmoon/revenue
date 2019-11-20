@@ -29,6 +29,7 @@
                             <th>ID</th>
                             <th>Name</th>
                             <th>Type</th>
+                            <th>Criteria</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -37,6 +38,11 @@
                                 <th>{{ $item->id }}</th>
                                 <th>{{ $item->name }}</th>
                                 <th>{{ $item->type }}</th>
+                                <th>
+                                    @foreach($item->criterias as $criteria)
+                                        <cpan class="badge badge-info">{{ $criteria->name }}</cpan>
+                                    @endforeach
+                                </th>
                             </tr>
                         @endforeach
                         </tbody>

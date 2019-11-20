@@ -9,7 +9,7 @@ class CriteriaController extends Controller
 {
     public function index(Request $request)
     {
-        $criterias = Criteria::all();
+        $criterias = Criteria::with('item')->get();
         return view('criterias.index', compact('criterias'));
     }
 }

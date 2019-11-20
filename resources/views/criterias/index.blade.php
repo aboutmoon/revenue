@@ -28,7 +28,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
-                            <th>Item ID</th>
+                            <th>Item</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -36,7 +36,7 @@
                             <tr>
                                 <th>{{ $criteria->id }}</th>
                                 <th>{{ $criteria->name }}</th>
-                                <th>{{ $criteria->item_id }}</th>
+                                <th>{{ $criteria->item->name }}</th>
                             </tr>
                         @endforeach
                         </tbody>
