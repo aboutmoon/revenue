@@ -17,10 +17,8 @@ class CreateForecastItemsTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('model_id');
             $table->bigInteger('model_vid');
-            $table->bigInteger('fi_location_id');
-            $table->bigInteger('fi_item_id');
-            $table->bigInteger('date_from_id');
-            $table->bigInteger('date_to_id');
+            $table->dateTime('date_from');
+            $table->dateTime('date_to');
             $table->decimal('coverage', 24, 8);
             $table->timestamps();
         });
