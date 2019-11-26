@@ -37,6 +37,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::resource('criterias', 'CriteriaController');
     Route::resource('projects', 'ProjectsController');
     Route::resource('forecast-items', 'ForecastItemsController');
+    Route::resource('data-models', 'DataModelsController');
 });
 
 
