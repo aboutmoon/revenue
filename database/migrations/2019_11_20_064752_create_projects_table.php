@@ -15,13 +15,15 @@ class CreateProjectsTable extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('carrier_id');
-            $table->bigInteger('oem_id');
-            $table->bigInteger('odm_id');
-            $table->string('model_name');
-            $table->string('connectivity');
+            $table->bigInteger('carrier_id')->default(0);
+            $table->bigInteger('oem_id')->default(0);
+            $table->bigInteger('odm_id')->default(0);
+            $table->string('model_name')->default('');
+            $table->string('name');
+            $table->string('connectivity')->default('');
+            $table->string('brand');
+            $table->string('licensee');
             $table->string('type');
-            $table->string('financing');
             $table->timestamps();
         });
     }

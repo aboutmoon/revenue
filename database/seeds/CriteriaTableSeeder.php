@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\Models\Item;
 use App\Models\Criteria;
+use App\Imports\CriteriaImport;
 
 class CriteriaTableSeeder extends Seeder
 {
@@ -13,13 +14,7 @@ class CriteriaTableSeeder extends Seeder
      */
     public function run()
     {
-        $items = Item::all();
-
-        foreach ($items as $index => $item)
-        {
-            Criteria::create(['name'=>'Criteria_' . $index, 'item_id' => $item->id]);
-            Criteria::create(['name'=>'Criteria_' . $index . $index, 'item_id' => $item->id]);
-            Criteria::create(['name'=>'Criteria_' . $index . $index . $index, 'item_id' => $item->id]);
-        }
+        $path = storage_path('app/public/Kaios_Business-plan_Parameters.csv');
+        Excel::import(new CriteriaImport, $path);
     }
 }

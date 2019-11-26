@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Seeder;
 use App\Models\Item;
+use App\Imports\ItemsImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ItemsTableSeeder extends Seeder
 {
@@ -12,10 +14,8 @@ class ItemsTableSeeder extends Seeder
      */
     public function run()
     {
-        Item::create(['name'=> 'FOTA', 'type'=>'type1']);
-        Item::create(['name'=> 'Native apps', 'type'=>'type2']);
-        Item::create(['name'=> 'Store', 'type'=>'type3']);
-        Item::create(['name'=> 'PRELOAD', 'type'=>'type3']);
-        Item::create(['name'=> 'Royalties', 'type'=>'type3']);
+//        $world = Item::create(['name'=> 'World', 'level_type'=>'World','parent_id'=> 0]);
+        $path = storage_path('app/public/Kaios_Business-plan_Parameters.csv');
+        Excel::import(new ItemsImport, $path);
     }
 }

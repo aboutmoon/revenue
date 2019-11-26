@@ -10,4 +10,9 @@ class Criteria extends Model
     {
         return $this->belongsTo('App\Models\Item', 'item_id');
     }
+
+    public function parent()
+    {
+        return $this->hasOne('App\Models\Criteria', 'parent_id');
+    }
 }

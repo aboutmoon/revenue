@@ -10,4 +10,9 @@ class Item extends Model
     {
         return $this->hasMany('App\Models\Criteria');
     }
+
+    public function parent()
+    {
+        return $this->hasOne('App\Models\Item', 'id', 'parent_id');
+    }
 }

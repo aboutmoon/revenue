@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Seeder;
 use App\Models\Location;
+use App\Imports\LocationsImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class LocationsTableSeeder extends Seeder
 {
@@ -12,24 +14,9 @@ class LocationsTableSeeder extends Seeder
      */
     public function run()
     {
-        $global = Location::create(['name'=> 'Global', 'level_type'=>'global','parent_id'=> 0]);
-
-
-        //market
-        $developed = Location::create(['name'=> 'Developped Markets', 'level_type'=>'market','parent_id'=> $global->id]);
-        $developing = Location::create(['name'=> 'Developping Markets', 'level_type'=>'market','parent_id'=> $global->id]);
-
-        //region
-        $northAmerica = Location::create(['name'=> 'North America', 'level_type'=>'region','parent_id'=> $developed->id]);
-        $asia = Location::create(['name'=> 'Asia', 'level_type'=>'region','parent_id'=> $developing->id]);
-        $africa = Location::create(['name'=> 'Africa', 'level_type'=>'region','parent_id'=> $developing->id]);
-
-        //country
-        Location::create(['name'=> 'America', 'level_type'=>'country','parent_id'=> $northAmerica->id]);
-        Location::create(['name'=> 'China', 'level_type'=>'country','parent_id'=> $asia->id]);
-        Location::create(['name'=> 'India', 'level_type'=>'country','parent_id'=> $asia->id]);
-        Location::create(['name'=> 'Zimbabwe', 'level_type'=>'country','parent_id'=> $africa->id]);
-        Location::create(['name'=> 'Zambia', 'level_type'=>'country','parent_id'=> $africa->id]);
+        $world = Location::create(['name'=> 'World', 'level_type'=>'World','parent_id'=> 0]);
+        $path = storage_path('app/public/share_country.csv');
+        Excel::import(new LocationsImport, $path);
 
     }
 }

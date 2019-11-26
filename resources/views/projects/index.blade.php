@@ -27,26 +27,30 @@
                         <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Name</th>
                             <th>OME</th>
                             <th>ODM</th>
                             <th>Carrier</th>
                             <th>Type</th>
                             <th>Model</th>
+                            <th>Brand</th>
+                            <th>Licensee</th>
                             <th>Connectivity</th>
-                            <th>Financing</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach ($projects as $project)
                             <tr>
                                 <th>{{ $project->id }}</th>
-                                <th>{{ $project->oem->name }}</th>
-                                <th>{{ $project->odm->name }}</th>
-                                <th>{{ $project->carrier->name }}</th>
+                                <th>{{ $project->name }}</th>
+                                <th>{{ isset($project->oem)? $project->oem->name: '' }}</th>
+                                <th>{{ isset($project->odm)? $project->odm->name: '' }}</th>
+                                <th>{{ isset($project->carrier)? $project->carrier->name: '' }}</th>
                                 <th>{{ $project->type }}</th>
                                 <th>{{ $project->model_name }}</th>
+                                <th>{{ $project->brand }}</th>
+                                <th>{{ $project->licensee }}</th>
                                 <th>{{ $project->connectivity }}</th>
-                                <th>{{ $project->financing }}</th>
                             </tr>
                         @endforeach
                         </tbody>
