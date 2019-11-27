@@ -17,7 +17,7 @@ class CreateForecastCriteriasTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('model_id');
             $table->bigInteger('model_vid');
-            $table->bigInteger('criteria_id');
+            $table->bigInteger('item_id');
             $table->dateTime('date_from');
             $table->dateTime('date_to');
             $table->decimal('value', 24, 8);

@@ -14,7 +14,7 @@ class CreateForecastCriteriaAccountsTable extends Migration
     public function up()
     {
         Schema::create('forecast_criteria_accounts', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigInteger('id');
             $table->bigInteger('account_id');
             $table->timestamps();
         });

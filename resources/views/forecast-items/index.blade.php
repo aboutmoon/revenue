@@ -27,22 +27,31 @@
                         <thead>
                         <tr>
                             <th>Operation</th>
-                            <th>Name</th>
-                            <th>Item</th>
+                            <th>Locations</th>
+                            <th>Accounts</th>
+                            <th>Items</th>
+                            <th>Coverage</th>
+                            <th>From</th>
+                            <th>To</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <th>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-info">Left</button>
-                                    <button type="button" class="btn btn-info">Middle</button>
-                                    <button type="button" class="btn btn-info">Right</button>
-                                </div>
-                            </th>
-                            <th>w</th>
-                            <th>e</th>
-                        </tr>
+                        @foreach( $forecastItems as $forecastItem)
+                            <tr>
+                                <th>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-info">Edit</button>
+                                        <button type="button" class="btn btn-info">Delete</button>
+                                    </div>
+                                </th>
+                                <th>{{ $forecastItem->locations }}</th>
+                                <th>{{ $forecastItem->accounts }}</th>
+                                <th>{{ $forecastItem->items }}</th>
+                                <th>{{ $forecastItem->coverage }}</th>
+                                <th>{{ $forecastItem->date_from }}</th>
+                                <th>{{ $forecastItem->date_to }}</th>
+                            </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 </div>

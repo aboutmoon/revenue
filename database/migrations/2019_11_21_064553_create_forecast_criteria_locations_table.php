@@ -14,7 +14,7 @@ class CreateForecastCriteriaLocationsTable extends Migration
     public function up()
     {
         Schema::create('forecast_criteria_locations', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigInteger('id');
             $table->bigInteger('location_id');
             $table->timestamps();
         });

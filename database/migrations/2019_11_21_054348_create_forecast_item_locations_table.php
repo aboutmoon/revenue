@@ -14,7 +14,7 @@ class CreateForecastItemLocationsTable extends Migration
     public function up()
     {
         Schema::create('forecast_item_locations', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigInteger('id');
             $table->bigInteger('location_id');
             $table->timestamps();
         });

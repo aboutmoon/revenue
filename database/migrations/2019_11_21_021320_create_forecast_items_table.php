@@ -20,6 +20,7 @@ class CreateForecastItemsTable extends Migration
             $table->dateTime('date_from');
             $table->dateTime('date_to');
             $table->decimal('coverage', 24, 8);
+            $table->decimal('monthly_growth', 16, 8);
             $table->timestamps();
         });
     }

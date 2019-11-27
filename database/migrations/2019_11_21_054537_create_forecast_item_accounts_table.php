@@ -14,7 +14,8 @@ class CreateForecastItemAccountsTable extends Migration
     public function up()
     {
         Schema::create('forecast_item_accounts', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigInteger('id');
+            $table->bigInteger('account_id');
             $table->timestamps();
         });
     }
