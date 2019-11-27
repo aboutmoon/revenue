@@ -28,6 +28,13 @@ Route::post('/register', 'Auth\RegisterController@register')->name('auth.registe
 Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::delete('/logout', 'Auth\LoginController@logout')->name('auth.logout');
+// GET|HEAD  | users             | users.index   | App\Http\Controllers\UsersController@index
+// POST      | users             | users.store   | App\Http\Controllers\UsersController@store
+// GET|HEAD  | users/create      | users.create  | App\Http\Controllers\UsersController@create
+// PUT|PATCH | users/{user}      | users.update  | App\Http\Controllers\UsersController@update
+// GET|HEAD  | users/{user}      | users.show    | App\Http\Controllers\UsersController@show
+// DELETE    | users/{user}      | users.destroy | App\Http\Controllers\UsersController@destroy
+// GET|HEAD  | users/{user}/edit | users.edit    | App\Http\Controllers\UsersController@edit
     Route::resource('users', 'UsersController');
     Route::resource('permissions', 'PermissionsController');
     Route::resource('roles', 'RolesController');
