@@ -19,8 +19,8 @@ class CreateForecastDevicesTable extends Migration
             $table->bigInteger('model_vid');
             $table->bigInteger('project_id');
             $table->bigInteger('location_id');
-            $table->dateTime('date_from');
-            $table->dateTime('date_to');
+            $table->date('date_from');
+            $table->date('date_to');
             $table->decimal('quantity', 24, 8);
             $table->timestamps();
         });

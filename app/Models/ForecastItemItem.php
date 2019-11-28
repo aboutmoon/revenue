@@ -7,4 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class ForecastItemItem extends Model
 {
     protected $table = 'forecast_item_items';
+
+    protected $fillable = ['id', 'item_id'];
 }

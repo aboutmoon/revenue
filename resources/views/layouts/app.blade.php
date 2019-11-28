@@ -11,6 +11,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <title>@yield("title")</title>
 
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="{{ asset("/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css") }}">
+
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ asset("/bower_components/admin-lte/plugins/fontawesome-free/css/all.min.css") }}">
     <!-- Theme style -->
@@ -359,5 +362,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{ asset("/bower_components/admin-lte/dist/js/adminlte.min.js") }}"></script>
 <!-- Select 2 -->
 <script src="{{ asset("/bower_components/admin-lte/plugins/select2/js/select2.full.min.js") }}"></script>
+
+<script src="{{ asset("/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.js") }}"></script>
+
+<script>@yield('script')</script>
 </body>
 </html>

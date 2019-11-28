@@ -12,7 +12,10 @@ use Illuminate\Database\Eloquent\Model;
 //$table->timestamps();
 class ForecastItem extends Model
 {
+
     protected $table = 'forecast_items';
+
+    protected $fillable = ['model_id', 'model_vid', 'coverage', 'date_from', 'date_to', 'monthly_growth'];
 
     public function model()
     {

@@ -9,19 +9,20 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Forecast Items</h3>
+                    <h3 class="card-title"></h3>
 
                     <div class="card-tools">
                         <div class="input-group input-group-sm" style="width: 150px;">
-                            <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-                            <div class="input-group-append">
-                                <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
-                            </div>
                         </div>
                     </div>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
+                    <div>
+                        <a class="btn btn-info btn-sm" style="margin-left: 24px; margin-top: 20px;" href="{{ route('forecast-items.create', array('model_id' => $modelId, 'model_vid' => $modelVid)) }}">
+                            <i class="fas fa-pencil-alt"></i>Create
+                        </a>
+                    </div>
                     <table class="table table-hover">
                         <thead>
                         <tr>
@@ -39,10 +40,10 @@
                             <tr>
                                 <th>
                                     <div class="btn-group">
-                                        <a class="btn btn-info btn-sm" href="{{ route('forecast-items.edit', array('forecast_item' => $forecastItem->id,'model_id' => $modelId, 'model_vid' => $modelVid)) }}">
+                                        <a class="btn btn-info btn-sm" href="{{ route('forecast-items.edit', array('forecast_item' => $forecastItem->id)) }}">
                                             <i class="fas fa-pencil-alt"></i>Edit
                                         </a>
-                                        <a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" href="javascript:void(0)">
+                                        <a class="btn btn-danger btn-sm btn-delete-model" data-url="{{ route('forecast-items.destroy', array('forecast_item' => $forecastItem->id)) }}">
                                             <i class="fas fa-trash">
                                             </i>
                                             Delete
@@ -75,23 +76,39 @@
                 <!-- /.card-body -->
             </div>
             <!-- /.card -->
+            <div class="card">
+                <div class="card-body table-responsive p-0">
+
+                </div>
+            </div>
         </div>
     </div>
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">模态框（Modal）标题</h4>
-                </div>
+
                 <div class="modal-body">
-                    <form action="{{ route('') }}"></form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-primary">Confirm</button>
+                    <h1>Confirm to Delete.</h1>
+                    <form action="" method="post">
+                        @csrf
+                        @method('DELETE')
+                        <button type="button" class="btn btn-default btn-close" data-dismiss="modal">Cancel</button>
+                        <input type="submit" value="Confirm">
+                    </form>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal -->
     </div>
+@endsection
+
+@section('script')
+$(function(){
+    $('.btn-delete-model').click(function(){
+        $('#deleteModal .modal-body form').attr('action', $(this).attr('data-url'));
+        $('#deleteModal').modal('show');
+    });
+    $('#deleteModal').on('show.bs.modal', function () {
+
+    })
+})
 @endsection
