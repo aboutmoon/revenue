@@ -36,9 +36,16 @@
                                 <tr>
                                     <th>
                                         <div class="btn-group">
-                                            <button type="button" class="btn btn-info">Edit</button>
-                                            <button type="button" class="btn btn-info">Delete</button>
-                                            <button type="button" class="btn btn-info">Copy</button>
+                                            <div class="btn-group">
+                                                <a class="btn btn-info btn-sm" href="{{ route('data-models.edit', array('date_model' => $model->id, 'model_id' => $model->id, 'model_vid' => $model->vid)) }}">
+                                                    <i class="fas fa-pencil-alt"></i>Edit
+                                                </a>
+                                                <a class="btn btn-danger btn-sm btn-delete-model" data-url="{{ route('data-models.destroy', array('date_model' => $model->id, 'model_id' => $model->id, 'model_vid' => $model->vid)) }}">
+                                                    <i class="fas fa-trash">
+                                                    </i>
+                                                    Delete
+                                                </a>
+                                            </div>
                                         </div>
                                     </th>
                                     <th>{{ $model->name }}</th>
