@@ -7,4 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class ForecastCriteriaAccount extends Model
 {
     protected $table = 'forecast_criteria_accounts';
+
+    protected $fillable = ['id', 'account_id'];
 }

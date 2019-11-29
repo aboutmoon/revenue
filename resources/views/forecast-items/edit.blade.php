@@ -124,6 +124,7 @@
     });
 
     $('.datepicker').datepicker({
+    autoclose: true,
     minViewMode: 1,
     format: {
     toDisplay: function (date, format, language) {

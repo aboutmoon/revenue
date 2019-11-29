@@ -47,7 +47,7 @@
                                         <div class="btn-group">
                                             <a class="btn btn-info btn-sm"  href="#">Device Forecast</a>
                                             <a class="btn btn-dark btn-sm"  href="{{ route('forecast-items.index', array('model_id' => $model->id, 'model_vid' => $model->vid)) }}">Item Forecast</a>
-                                            <a class="btn btn-primary btn-sm"  href="#">Criteria Forecast</a>
+                                            <a class="btn btn-primary btn-sm"  href="{{ route('forecast-criterias.index', array('model_id' => $model->id, 'model_vid' => $model->vid)) }}">Criteria Forecast</a>
                                             <a class="btn btn-warning btn-sm"  href="#">Result</a>
                                         </div>
                                     </th>
