@@ -18,6 +18,7 @@ class UsersSeeder extends Seeder
     {
         //
         $user = App\Models\User::create(['name'=> 'biao.he', 'email'=>'biao.he@kaiostech.com','password'=>bcrypt('He.123456')]);
+        $user = App\Models\User::create(['name'=> 'test', 'email'=>'test@kaiostech.com','password'=>bcrypt('123456')]);
         factory(\App\Models\User::class, 100)->create();
 
         // 需清除缓存，否则会报错

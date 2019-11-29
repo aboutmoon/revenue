@@ -6,5 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Account extends Model
 {
-    //
+
+    public function parent()
+    {
+        return $this->hasOne('App\Models\Account', 'id', 'parent_id');
+    }
 }

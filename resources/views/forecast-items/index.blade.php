@@ -33,6 +33,7 @@
                             <th>Coverage</th>
                             <th>From</th>
                             <th>To</th>
+                            <th>Monthly Growth</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -68,6 +69,7 @@
                                 <th>{{ $forecastItem->coverage }}</th>
                                 <th>{{ $forecastItem->date_from }}</th>
                                 <th>{{ $forecastItem->date_to }}</th>
+                                <th>{{ $forecastItem->monthly_growth }}</th>
                             </tr>
                         @endforeach
                         </tbody>

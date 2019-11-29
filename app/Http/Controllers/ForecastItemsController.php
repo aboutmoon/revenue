@@ -50,7 +50,7 @@ class ForecastItemsController extends Controller
         $model = DataModel::where('id', $forecastItem->model_id)->where('vid', $forecastItem->model_vid)->first();
         $items = Item::where('level_type', 'Item')->get();
         $accounts = Account::where('level_type', 'Account')->get();
-        $locations = Location::where('level_type', 'Country')->get();
+        $locations = Location::where('level_type', 'Market')->get();
 
         return view('forecast-items.edit', compact('locations','accounts','items','forecastItem', 'selectLocations', 'selectAccounts', 'selectItems', 'model'));
     }
@@ -93,7 +93,7 @@ class ForecastItemsController extends Controller
         $model = DataModel::where('id', $modelId)->where('vid', $modelVid)->first();
         $items = Item::where('level_type', 'Item')->get();
         $accounts = Account::where('level_type', 'Account')->get();
-        $locations = Location::where('level_type', 'Country')->get();
+        $locations = Location::where('level_type', 'Market')->get();
 
         return view('forecast-items.create', compact('model','items', 'accounts', 'locations', 'modelId', 'modelVid'));
     }

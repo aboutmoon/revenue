@@ -23,6 +23,11 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
+                    <div>
+                        <a class="btn btn-info btn-sm" style="margin-left: 24px; margin-top: 20px;" href="{{ route('data-models.create') }}">
+                            <i class="fas fa-pencil-alt"></i>Create
+                        </a>
+                    </div>
                     <table class="table table-hover">
                         <thead>
                         <tr>

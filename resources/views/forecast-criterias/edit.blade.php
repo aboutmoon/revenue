@@ -36,7 +36,7 @@
                             <div class="col-sm-10">
                                 <select class="select2" id="selectAccounts" name="accounts[]" multiple="multiple" style="width: 100%;">
                                     @foreach($accounts as $account)
-                                        <option value="{{ $account->id }}">{{ $account->name }}</option>
+                                        <option value="{{ $account->id }}">{{ $account->parent->name . '::' . $account->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -58,7 +58,7 @@
                             <div class="col-sm-10">
                                 <select class="select2" id="selectItems" name="item_id" value="{{ $forecastCriteria->item_id }}" style="width: 100%;">
                                     @foreach($items as $item)
-                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        <option value="{{ $item->id }}">{{ $item->parent->name . '::' . $item->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
