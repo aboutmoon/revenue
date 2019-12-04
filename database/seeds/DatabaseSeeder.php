@@ -21,5 +21,6 @@ class DatabaseSeeder extends Seeder
 
         $this->call(DataModelTableSeeder::class);
         $this->call(ForecastItemTableSeeder::class);
+        $this->call(ForecastDevicesTableSeeder::class);
     }
 }

@@ -1,7 +1,7 @@
 @extends("layouts.app")
 
 @section("title")
-    Forecast Items
+    Forecast Criteria
 @endsection
 
 @section("content")

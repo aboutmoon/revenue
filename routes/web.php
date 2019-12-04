@@ -45,6 +45,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::resource('projects', 'ProjectsController');
     Route::resource('forecast-items', 'ForecastItemsController');
     Route::resource('forecast-criterias', 'ForecastCriteriasController');
+    Route::resource('forecast-devices', 'ForecastDevicesController');
     Route::resource('data-models', 'DataModelsController');
 });
 

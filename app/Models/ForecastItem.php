@@ -3,13 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-//$table->bigIncrements('id');
-//$table->bigInteger('model_id');
-//$table->bigInteger('model_vid');
-//$table->dateTime('date_from');
-//$table->dateTime('date_to');
-//$table->decimal('coverage', 24, 8);
-//$table->timestamps();
 class ForecastItem extends Model
 {
 
@@ -48,7 +41,7 @@ class ForecastItem extends Model
     public function items()
     {
         return $this->hasManyThrough(
-            'App\Models\Location',
+            'App\Models\Item',
             'App\Models\ForecastItemItem',
             'id',
             'id',
