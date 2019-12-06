@@ -27,6 +27,9 @@
                         <thead>
                         <tr>
                             <th>Project</th>
+                            <th>ODM</th>
+                            <th>OEM</th>
+                            <th>Carrier</th>
                             <th>Location</th>
                             <th>Date From</th>
                             <th>Date To</th>
@@ -37,6 +40,9 @@
                             @foreach( $forecastDevices as $forecastDevice )
                                 <tr>
                                     <td>{{ $forecastDevice->project->name }}</td>
+                                    <td>{{ $forecastDevice->project->odm? $forecastDevice->project->odm->name: '' }}</td>
+                                    <td>{{ $forecastDevice->project->oem? $forecastDevice->project->oem->name: '' }}</td>
+                                    <td>{{ $forecastDevice->project->carrier? $forecastDevice->project->carrier->name: '' }}</td>
                                     <td>{{ $forecastDevice->location->name }}</td>
                                     <td>{{ $forecastDevice->date_from }}</td>
                                     <td>{{ $forecastDevice->date_to }}</td>

@@ -39,7 +39,7 @@ class ProjectsImport implements ToCollection, WithHeadingRow
             $product['licensee'] = $row['licensee'];
             $product['name'] = $row['projects'];
 
-            Project::create($product);
+            Project::firstOrCreate($product);
         }
     }
 

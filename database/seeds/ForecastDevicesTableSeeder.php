@@ -1,10 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\ForecastDevice;
-use App\Models\Location;
-use App\Models\Account;
-use App\Models\Project;
+use App\Imports\ForecastDevicesImport;
+
 
 class ForecastDevicesTableSeeder extends Seeder
 {
@@ -15,21 +13,8 @@ class ForecastDevicesTableSeeder extends Seeder
      */
     public function run()
     {
-        $locations = Location::where('level_type', 'Market')->get();
-        $projects = Project::all();
-        foreach ($locations as $location) {
-            foreach ($projects as $project) {
-                ForecastDevice::create([
-                    'model_id' => 1,
-                    'model_vid' => 1,
-                    'project_id' => $project->id,
-                    'location_id' => $location->id,
-                    'date_from' => '2019-01-01',
-                    'date_to' => '2020-01-01',
-                    'quantity' => 24000
-                    ]);
-            }
-        }
+        $path = storage_path('app/public/forecast-devices.csv');
+        Excel::import(new ForecastDevicesImport, $path);
 
     }
 }

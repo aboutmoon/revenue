@@ -21,7 +21,7 @@ class CreateForecastDevicesTable extends Migration
             $table->bigInteger('location_id');
             $table->date('date_from');
             $table->date('date_to');
-            $table->decimal('quantity', 24, 8);
+            $table->decimal('quantity', 24, 8)->default(0);
             $table->timestamps();
         });
     }

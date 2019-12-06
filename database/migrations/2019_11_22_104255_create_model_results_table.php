@@ -18,7 +18,7 @@ class CreateModelResultsTable extends Migration
             $table->bigInteger('model_id');
             $table->bigInteger('model_vid');
             $table->bigInteger('location_id');
-            $table->bigInteger('account_id');
+            $table->bigInteger('project_id');
             $table->date('date_from');
             $table->date('date_to');
             $table->bigInteger('item_id');
