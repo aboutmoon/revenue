@@ -50,6 +50,11 @@
                                                     </i>
                                                     Delete
                                                 </a>
+                                                <a class="btn btn-primary btn-sm" href="{{ route('data-models.generate', array('date_model' => $model->id, 'model_id' => $model->id, 'model_vid' => $model->vid)) }}">
+                                                    <i class="fas fa-baby">
+                                                    </i>
+                                                    Generate
+                                                </a>
                                             </div>
                                         </div>
                                     </th>
@@ -60,7 +65,7 @@
                                             <a class="btn btn-info btn-sm"  href="{{ route('forecast-devices.index', array('model_id' => $model->id, 'model_vid' => $model->vid)) }}">Device Forecast</a>
                                             <a class="btn btn-dark btn-sm"  href="{{ route('forecast-items.index', array('model_id' => $model->id, 'model_vid' => $model->vid)) }}">Item Forecast</a>
                                             <a class="btn btn-primary btn-sm"  href="{{ route('forecast-criterias.index', array('model_id' => $model->id, 'model_vid' => $model->vid)) }}">Criteria Forecast</a>
-                                            <a class="btn btn-warning btn-sm"  href="{{ route('forecast-devices.index', array('model_id' => $model->id, 'model_vid' => $model->vid)) }}">Result</a>
+                                            <a class="btn btn-warning btn-sm"  href="{{ route('model-results.index', array('model_id' => $model->id, 'model_vid' => $model->vid)) }}">Result</a>
                                         </div>
                                     </th>
                                 </tr>

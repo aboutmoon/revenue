@@ -46,7 +46,10 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::resource('forecast-items', 'ForecastItemsController');
     Route::resource('forecast-criterias', 'ForecastCriteriasController');
     Route::resource('forecast-devices', 'ForecastDevicesController');
+    Route::get('data-models/generate', 'DataModelsController@generate')->name('data-models.generate');
     Route::resource('data-models', 'DataModelsController');
+    Route::resource('model-results', 'ModelResultsController');
+
 });
 
 

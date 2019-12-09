@@ -5,6 +5,7 @@ namespace App\Imports;
 use App\Models\Account;
 use App\Models\Location;
 use App\Models\Project;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use App\Models\ForecastDevice;
 use Illuminate\Support\Collection;
@@ -124,14 +125,24 @@ class ForecastDevicesImport implements ToCollection, WithHeadingRow
                         break;
                 }
 
-                $result = ForecastDevice::firstOrCreate(array_merge($forecastDevice, $d));
-                if ($result->wasRecentlyCreated) {
+                $date_from = Carbon::parse($d['date_from']);
+                $date_to = Carbon::parse($d['date_to']);
+                while ($date_from->lte($date_to)) {
+                    $d['date'] = $date_from->toDateString();
+
+                    $result = ForecastDevice::firstOrCreate(array_merge($forecastDevice, $d));
+                    if ($result->wasRecentlyCreated) {
 //                    Log::info(print_r(array_merge($forecastDevice, $d), true));
 //                    Log::info('['. $index .'] create success.');
-                } else {
-                    Log::info(print_r(array_merge($forecastDevice, $d), true));
-                    Log::info('['. $index .'] duplicate.');
+                    } else {
+                        Log::info(print_r(array_merge($forecastDevice, $d), true));
+                        Log::info('['. $index .'] duplicate.');
+                    }
+
+                    $date_from->addMonth();
                 }
+
+
             }
 
         }

@@ -21,6 +21,7 @@ class CreateModelResultsTable extends Migration
             $table->bigInteger('project_id');
             $table->date('date_from');
             $table->date('date_to');
+            $table->date('date');
             $table->bigInteger('item_id');
             $table->decimal('result', 24, 8);
             $table->timestamps();

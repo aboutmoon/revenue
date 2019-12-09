@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateForecastDevicesTable extends Migration
+class CreateForecastItemsView extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,14 @@ class CreateForecastDevicesTable extends Migration
      */
     public function up()
     {
-        Schema::create('forecast_devices', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('forecast_items_view', function (Blueprint $table) {
+            $table->bigInteger('item_id');
+            $table->bigInteger('location_id');
+            $table->bigInteger('account_id');
             $table->bigInteger('model_id');
             $table->bigInteger('model_vid');
-            $table->bigInteger('project_id');
-            $table->bigInteger('location_id');
-            $table->date('date_from');
-            $table->date('date_to');
             $table->date('date');
-            $table->decimal('quantity', 24, 8)->default(0);
+            $table->decimal('coverage', 24, 8);
             $table->timestamps();
         });
     }
@@ -34,6 +32,6 @@ class CreateForecastDevicesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('forecast_devices');
+        Schema::dropIfExists('forecast_items_view');
     }
 }
