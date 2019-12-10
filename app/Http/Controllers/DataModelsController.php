@@ -84,11 +84,14 @@ class DataModelsController extends Controller
 //        $this->expandForecastDevices();
 
         // expand criteria
-        DB::table('forecast_criterias_view')->delete();
+        DB::table('forecast_criterias_view')->where('model_id', $modelId)->where('model_vid', $modelVid)->delete();
         $this->expandForecastCriterias($modelId, $modelVid);
 
+        //
+        DB::table('model_results')->where('model_id', $modelId)->where('model_vid', $modelVid)->delete();
+
         //use account to select project, and use location + project + date to select forecast device
-        $forecastItems = ForecastItem::where('model_id', $modelId)->where('model_vid', $modelVid)->get();
+        $forecastItems = ForecastItem::with(['locations', 'accounts'])->where('model_id', $modelId)->where('model_vid', $modelVid)->get();
 
         $oem = Account::where('level_type', 'Category')->where('name', 'OEM')->first();
         $odm = Account::where('level_type', 'Category')->where('name', 'ODM')->first();
@@ -155,7 +158,8 @@ class DataModelsController extends Controller
                     $forecastCriteriasView = ForecastCriteriasView::where('location_id', $forecast->location_id)
                         ->where('item_id', $item->id)
                         ->where('date', $forecast->date)->get();
-                    if ($item->id == 2) {
+                    if ($item->id == 2 || $item->id == 3) {
+
                         ModelResult::create([
                             'model_id' => $forecast->model_id,
                             'model_vid' => $forecast->model_vid,
@@ -173,6 +177,7 @@ class DataModelsController extends Controller
             }
 
         }
+//        return view('welcome');
         return redirect(route('model-results.index', ['model_id' => $modelId, 'model_vid' => $modelVid]));
     }
 
