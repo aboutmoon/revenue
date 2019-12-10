@@ -133,7 +133,9 @@ class ForecastItemsController extends Controller
     public function destroy(Request $request, ForecastItem $forecastItem)
     {
         $forecastItem->delete();
-
+        ForecastItemItem::find($forecastItem->id)->delete();
+        ForecastItemLocation::find($forecastItem->id)->delete();
+        ForecastItemAccount::find($forecastItem->id)->delete();
         return back();
     }
 }

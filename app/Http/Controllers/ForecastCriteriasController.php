@@ -151,7 +151,9 @@ class ForecastCriteriasController extends Controller
     public function destroy(Request $request, ForecastCriteria $forecastCriteria)
     {
         $forecastCriteria->delete();
-
+        ForecastCriteriaParameter::where('forecast_criteria_id', $forecastCriteria->id)->delete();
+        ForecastCriteriaAccount::find($forecastCriteria->id)->delete();
+        ForecastCriteriaLocation::find($forecastCriteria->id)->delete();
         return back();
     }
 }
