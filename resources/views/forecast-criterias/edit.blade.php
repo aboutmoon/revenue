@@ -35,6 +35,9 @@
                             <label for="selectAccounts" class="col-sm-2 col-form-label">Accounts</label>
                             <div class="col-sm-10">
                                 <select class="select2" id="selectAccounts" name="accounts[]" multiple="multiple" style="width: 100%;">
+                                    <option value="-2">OEM</option>
+                                    <option value="-3">ODM</option>
+                                    <option value="-4">Carrier</option>
                                     @foreach($accounts as $account)
                                         <option value="{{ $account->id }}">{{ $account->parent->name . '::' . $account->name }}</option>
                                     @endforeach
@@ -242,6 +245,65 @@
                 }
             });
 
+            var accounts = {!! $json_accounts !!};
+
+            function quickSelect(object, id) {
+                var selects = [];
+                var origin = object.val();
+                for(var i = 0; i < accounts.length; i++) {
+                    if (accounts[i].parent_id == id) {
+                        selects.push(accounts[i].id);
+                    }
+                }
+                selects = selects.concat(origin);
+                selects = selects.filter(function (item, index, selects) {
+                    return selects.indexOf(item, 0) === index;
+                });
+
+                object.val(selects).change();
+            }
+
+            function quickUnselect(object, id) {
+                var selects = [];
+                var origin = object.val();
+                for(var i = 0; i < accounts.length; i++) {
+                    if (accounts[i].parent_id == id) {
+                        selects.push(accounts[i].id);
+                    }
+                }
+
+                origin = origin.filter(function (item, index, origin) {
+                    return selects.indexOf(parseInt(item)) === -1;
+                });
+                object.val(origin).change();
+            }
+
+            $('#selectAccounts').on('select2:select', function (e) {
+                var data = e.params.data;
+                if (data.text == "ODM") {
+                    quickSelect($(this), 2);
+                }
+                if (data.text == "OEM") {
+                    quickSelect($(this), 3);
+                }
+                if (data.text == "Carrier") {
+                    quickSelect($(this), 4);
+                }
+
+            });
+
+            $('#selectAccounts').on('select2:unselect', function (e) {
+                var data = e.params.data;
+                if (data.text == "ODM") {
+                    quickUnselect($(this), 2);
+                }
+                if (data.text == "OEM") {
+                    quickUnselect($(this), 3);
+                }
+                if (data.text == "Carrier") {
+                    quickUnselect($(this), 4);
+                }
+            });
 
         })
     </script>

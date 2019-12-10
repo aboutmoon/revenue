@@ -38,6 +38,8 @@ class ForecastCriteriasController extends Controller
         $accounts = Account::where('level_type', 'Account')->get();
         $locations = Location::where('level_type', 'Market')->get();
 
+        $json_accounts = json_encode($accounts);
+
         $criterias = Criteria::all();
 
         $selectLocations = [];
@@ -52,7 +54,7 @@ class ForecastCriteriasController extends Controller
         }
         $selectAccounts = json_encode($selectAccounts);
 
-        return view('forecast-criterias.edit', compact('selectAccounts','selectLocations','forecastCriteria','model','items', 'accounts', 'locations', 'criterias'));
+        return view('forecast-criterias.edit', compact('selectAccounts','selectLocations','forecastCriteria','model','items', 'accounts', 'locations', 'criterias', 'json_accounts'));
     }
 
     public function update(Request $request, ForecastCriteria $forecastCriteria)
@@ -106,7 +108,8 @@ class ForecastCriteriasController extends Controller
 
         $criterias = Criteria::all();
 
-        return view('forecast-criterias.create', compact('model','items', 'accounts', 'locations', 'modelId', 'modelVid', 'criterias'));
+        $json_accounts = json_encode($accounts);
+        return view('forecast-criterias.create', compact('json_accounts','model','items', 'accounts', 'locations', 'modelId', 'modelVid', 'criterias'));
     }
 
     public function store(Request $request, ForecastCriteria $forecastCriteria)
