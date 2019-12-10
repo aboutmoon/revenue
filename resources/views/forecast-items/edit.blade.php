@@ -113,57 +113,59 @@
 @endsection
 
 @section('script')
-    $(function(){
+    <script>
+        $(function(){
 
-    $('#selectItems').val({{ $selectItems }});
-    $('#selectAccounts').val({{ $selectAccounts }});
-    $('#selectLocations').val({{ $selectLocations }});
+            $('#selectItems').val({{ $selectItems }});
+            $('#selectAccounts').val({{ $selectAccounts }});
+            $('#selectLocations').val({{ $selectLocations }});
 
-    $('.select2').select2({
-    theme: 'bootstrap4'
-    });
+            $('.select2').select2({
+                theme: 'bootstrap4'
+            });
 
-    $('.datepicker').datepicker({
-    autoclose: true,
-    minViewMode: 1,
-    format: {
-    toDisplay: function (date, format, language) {
-    var qs = ['Q1', 'Q2', 'Q3', 'Q4'];
-    var d = new Date(date);
-    var y = d.getFullYear();
-    var q = qs[Math.floor(d.getMonth()/3)]
-    var m = d.toDateString().split(" ")[1];
-    return y + '/' + q + '/' + m;
-    },
-    toValue: function (date, format, language) {
-        var d = new Date(date);
-        var y = d.getFullYear();
-        var m = d.getMonth() + 1;
-        var day = d.getDay();
-        return y + '-' + m + '-' + day;
-    }
-    }
-    });
+            $('.datepicker').datepicker({
+                autoclose: true,
+                minViewMode: 1,
+                format: {
+                    toDisplay: function (date, format, language) {
+                        var qs = ['Q1', 'Q2', 'Q3', 'Q4'];
+                        var d = new Date(date);
+                        var y = d.getFullYear();
+                        var q = qs[Math.floor(d.getMonth()/3)]
+                        var m = d.toDateString().split(" ")[1];
+                        return y + '/' + q + '/' + m;
+                    },
+                    toValue: function (date, format, language) {
+                        var d = new Date(date);
+                        var y = d.getFullYear();
+                        var m = d.getMonth() + 1;
+                        var day = d.getDay();
+                        return y + '-' + m + '-' + day;
+                    }
+                }
+            });
 
-    $('#datepicker-date-to').datepicker('setDate', new Date($('#dateTo').val()));
-    $('#datepicker-date-from').datepicker('setDate', new Date($('#dateFrom').val()));
-    $('.datepicker').datepicker('changeDate');
-    $('#datepicker-date-to').on('changeDate', function(){
-    var d = $(this).datepicker('getDate');
-    var y = d.getFullYear();
-    var m = d.getMonth() + 1;
-    var day = 1;
-    $('#dateTo').val(y + '-' + m + '-' + day);
-    });
+            $('#datepicker-date-to').datepicker('setDate', new Date($('#dateTo').val()));
+            $('#datepicker-date-from').datepicker('setDate', new Date($('#dateFrom').val()));
+            $('.datepicker').datepicker('changeDate');
+            $('#datepicker-date-to').on('changeDate', function(){
+                var d = $(this).datepicker('getDate');
+                var y = d.getFullYear();
+                var m = d.getMonth() + 1;
+                var day = 1;
+                $('#dateTo').val(y + '-' + m + '-' + day);
+            });
 
-    $('#datepicker-date-from').on('changeDate', function(){
-        var d = $(this).datepicker('getDate');
-        var y = d.getFullYear();
-        var m = d.getMonth() + 1;
-        var day = 1;
-        $('#dateFrom').val(y + '-' + m + '-' + day);
-    });
+            $('#datepicker-date-from').on('changeDate', function(){
+                var d = $(this).datepicker('getDate');
+                var y = d.getFullYear();
+                var m = d.getMonth() + 1;
+                var day = 1;
+                $('#dateFrom').val(y + '-' + m + '-' + day);
+            });
 
-    })
+        })
+    </script>
 @endsection
 

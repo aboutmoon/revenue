@@ -12,7 +12,7 @@ class ModelResultsController extends Controller
         $modelId = $request->get('model_id');
         $modelVid = $request->get('model_vid');
 
-        $modelResults = ModelResult::where('model_id', $modelId)->where('model_vid', $modelVid)->get();
+        $modelResults = ModelResult::with(['location', 'project', 'item'])->where('model_id', $modelId)->where('model_vid', $modelVid)->get();
         return view('model-results.index', compact('modelResults'));
     }
 }

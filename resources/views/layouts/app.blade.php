@@ -14,6 +14,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- daterange picker -->
     <link rel="stylesheet" href="{{ asset("/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css") }}">
 
+    <!-- jquery-ui -->
+    <link rel="stylesheet" href="{{ asset("/bower_components/admin-lte/plugins/jquery-ui.min.css") }}">
+
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ asset("/bower_components/admin-lte/plugins/fontawesome-free/css/all.min.css") }}">
     <!-- Theme style -->
@@ -23,6 +26,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <link rel="stylesheet" href="{{ asset("/bower_components/admin-lte/plugins/select2/css/select2.min.css") }}">
     <link rel="stylesheet" href="{{ asset("/bower_components/admin-lte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css") }}">
+    @yield('style');
 </head>
 <body class="hold-transition sidebar-mini @yield("body_class")">
 <div class="wrapper">
@@ -358,6 +362,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{ asset("/bower_components/admin-lte/plugins/jquery/jquery.min.js") }}"></script>
 <!-- Bootstrap 4 -->
 <script src="{{ asset("/bower_components/admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js") }}"></script>
+
+<!-- Jquery UI -->
+<script src="{{ asset("/bower_components/admin-lte/plugins/jquery-ui/jquery-ui.min.js") }}"></script>
+
 <!-- AdminLTE App -->
 <script src="{{ asset("/bower_components/admin-lte/dist/js/adminlte.min.js") }}"></script>
 <!-- Select 2 -->
@@ -365,6 +373,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <script src="{{ asset("/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.js") }}"></script>
 
-<script>@yield('script')</script>
+@yield('script')
 </body>
 </html>

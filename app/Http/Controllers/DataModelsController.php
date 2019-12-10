@@ -84,8 +84,8 @@ class DataModelsController extends Controller
 //        $this->expandForecastDevices();
 
         // expand criteria
-//        DB::table('forecast_criterias_view')->delete();
-//        $this->expandForecastCriterias($modelId, $modelVid);
+        DB::table('forecast_criterias_view')->delete();
+        $this->expandForecastCriterias($modelId, $modelVid);
 
         //use account to select project, and use location + project + date to select forecast device
         $forecastItems = ForecastItem::where('model_id', $modelId)->where('model_vid', $modelVid)->get();
@@ -168,38 +168,12 @@ class DataModelsController extends Controller
                             'result' => $forecast->quantity * $forecastItem->coverage * $forecastCriteriasView[0]->value
                         ]);
                     }
-//                    ModelResult::create([
-//                        'model_id' => $forecast->model_id,
-//                        'model_vid' => $forecast->model_vid,
-//                        'project_id' => $forecast->project_id,
-//                        'location_id' => $forecast->location_id,
-//                        'item_id' => $forecast->item_id,
-//                        'date' => $forecast->date,
-//                        'result' => $forecast->quantity * $forecastItem->coverage *
-//                    ]);
-//
-//                    ->leftJoin('forecast_criterias_view', function($join) use ($item) {
-//                        $join->on('forecast_devices.date', 'forecast_criterias_view.date')
-//                            ->on('forecast_devices.location_id', 'forecast_criterias_view.location_id')
-//                            ->on('forecast_devices.model_id', 'forecast_criterias_view.model_id')
-//                            ->on('forecast_devices.model_vid', 'forecast_criterias_view.model_vid')
-//                            ->where('forecast_criterias_view.item_id', $item->id);
-//                    })
+
                 }
-//                foreach ($forecasts as $forecast) {
-//                    ModelResult::create([
-//                        'model_id' => $modelId,
-//                        'model_vid' => $modelVid,
-//                        'project_id' => $forecast->project_id,
-//                        'location_id' => $forecast->location_id,
-//                        'date' => $forecast->date,
-//
-//                    ]);
-//                }
             }
 
         }
-        return view('welcome');
+        return redirect(route('model-results.index', ['model_id' => $modelId, 'model_vid' => $modelVid]));
     }
 
     private function getCountrys($ls) {
@@ -245,7 +219,6 @@ class DataModelsController extends Controller
                         ]);
                         $date_from->addMonth();
                     }
-
                 }
             }
 

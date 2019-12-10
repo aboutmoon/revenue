@@ -81,13 +81,15 @@
 @endsection
 
 @section('script')
-    $(function(){
-        $('.btn-delete-model').click(function(){
-            $('#deleteModal .modal-body form').attr('action', $(this).attr('data-url'));
-            $('#deleteModal').modal('show');
-        });
-        $('#deleteModal').on('show.bs.modal', function () {
+    <script>
+        $(function(){
+            $('.btn-delete-model').click(function(){
+                $('#deleteModal .modal-body form').attr('action', $(this).attr('data-url'));
+                $('#deleteModal').modal('show');
+            });
+            $('#deleteModal').on('show.bs.modal', function () {
 
+            })
         })
-    })
+    </script>
 @endsection

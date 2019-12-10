@@ -105,7 +105,7 @@ class ForecastDevicesImport implements ToCollection, WithHeadingRow
             ];
             foreach ($dates as $date) {
                 [$y, $q] = preg_split('/_/', $date);
-                $d = ['quantity' => trim($row[$date])?$row[$date]: 0];
+
                 switch ($q){
                     case 'q1':
                         $d['date_from'] = $y . '-' . 1 . '-1';
@@ -127,6 +127,8 @@ class ForecastDevicesImport implements ToCollection, WithHeadingRow
 
                 $date_from = Carbon::parse($d['date_from']);
                 $date_to = Carbon::parse($d['date_to']);
+                $count = ($date_to->year - $date_to->year) * 12 + $date_to->month - $date_from->month + 1;
+                $d = ['quantity' => trim($row[$date])?$row[$date] / $count: 0];
                 while ($date_from->lte($date_to)) {
                     $d['date'] = $date_from->toDateString();
 

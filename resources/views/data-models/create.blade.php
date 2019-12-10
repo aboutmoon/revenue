@@ -39,7 +39,5 @@
 @endsection
 
 @section('script')
-    $(function(){
 
-    })
 @endsection

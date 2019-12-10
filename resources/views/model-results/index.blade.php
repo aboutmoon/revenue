@@ -23,7 +23,8 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
-                    <table class="table table-hover">
+                    <div id="output"></div>
+                    <table class="table table-hover " id="model-result" style="display: none">
                         <thead>
                         <tr>
                             <th>Market</th>
@@ -41,16 +42,16 @@
                         <tbody>
                         @foreach ($modelResults as $modelResult)
                             <tr>
-                                <th>{{ $modelResult->location->parent->parent->parent->name }}</th>
-                                <th>{{ $modelResult->location->parent->parent->name }}</th>
-                                <th>{{ $modelResult->location->parent->name }}</th>
-                                <th>{{ $modelResult->location->name }}</th>
-                                <th>{{ $modelResult->project->oem? $modelResult->project->oem->name: '' }}</th>
-                                <th>{{ $modelResult->project->odm? $modelResult->project->odm->name: '' }}</th>
-                                <th>{{ $modelResult->project->carrier? $modelResult->project->carrier->name: '' }}</th>
-                                <th>{{ $modelResult->date }}</th>
-                                <th>{{ $modelResult->item->name }}</th>
-                                <th>{{ $modelResult->result }}</th>
+                                <td>{{ $modelResult->location->parent->parent->parent->name }}</td>
+                                <td>{{ $modelResult->location->parent->parent->name }}</td>
+                                <td>{{ $modelResult->location->parent->name }}</td>
+                                <td>{{ $modelResult->location->name }}</td>
+                                <td>{{ $modelResult->project->oem? $modelResult->project->oem->name: '' }}</td>
+                                <td>{{ $modelResult->project->odm? $modelResult->project->odm->name: '' }}</td>
+                                <td>{{ $modelResult->project->carrier? $modelResult->project->carrier->name: '' }}</td>
+                                <td>{{ $modelResult->date }}</td>
+                                <td>{{ $modelResult->item->name }}</td>
+                                <td>{{ $modelResult->result }}</td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -61,4 +62,40 @@
             <!-- /.card -->
         </div>
     </div>
+@endsection
+
+
+@section('style')
+    <link rel="stylesheet" href="{{ asset('/bower_components/pivottable/dist/pivot.min.css') }}">
+@endsection
+
+@section('script')
+    <script src="{{ asset('/bower_components/pivottable/dist/pivot.min.js') }}"></script>
+
+    <script>
+        $(function () {
+            var dateFormat = $.pivotUtilities.derivers.dateFormat;
+            $("#output").pivotUI(
+                $('#model-result'),
+                {
+                    aggregatorName: "Sum",
+                    rendererName: "Table",
+                    rows: ['Market', 'Region', 'SubRegion', 'Country'],
+                    cols: ['Year', 'Quarter', 'Month'],
+                    // cols: ['Date'],
+                    vals: ['Value'],
+                    derivedAttributes: {
+                        "Month": dateFormat("Date", "%n"),
+                        "Quarter": function ($input) {
+                            var quarters = ['q1', 'q2', 'q3', 'q4'];
+                            var m = (new Date($input.Date)).getMonth();
+                            return quarters[Math.floor(m/3)]
+                        },
+                        "Year": dateFormat("Date", "%y")
+                    }
+                }
+            );
+        })
+
+    </script>
 @endsection

@@ -133,54 +133,55 @@
 @endsection
 
 @section('script')
-    $(function(){
+    <script>
+        $(function(){
 
 
-        $('.select2').select2({
-            theme: 'bootstrap4'
-        })
+            $('.select2').select2({
+                theme: 'bootstrap4'
+            })
 
-        $(document).on('focus', '.datepicker', function(){
-            $(this).datepicker({
-            autoclose: true,
-            minViewMode: 1,
-            format: {
-            toDisplay: function (date, format, language) {
-            var qs = ['Q1', 'Q2', 'Q3', 'Q4'];
-            var d = new Date(date);
-            var y = d.getFullYear();
-            var q = qs[Math.floor(d.getMonth()/3)]
-            var m = d.toDateString().split(" ")[1];
-            return y + '/' + q + '/' + m;
+            $(document).on('focus', '.datepicker', function(){
+                $(this).datepicker({
+                    autoclose: true,
+                    minViewMode: 1,
+                    format: {
+                        toDisplay: function (date, format, language) {
+                            var qs = ['Q1', 'Q2', 'Q3', 'Q4'];
+                            var d = new Date(date);
+                            var y = d.getFullYear();
+                            var q = qs[Math.floor(d.getMonth()/3)]
+                            var m = d.toDateString().split(" ")[1];
+                            return y + '/' + q + '/' + m;
 
-            },
-            toValue: function (date, format, language) {
-            var d = new Date(date);
-            var y = d.getFullYear();
-            var m = d.getMonth() + 1;
-            var day = d.getDay();
-            return y + '-' + m + '-' + day;
-            }
-            }
-            });
+                        },
+                        toValue: function (date, format, language) {
+                            var d = new Date(date);
+                            var y = d.getFullYear();
+                            var m = d.getMonth() + 1;
+                            var day = d.getDay();
+                            return y + '-' + m + '-' + day;
+                        }
+                    }
+                });
 
-            $(this).on('changeDate', function(){
-            var d = $(this).datepicker('getDate');
-            var y = d.getFullYear();
-            var m = d.getMonth() + 1;
-            var day = 1;
-            $(this).next().val(y + '-' + m + '-' + day);
-            });
-        })
+                $(this).on('changeDate', function(){
+                    var d = $(this).datepicker('getDate');
+                    var y = d.getFullYear();
+                    var m = d.getMonth() + 1;
+                    var day = 1;
+                    $(this).next().val(y + '-' + m + '-' + day);
+                });
+            })
 
-        var criterias =  {!! $criterias !!};
+            var criterias =  {!! $criterias !!};
 
-        $('#selectItems').on('select2:select', function (e) {
-            var parameters;
-            var item_id = $(this).val();
-            for (var i = 0; i < criterias.length; i++) {
-                if (criterias[i].item_id == item_id) {
-                    parameters += `
+            $('#selectItems').on('select2:select', function (e) {
+                var parameters;
+                var item_id = $(this).val();
+                for (var i = 0; i < criterias.length; i++) {
+                    if (criterias[i].item_id == item_id) {
+                        parameters += `
                     <tr>
                         <td style="display: none">
                             <input type="text" name="parameters[${i}][forecast_criteria_id]" value="">
@@ -207,12 +208,13 @@
                         </td>
                     </tr>
                     `;
+                    }
+                    $('#parameters-table tbody').html(parameters);
                 }
-                $('#parameters-table tbody').html(parameters);
-            }
-        }).trigger('select2:select');
+            }).trigger('select2:select');
 
 
-    })
+        })
+    </script>
 @endsection
 
