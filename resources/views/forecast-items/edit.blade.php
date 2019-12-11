@@ -70,16 +70,16 @@
                         <div class="form-group row">
                             <label for="dateFrom" class="col-sm-2 col-form-label">Date From</label>
                             <div class="col-sm-10">
-                                <input id="datepicker-date-from" class="datepicker" value="{{ $forecastItem->date_to }}">
-                                <input type="hidden" id="dateFrom" name="date_from" value="{{ $forecastItem->date_to }}">
+                                <input id="datepicker-date-from" class="datepicker" value="{{ $forecastItem->date_from }}">
+                                <input type="hidden" id="dateFrom" name="date_from" value="{{ $forecastItem->date_from }}">
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label for="dateTo" class="col-sm-2 col-form-label">Date To</label>
                             <div class="col-sm-10">
-                                <input id="datepicker-date-to" class="datepicker" value="{{ $forecastItem->date_from }}">
-                                <input type="hidden"  id="dateTo" name="date_to" value="{{ $forecastItem->date_from }}">
+                                <input id="datepicker-date-to" class="datepicker" value="{{ $forecastItem->date_to }}">
+                                <input type="hidden"  id="dateTo" name="date_to" value="{{ $forecastItem->date_to }}">
                             </div>
                         </div>
 

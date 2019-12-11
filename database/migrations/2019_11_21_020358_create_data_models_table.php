@@ -17,6 +17,7 @@ class CreateDataModelsTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('vid');
             $table->string('name', 32);
+            $table->Integer('status')->default(0);
             $table->bigInteger('author_id');
             $table->timestamps();
         });
