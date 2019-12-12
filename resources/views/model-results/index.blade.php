@@ -24,7 +24,7 @@
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
                     <div id="output"></div>
-                    <table class="table table-hover " id="model-result">
+                    <table class="table table-hover " id="model-result" style="display: none">
                         <thead>
                         <tr>
                             <th>Market</th>
