@@ -32,7 +32,7 @@ class GenerateModelResult implements ShouldQueue
     protected $modelVid;
 
     public $tries = 5;
-    public $timeout = 600;
+    public $timeout = 3600;
     /**
      * Create a new job instance.
      *
@@ -51,10 +51,15 @@ class GenerateModelResult implements ShouldQueue
      */
     public function handle()
     {
-        $dataModel = DataModel::where('id', $this->modelId)->where('vid', $this->modelVid)->first();
-        $dataModel->status = $this->job->getJobId();
-        $dataModel->save();
-        $this->generate();
+        DB::transaction(function(){
+            $dataModel = DataModel::where('id', $this->modelId)->where('vid', $this->modelVid)->first();
+            $dataModel->status = $this->job->getJobId();
+            $dataModel->save();
+            $this->generate();
+            $dataModel->status = 0;
+            $dataModel->save();
+        });
+
     }
 
     private function expandForecastDevices()
@@ -176,13 +181,50 @@ class GenerateModelResult implements ShouldQueue
                             'date' => $forecast->date,
                             'date_from' => $forecast->date,
                             'date_to' => $forecast->date,
-                            'result' => $forecast->quantity * $forecastItem->coverage * $forecastCriteriasView[0]->value
+                            'result' => $this->caculate($item->id, $forecast->quantity, $forecastItem->coverage, $forecastCriteriasView)
                         ]);
                     }
 
                 }
             }
 
+        }
+    }
+
+    private function caculate($item, $quantity, $coverage, $criterias) {
+        switch ($item) {
+            case 2: // Revenue -- FOTA Fee
+                return $quantity * $coverage * $criterias[0]->value;
+            case 3: // Revenue -- FOTA Royalty
+                return $quantity * $coverage * $criterias[0]->value;
+            case 4: // Revenue -- Search Revenue sharing
+                return $quantity * $coverage * $criterias[0]->value;
+            case 5: // Revenue -- Ads Revenue sharing
+                return $quantity * $coverage * $criterias[0]->value;
+            case 7: // Cost -- Ads Revenue sharing
+                return $quantity * $coverage * $criterias[0]->value;
+            case 8: // Revenue -- Payments Revenue Sharing
+                return $quantity * $coverage * $criterias[0]->value;
+            case 9: // Cost -- Payments Revenue Sharing
+                return $quantity * $coverage * $criterias[0]->value;
+            case 10: // Revenue -- Placement Fee
+                return $quantity * $coverage * $criterias[0]->value;
+            case 11: // Revenue -- Promotion Fee
+                return $quantity * $coverage * $criterias[0]->value;
+            case 12: // Revenue -- Data Retail Revenue sharing
+                return $quantity * $coverage * $criterias[0]->value;
+            case 13: // Revenue -- Maintenance Fee
+                return $quantity * $coverage * $criterias[0]->value;
+            case 14: // Revenue -- New account registration revenue sharing
+                return $quantity * $coverage * $criterias[0]->value;
+            case 15: // Revenue -- Monthly subscription revenue sharing
+                return $quantity * $coverage * $criterias[0]->value;
+            case 16: // Cost -- Billing cost
+                return $quantity * $coverage * $criterias[0]->value;
+            case 18: // Global -- global
+                return $quantity * $coverage * $criterias[0]->value;
+            default:
+                return -404;
         }
     }
 
