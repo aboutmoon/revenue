@@ -33,6 +33,7 @@
                             <th>Location</th>
                             <th>Date From</th>
                             <th>Date To</th>
+                            <th>Date</th>
                             <th>Quantity</th>
                         </tr>
                         </thead>
@@ -46,6 +47,7 @@
                                     <td>{{ $forecastDevice->location->name }}</td>
                                     <td>{{ $forecastDevice->date_from }}</td>
                                     <td>{{ $forecastDevice->date_to }}</td>
+                                    <td>{{ $forecastDevice->date }}</td>
                                     <td>{{ $forecastDevice->quantity }}</td>
                                 </tr>
                             @endforeach
