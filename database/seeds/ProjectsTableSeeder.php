@@ -9,7 +9,6 @@ use App\Imports\ProjectsImport;
 //$table->bigInteger('oem_id');
 //$table->bigInteger('odm_id');
 //$table->string('model_name');
-//$table->integer('connectivity');
 //$table->string('type');
 //$table->integer('financing');
 //$table->timestamps();
@@ -23,7 +22,7 @@ class ProjectsTableSeeder extends Seeder
     public function run()
     {
 
-        $path = storage_path('app/public/Project.csv');
+        $path = storage_path('app/public/shipment-forecast.csv');
         Excel::import(new ProjectsImport, $path);
 
     }

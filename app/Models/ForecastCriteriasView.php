@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class ForecastCriteriasView extends Model
 {
+    public $timestamps = false;
+
     protected $table = 'forecast_criterias_view';
-    protected $fillable = ['model_id', 'model_vid', 'item_id', 'location_id', 'account_id', 'criteria_id', 'date', 'value'];
+    protected $guarded = ['id'];
 }

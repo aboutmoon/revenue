@@ -17,9 +17,12 @@ class CreateForecastItemsTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('model_id');
             $table->bigInteger('model_vid');
+            $table->bigInteger('oem_id')->nullable();
+            $table->bigInteger('odm_id')->nullable();
+            $table->bigInteger('carrier_id')->nullable();
             $table->date('date_from');
             $table->date('date_to');
-            $table->decimal('coverage', 24, 8);
+            $table->decimal('coverage', 32, 15);
             $table->decimal('monthly_growth', 16, 8);
             $table->timestamps();
         });

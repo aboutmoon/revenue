@@ -15,7 +15,7 @@ class ItemsTableSeeder extends Seeder
     public function run()
     {
 //        $world = Item::create(['name'=> 'World', 'level_type'=>'World','parent_id'=> 0]);
-        $path = storage_path('app/public/Kaios_Business-plan_Parameters.csv');
+        $path = storage_path('app/public/item-parameters.csv');
         Excel::import(new ItemsImport, $path);
     }
 }

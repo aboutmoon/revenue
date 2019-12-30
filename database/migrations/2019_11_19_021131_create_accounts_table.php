@@ -18,7 +18,6 @@ class CreateAccountsTable extends Migration
             $table->string('name', 32);
             $table->string('level_type', 32);
             $table->unsignedBigInteger('parent_id');
-            $table->timestamps();
         });
     }
 

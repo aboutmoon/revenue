@@ -18,7 +18,6 @@ class CreateItemsTable extends Migration
             $table->string('name', 64);
             $table->string('level_type', 32);
             $table->bigInteger('parent_id');
-            $table->timestamps();
         });
     }
 

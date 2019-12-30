@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
+    public $timestamps = false;
+
     public function oem()
     {
         return $this->hasOne('App\Models\Account', 'id', 'oem_id');

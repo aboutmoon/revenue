@@ -6,7 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class ForecastDevicesView extends Model
 {
+    public $timestamps = false;
     protected $table = 'forecast_devices_view';
-    protected $fillable = ['model_id', 'model_vid', 'project', 'carrier_id', 'oem_id', 'odm_id', 'project_name', 'connectivity', 'brand', 'licensee', 'type', 'location_id', 'date', 'quantity'];
+    protected $guarded = ['id'];
 
+    public function project(){
+        return $this->hasOne('App\Models\Project', 'id', 'project_id');
+    }
+
+    public function location(){
+        return $this->hasOne('App\Models\Location', 'id', 'location_id');
+    }
+
+    public function market_id(){
+        return $this->hasOne('App\Models\Location', 'id', 'market_id');
+    }
 }

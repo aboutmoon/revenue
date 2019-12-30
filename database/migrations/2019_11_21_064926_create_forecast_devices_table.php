@@ -15,15 +15,12 @@ class CreateForecastDevicesTable extends Migration
     {
         Schema::create('forecast_devices', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('model_id');
-            $table->bigInteger('model_vid');
             $table->bigInteger('project_id');
             $table->bigInteger('location_id');
-            $table->date('date_from');
-            $table->date('date_to');
+            $table->bigInteger('market_id');
             $table->date('date');
-            $table->decimal('quantity', 24, 8)->default(0);
-            $table->timestamps();
+            $table->decimal('quantity', 32, 15)->default(0);
+            $table->decimal('confidence', 32, 15)->default(0);
         });
     }
 

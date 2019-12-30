@@ -14,7 +14,7 @@ class CriteriaTableSeeder extends Seeder
      */
     public function run()
     {
-        $path = storage_path('app/public/Kaios_Business-plan_Parameters.csv');
+        $path = storage_path('app/public/item-parameters.csv');
         Excel::import(new CriteriaImport, $path);
     }
 }

@@ -18,13 +18,12 @@ class CreateProjectsTable extends Migration
             $table->bigInteger('carrier_id')->default(0);
             $table->bigInteger('oem_id')->default(0);
             $table->bigInteger('odm_id')->default(0);
-            $table->string('model_name')->default('');
-            $table->string('name');
+//            $table->string('name')->default('');
+            $table->string('brand')->default('');
+            $table->string('licensee')->default('');
             $table->string('connectivity')->default('');
-            $table->string('brand');
-            $table->string('licensee');
+            $table->string('confidence', 32, 15)->default(0);
             $table->string('type');
-            $table->timestamps();
         });
     }
 

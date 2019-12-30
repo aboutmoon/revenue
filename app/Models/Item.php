@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Item extends Model
 {
+
+    public $timestamps = false;
+
     public function criterias()
     {
         return $this->hasMany('App\Models\Criteria');

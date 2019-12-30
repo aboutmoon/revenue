@@ -15,8 +15,9 @@ class LocationsTableSeeder extends Seeder
     public function run()
     {
         $world = Location::create(['name'=> 'World', 'level_type'=>'World','parent_id'=> 0]);
-        $path = storage_path('app/public/share_country.csv');
+        $globalMarket = Location::create(['name'=> 'Global', 'level_type'=>'Market','parent_id'=> 1]);
+        $globalCountry = Location::create(['name'=> 'Global', 'level_type'=>'Country','parent_id'=> $globalMarket->id, 'region' => 'Global', 'sub_region' => 'Global']);
+        $path = storage_path('app/public/shipment-forecast.csv');
         Excel::import(new LocationsImport, $path);
-
     }
 }

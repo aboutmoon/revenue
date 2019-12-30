@@ -15,13 +15,14 @@ class CreateForecastItemsView extends Migration
     {
         Schema::create('forecast_items_view', function (Blueprint $table) {
             $table->bigInteger('item_id');
+            $table->bigInteger('project_id');
             $table->bigInteger('location_id');
-            $table->bigInteger('account_id');
+            $table->bigInteger('market_id');
             $table->bigInteger('model_id');
             $table->bigInteger('model_vid');
             $table->date('date');
-            $table->decimal('coverage', 24, 8);
-            $table->timestamps();
+            $table->date('date_from');
+            $table->decimal('coverage', 32, 15);
         });
     }
 

@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Criteria extends Model
 {
+
+    public $timestamps = false;
+
     public function item()
     {
         return $this->belongsTo('App\Models\Item', 'item_id');

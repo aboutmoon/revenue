@@ -18,7 +18,8 @@ class CreateLocationsTable extends Migration
             $table->string('name', 64);
             $table->string('level_type', 32);
             $table->unsignedBigInteger('parent_id')->default(0);
-            $table->timestamps();
+            $table->string('region', 64)->default('');
+            $table->string('sub_region', 64)->default('');
         });
     }
 

@@ -18,7 +18,7 @@ class CreateForecastCriteriaParametersTable extends Migration
             $table->bigInteger('criteria_id');
             $table->date('date_from');
             $table->date('date_to');
-            $table->decimal('value', 24, 8);
+            $table->decimal('value', 32, 15);
             $table->decimal('monthly_growth', 16, 8);
             $table->timestamps();
         });

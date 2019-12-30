@@ -24,38 +24,36 @@
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
                     <div id="output"></div>
-                    <table class="table table-hover " id="model-result" style="display: none">
-                        <thead>
-                        <tr>
-                            <th>Market</th>
-                            <th>Region</th>
-                            <th>SubRegion</th>
-                            <th>Country</th>
-                            <th>OEM</th>
-                            <th>ODM</th>
-                            <th>Carrier</th>
-                            <th>Date</th>
-                            <th>Item</th>
-                            <th>Value</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach ($modelResults as $modelResult)
-                            <tr>
-                                <td>{{ $modelResult->location->parent->parent->parent->name }}</td>
-                                <td>{{ $modelResult->location->parent->parent->name }}</td>
-                                <td>{{ $modelResult->location->parent->name }}</td>
-                                <td>{{ $modelResult->location->name }}</td>
-                                <td>{{ $modelResult->project->oem? $modelResult->project->oem->name: '' }}</td>
-                                <td>{{ $modelResult->project->odm? $modelResult->project->odm->name: '' }}</td>
-                                <td>{{ $modelResult->project->carrier? $modelResult->project->carrier->name: '' }}</td>
-                                <td>{{ $modelResult->date }}</td>
-                                <td>{{ $modelResult->item->name }}</td>
-                                <td>{{ $modelResult->result }}</td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                    {{--<table class="table table-hover " id="model-result" style="display: none">--}}
+                        {{--<thead>--}}
+                        {{--<tr>--}}
+                            {{--<th>Market</th>--}}
+                            {{--<th>Country</th>--}}
+                            {{--<th>OEM</th>--}}
+                            {{--<th>ODM</th>--}}
+                            {{--<th>Carrier</th>--}}
+                            {{--<th>Type</th>--}}
+                            {{--<th>Date</th>--}}
+                            {{--<th>Item</th>--}}
+                            {{--<th>Value</th>--}}
+                        {{--</tr>--}}
+                        {{--</thead>--}}
+                        {{--<tbody>--}}
+                        {{--@foreach ($modelResults as $modelResult)--}}
+                            {{--<tr>--}}
+                                {{--<td>{{ $modelResult->location->parent->name }}</td>--}}
+                                {{--<td>{{ $modelResult->location->name }}</td>--}}
+                                {{--<td>{{ $modelResult->project->oem? $modelResult->project->oem->name: '' }}</td>--}}
+                                {{--<td>{{ $modelResult->project->odm? $modelResult->project->odm->name: '' }}</td>--}}
+                                {{--<td>{{ $modelResult->project->carrier? $modelResult->project->carrier->name: '' }}</td>--}}
+                                {{--<td>{{ $modelResult->project->type? $modelResult->project->type: '' }}</td>--}}
+                                {{--<td>{{ $modelResult->date }}</td>--}}
+                                {{--<td>{{ $modelResult->item->name }}</td>--}}
+                                {{--<td>{{ $modelResult->result }}</td>--}}
+                            {{--</tr>--}}
+                        {{--@endforeach--}}
+                        {{--</tbody>--}}
+                    {{--</table>--}}
                 </div>
                 <!-- /.card-body -->
             </div>
@@ -74,13 +72,16 @@
 
     <script>
         $(function () {
+
+            var data =  {!! $modelResults !!};
             var dateFormat = $.pivotUtilities.derivers.dateFormat;
+            var sortAs = $.pivotUtilities.sortAs;
             $("#output").pivotUI(
-                $('#model-result'),
+                data,
                 {
                     aggregatorName: "Sum",
                     rendererName: "Table",
-                    rows: ['Market', 'Region', 'SubRegion', 'Country'],
+                    rows: ['Item','Market'],
                     cols: ['Year', 'Quarter', 'Month'],
                     // cols: ['Date'],
                     vals: ['Value'],
@@ -92,6 +93,11 @@
                             return quarters[Math.floor(m/3)]
                         },
                         "Year": dateFormat("Date", "%y")
+                    },
+
+                    sorters: {
+                        "Month": sortAs(["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]),
+                        "Item": sortAs(["Shipment", "Install base", "Activated Device", "MAU", "Ads DAU", "FOTA Fee", "Search Revenue sharing", "Ads Revenue sharing"])
                     }
                 }
             );

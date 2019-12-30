@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ModelResult extends Model
 {
     protected $table = 'model_results';
-    protected $fillable = ['model_id', 'model_vid', 'location_id', 'project_id', 'date', 'item_id', 'result', 'date_from', 'date_to'];
+    protected $guarded = ['id'];
 
     public function project()
     {

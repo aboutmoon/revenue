@@ -34,12 +34,6 @@ class ForecastItemsController extends Controller
         }
         $selectLocations = json_encode($selectLocations);
 
-        $selectAccounts = [];
-        foreach ($forecastItem->accounts as $account) {
-            array_push($selectAccounts, $account->id);
-        }
-        $selectAccounts = json_encode($selectAccounts);
-
         $selectItems = [];
         foreach ($forecastItem->items as $item) {
             array_push($selectItems, $item->id);
@@ -48,13 +42,17 @@ class ForecastItemsController extends Controller
 
 
         $model = DataModel::where('id', $forecastItem->model_id)->where('vid', $forecastItem->model_vid)->first();
-        $items = Item::where('level_type', 'Item')->get();
-        $accounts = Account::where('level_type', 'Account')->get();
-        $locations = Location::where('level_type', 'Market')->get();
+        $items = Item::with(['parent'])->where('level_type', 'Item')->get();
+        $oem = Account::where('name', 'OEM')->first();
+        $odm = Account::where('name', 'ODM')->first();
+        $carrier = Account::where('name', 'Carrier')->first();
 
-        $json_accounts = json_encode($accounts);
+        $oemOptions = Account::with(['parent'])->where('level_type', 'Account')->where('parent_id', $oem->id)->get();
+        $odmOptions = Account::with(['parent'])->where('level_type', 'Account')->where('parent_id', $odm->id)->get();
+        $carrierOptions = Account::with(['parent'])->where('level_type', 'Account')->where('parent_id', $carrier->id)->get();
+        $locations = Location::with(['parent'])->where('level_type', 'Market')->get();
 
-        return view('forecast-items.edit', compact('locations','accounts','items','forecastItem', 'selectLocations', 'selectAccounts', 'selectItems', 'model', 'json_accounts'));
+        return view('forecast-items.edit', compact('locations','oemOptions', 'odmOptions', 'carrierOptions','items','forecastItem', 'selectLocations', 'selectItems', 'model'));
     }
 
     public function update(Request $request, ForecastItem $forecastItem)
@@ -62,18 +60,21 @@ class ForecastItemsController extends Controller
         $forecastItem->fill($request->all());
         $forecastItem->save();
 
-        ForecastItemLocation::find($forecastItem->id)->delete();
-        foreach ($request->get('locations') as $location)  {
+        $forecastItemLocation = ForecastItemLocation::find($forecastItem->id);
+        if ($forecastItemLocation) {
+            $forecastItemLocation->delete();
+        }
+
+        foreach ($request->get('locations', []) as $location)  {
             ForecastItemLocation::firstOrCreate(['id' => $forecastItem->id, 'location_id' => $location]);
         }
 
-        ForecastItemAccount::find($forecastItem->id)->delete();
-        foreach ($request->get('accounts') as $account)  {
-            ForecastItemAccount::firstOrCreate(['id' => $forecastItem->id, 'account_id' => $account]);
+        $forecastItemItem = ForecastItemItem::find($forecastItem->id);
+        if ($forecastItemItem) {
+            $forecastItemItem->delete();
         }
 
-        ForecastItemItem::find($forecastItem->id)->delete();
-        foreach ($request->get('items') as $item)  {
+        foreach ($request->get('items', []) as $item)  {
             ForecastItemItem::firstOrCreate(['id' => $forecastItem->id, 'item_id' => $item]);
         }
 
@@ -93,13 +94,19 @@ class ForecastItemsController extends Controller
         $modelVid = $request->get('model_vid');
 
         $model = DataModel::where('id', $modelId)->where('vid', $modelVid)->first();
-        $items = Item::where('level_type', 'Item')->get();
-        $accounts = Account::where('level_type', 'Account')->get();
-        $locations = Location::where('level_type', 'Market')->get();
+        $items = Item::with(['parent'])->where('level_type', 'Item')->get();
+        $oem = Account::where('name', 'OEM')->first();
+        $odm = Account::where('name', 'ODM')->first();
+        $carrier = Account::where('name', 'Carrier')->first();
 
-        $json_accounts = json_encode($accounts);
+        $oemOptions = Account::with(['parent'])->where('level_type', 'Account')->where('parent_id', $oem->id)->get();
+        $odmOptions = Account::with(['parent'])->where('level_type', 'Account')->where('parent_id', $odm->id)->get();
+        $carrierOptions = Account::with(['parent'])->where('level_type', 'Account')->where('parent_id', $carrier->id)->get();
 
-        return view('forecast-items.create', compact('json_accounts','model','items', 'accounts', 'locations', 'modelId', 'modelVid'));
+        $locations = Location::with(['parent'])->where('level_type', 'Market')->get();
+
+
+        return view('forecast-items.create', compact('oemOptions','odmOptions', 'carrierOptions', 'model', 'items', 'locations', 'modelId', 'modelVid'));
     }
 
     public function store(Request $request, ForecastItem $forecastItem)
@@ -107,15 +114,11 @@ class ForecastItemsController extends Controller
         $forecastItem->fill($request->all());
         $forecastItem->save();
 
-        foreach ($request->get('locations') as $location)  {
+        foreach ($request->get('locations', []) as $location)  {
             ForecastItemLocation::create(['id' => $forecastItem->id, 'location_id' => $location]);
         }
 
-        foreach ($request->get('accounts') as $account)  {
-            ForecastItemAccount::create(['id' => $forecastItem->id, 'account_id' => $account]);
-        }
-
-        foreach ($request->get('items') as $item)  {
+        foreach ($request->get('items', []) as $item)  {
             ForecastItemItem::create(['id' => $forecastItem->id, 'item_id' => $item]);
         }
 
@@ -135,7 +138,6 @@ class ForecastItemsController extends Controller
         $forecastItem->delete();
         ForecastItemItem::find($forecastItem->id)->delete();
         ForecastItemLocation::find($forecastItem->id)->delete();
-        ForecastItemAccount::find($forecastItem->id)->delete();
         return back();
     }
 }

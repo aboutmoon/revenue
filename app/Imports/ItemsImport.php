@@ -16,7 +16,7 @@ class ItemsImport implements ToCollection, WithHeadingRow
     {
         foreach ($collection as $row) {
             //category
-            $category = Item::firstOrCreate(['name' => $row['category'], 'level_type' => 'Category', 'parent_id' => 0]);
+            $category = Item::firstOrCreate(['name' => trim($row['category']), 'level_type' => 'Category', 'parent_id' => 0]);
 
             //item
             $item = Item::firstOrCreate(['name' => $row['item'], 'level_type' => 'Item', 'parent_id' => $category->id]);

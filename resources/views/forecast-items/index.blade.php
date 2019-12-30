@@ -28,7 +28,9 @@
                         <tr>
                             <th>Operation</th>
                             <th>Locations</th>
-                            <th>Accounts</th>
+                            <th>OEM</th>
+                            <th>ODM</th>
+                            <th>Carrier</th>
                             <th>Items</th>
                             <th>Coverage</th>
                             <th>From</th>
@@ -57,9 +59,13 @@
                                     @endforeach
                                 </th>
                                 <th>
-                                    @foreach( $forecastItem->accounts as $account)
-                                        <span class="badge badge-success">{{ $account->name }}</span>
-                                    @endforeach
+                                    <span class="badge badge-success">{{ $forecastItem->oem? $forecastItem->oem->name: '' }}</span>
+                                </th>
+                                <th>
+                                    <span class="badge badge-success">{{ $forecastItem->odm? $forecastItem->odm->name: '' }}</span>
+                                </th>
+                                <th>
+                                    <span class="badge badge-success">{{ $forecastItem->carrier? $forecastItem->carrier->name: '' }}</span>
                                 </th>
                                 <th>
                                     @foreach( $forecastItem->items as $item)

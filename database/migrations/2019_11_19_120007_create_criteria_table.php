@@ -17,7 +17,6 @@ class CreateCriteriaTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('item_id');
             $table->string('name');
-            $table->timestamps();
         });
     }
 

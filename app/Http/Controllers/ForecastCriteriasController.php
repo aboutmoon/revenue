@@ -13,13 +13,7 @@ use App\Models\ForecastCriteriaLocation;
 use App\Models\ForecastCriteriaParameter;
 
 use Illuminate\Http\Request;
-//|        | POST      | forecast-criterias                          | forecast-criterias.store   | App\Http\Controllers\ForecastCriteriasController@store            | web,auth                                             |
-//|        | GET|HEAD  | forecast-criterias                          | forecast-criterias.index   | App\Http\Controllers\ForecastCriteriasController@index            | web,auth                                             |
-//|        | GET|HEAD  | forecast-criterias/create                   | forecast-criterias.create  | App\Http\Controllers\ForecastCriteriasController@create           | web,auth                                             |
-//|        | GET|HEAD  | forecast-criterias/{forecast_criteria}      | forecast-criterias.show    | App\Http\Controllers\ForecastCriteriasController@show             | web,auth                                             |
-//|        | DELETE    | forecast-criterias/{forecast_criteria}      | forecast-criterias.destroy | App\Http\Controllers\ForecastCriteriasController@destroy          | web,auth                                             |
-//|        | PUT|PATCH | forecast-criterias/{forecast_criteria}      | forecast-criterias.update  | App\Http\Controllers\ForecastCriteriasController@update           | web,auth                                             |
-//|        | GET|HEAD  | forecast-criterias/{forecast_criteria}/edit | forecast-criterias.edit    | App\Http\Controllers\ForecastCriteriasController@edit             | web,auth
+
 class ForecastCriteriasController extends Controller
 {
     public function index(Request $request)
@@ -27,18 +21,24 @@ class ForecastCriteriasController extends Controller
         $modelId = $request->get('model_id');
         $modelVid = $request->get('model_vid');
 
-        $forecastCriterias = ForecastCriteria::where('model_id', $modelId)->where('model_vid', $modelVid)->get();
+        $forecastCriterias = ForecastCriteria::with(['item', 'parameters', 'accounts', 'locations'])->where('model_id', $modelId)->where('model_vid', $modelVid)->get();
         return view('forecast-criterias.index', compact('forecastCriterias','modelId', 'modelVid'));
     }
 
     public function edit(Request $request, ForecastCriteria $forecastCriteria)
     {
         $model = DataModel::where('id', $forecastCriteria->model_id)->where('vid', $forecastCriteria->model_vid)->first();
-        $items = Item::where('level_type', 'Item')->get();
-        $accounts = Account::where('level_type', 'Account')->get();
-        $locations = Location::where('level_type', 'Market')->get();
+        $items = Item::with(['parent'])->where('level_type', 'Item')->get();
 
-        $json_accounts = json_encode($accounts);
+        $oem = Account::where('name', 'OEM')->first();
+        $odm = Account::where('name', 'ODM')->first();
+        $carrier = Account::where('name', 'Carrier')->first();
+
+        $oemOptions = Account::with(['parent'])->where('level_type', 'Account')->where('parent_id', $oem->id)->get();
+        $odmOptions = Account::with(['parent'])->where('level_type', 'Account')->where('parent_id', $odm->id)->get();
+        $carrierOptions = Account::with(['parent'])->where('level_type', 'Account')->where('parent_id', $carrier->id)->get();
+        $locations = Location::with(['parent'])->where('level_type', 'Market')->get();
+
 
         $criterias = Criteria::all();
 
@@ -48,13 +48,7 @@ class ForecastCriteriasController extends Controller
         }
         $selectLocations = json_encode($selectLocations);
 
-        $selectAccounts = [];
-        foreach ($forecastCriteria->accounts as $account) {
-            array_push($selectAccounts, $account->id);
-        }
-        $selectAccounts = json_encode($selectAccounts);
-
-        return view('forecast-criterias.edit', compact('selectAccounts','selectLocations','forecastCriteria','model','items', 'accounts', 'locations', 'criterias', 'json_accounts'));
+        return view('forecast-criterias.edit', compact('oemOptions','odmOptions', 'carrierOptions','selectLocations','forecastCriteria','model','items', 'locations', 'criterias'));
     }
 
     public function update(Request $request, ForecastCriteria $forecastCriteria)
@@ -62,20 +56,20 @@ class ForecastCriteriasController extends Controller
         $forecastCriteria->fill($request->all());
         $forecastCriteria->save();
 
-        ForecastCriteriaLocation::find($forecastCriteria->id)->delete();
-        foreach ( $request->locations as $location)
+        $forecastCriteriaLocation = ForecastCriteriaLocation::find($forecastCriteria->id);
+        if ($forecastCriteriaLocation) {
+            $forecastCriteriaLocation->delete();
+        }
+        foreach ( $request->get('locations', []) as $location)
         {
             ForecastCriteriaLocation::firstOrCreate(['id' => $forecastCriteria->id, 'location_id' => $location]);
         }
 
-        ForecastCriteriaAccount::find($forecastCriteria->id)->delete();
-        foreach ( $request->accounts as $account)
-        {
-            ForecastCriteriaAccount::firstOrCreate(['id' => $forecastCriteria->id, 'account_id' => $account]);
+        $forecastCriteriaParameter = ForecastCriteriaParameter::where('forecast_criteria_id', $forecastCriteria->id);
+        if ($forecastCriteriaParameter) {
+            $forecastCriteriaParameter->delete();
         }
-
-        ForecastCriteriaParameter::where('forecast_criteria_id', $forecastCriteria->id)->delete();
-        foreach ( $request->parameters as $parameter)
+        foreach ( $request->get('parameters', []) as $parameter)
         {
             ForecastCriteriaParameter::firstOrCreate([
                 'forecast_criteria_id' => $forecastCriteria->id,
@@ -102,31 +96,31 @@ class ForecastCriteriasController extends Controller
         $modelVid = $request->get('model_vid');
 
         $model = DataModel::where('id', $modelId)->where('vid', $modelVid)->first();
-        $items = Item::where('level_type', 'Item')->get();
-        $accounts = Account::where('level_type', 'Account')->get();
-        $locations = Location::where('level_type', 'Market')->get();
+        $items = Item::with(['parent'])->where('level_type', 'Item')->get();
+        $oem = Account::where('name', 'OEM')->first();
+        $odm = Account::where('name', 'ODM')->first();
+        $carrier = Account::where('name', 'Carrier')->first();
+
+        $oemOptions = Account::with(['parent'])->where('level_type', 'Account')->where('parent_id', $oem->id)->get();
+        $odmOptions = Account::with(['parent'])->where('level_type', 'Account')->where('parent_id', $odm->id)->get();
+        $carrierOptions = Account::with(['parent'])->where('level_type', 'Account')->where('parent_id', $carrier->id)->get();
+        $locations = Location::with(['parent'])->where('level_type', 'Market')->get();
 
         $criterias = Criteria::all();
 
-        $json_accounts = json_encode($accounts);
-        return view('forecast-criterias.create', compact('json_accounts','model','items', 'accounts', 'locations', 'modelId', 'modelVid', 'criterias'));
+        return view('forecast-criterias.create', compact('oemOptions', 'odmOptions', 'carrierOptions','model','items', 'locations', 'modelId', 'modelVid', 'criterias'));
     }
 
     public function store(Request $request, ForecastCriteria $forecastCriteria)
     {
         $forecastCriteria->fill($request->all());
         $forecastCriteria->save();
-        foreach ( $request->locations as $location)
+        foreach ( $request->get('locations', []) as $location)
         {
             ForecastCriteriaLocation::firstOrCreate(['id' => $forecastCriteria->id, 'location_id' => $location]);
         }
 
-        foreach ( $request->accounts as $account)
-        {
-            ForecastCriteriaAccount::firstOrCreate(['id' => $forecastCriteria->id, 'account_id' => $account]);
-        }
-
-        foreach ( $request->parameters as $parameter)
+        foreach ( $request->get('parameters', []) as $parameter)
         {
             ForecastCriteriaParameter::firstOrCreate([
                 'forecast_criteria_id' => $forecastCriteria->id,
@@ -151,9 +145,17 @@ class ForecastCriteriasController extends Controller
     public function destroy(Request $request, ForecastCriteria $forecastCriteria)
     {
         $forecastCriteria->delete();
-        ForecastCriteriaParameter::where('forecast_criteria_id', $forecastCriteria->id)->delete();
-        ForecastCriteriaAccount::find($forecastCriteria->id)->delete();
-        ForecastCriteriaLocation::find($forecastCriteria->id)->delete();
+
+        $forecastCriteriaParameter = ForecastCriteriaParameter::where('forecast_criteria_id', $forecastCriteria->id);
+        if ($forecastCriteriaParameter) {
+            $forecastCriteriaParameter->delete();
+        }
+
+        $forecastCriteriaLocation = ForecastCriteriaLocation::find($forecastCriteria->id);
+        if ($forecastCriteriaLocation) {
+            $forecastCriteriaLocation->delete();
+        }
+
         return back();
     }
 }

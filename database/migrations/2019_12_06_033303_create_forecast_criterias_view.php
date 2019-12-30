@@ -18,12 +18,12 @@ class CreateForecastCriteriasView extends Migration
             $table->bigInteger('model_vid');
             $table->bigInteger('item_id');
             $table->bigInteger('location_id');
-//            $table->bigInteger('account_id');
+            $table->bigInteger('project_id');
+            $table->bigInteger('market_id');
             $table->bigInteger('criteria_id');
             $table->date('date');
-            $table->decimal('value', 24, 8);
-            $table->timestamps();
-
+            $table->date('date_from');
+            $table->decimal('value', 32, 15);
         });
     }
 

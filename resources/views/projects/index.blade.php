@@ -35,7 +35,6 @@
                             <th>Model</th>
                             <th>Brand</th>
                             <th>Licensee</th>
-                            <th>Connectivity</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -50,7 +49,6 @@
                                 <th>{{ $project->model_name }}</th>
                                 <th>{{ $project->brand }}</th>
                                 <th>{{ $project->licensee }}</th>
-                                <th>{{ $project->connectivity }}</th>
                             </tr>
                         @endforeach
                         </tbody>

@@ -21,7 +21,7 @@ class CriteriaImport implements ToCollection, WithHeadingRow
             })->where('name', $item)->first();
 
             if ($item) {
-                Criteria::firstOrCreate(['name' => $row['parameters'], 'item_id' => $item->id]);
+                Criteria::firstOrCreate(['name' => trim($row['parameters']), 'item_id' => $item->id]);
             }
         }
     }

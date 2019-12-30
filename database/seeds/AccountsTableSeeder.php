@@ -17,7 +17,7 @@ class AccountsTableSeeder extends Seeder
         //all
         $rootAccount = Account::create(['name'=> 'All', 'level_type'=>'All','parent_id'=> 0]);
 
-        $path = storage_path('app/public/Account.csv');
+        $path = storage_path('app/public/forecast.csv');
         Excel::import(new AccountsImport, $path);
     }
 }

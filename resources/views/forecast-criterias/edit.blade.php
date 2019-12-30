@@ -1,7 +1,7 @@
 @extends("layouts.app")
 
 @section("title")
-    Forecast Items
+    Forecast Criteria Edit
 @endsection
 
 @section("content")
@@ -9,7 +9,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Forecast Items</h3>
+                    <h3 class="card-title">Forecast Criteria Edit</h3>
 
                     <div class="card-tools">
                         <div class="input-group input-group-sm" style="width: 150px;">
@@ -32,14 +32,36 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="selectAccounts" class="col-sm-2 col-form-label">Accounts</label>
+                            <label for="selectAccounts" class="col-sm-2 col-form-label">OEM</label>
                             <div class="col-sm-10">
-                                <select class="select2" id="selectAccounts" name="accounts[]" multiple="multiple" style="width: 100%;">
-                                    <option value="-2">OEM</option>
-                                    <option value="-3">ODM</option>
-                                    <option value="-4">Carrier</option>
-                                    @foreach($accounts as $account)
-                                        <option value="{{ $account->id }}">{{ $account->parent->name . '::' . $account->name }}</option>
+                                <select class="select2" id="oem_id" name="oem_id"  style="width: 100%;">
+                                    <option value="">All</option>
+                                    @foreach($oemOptions as $option)
+                                        <option value="{{ $option->id }}" {{ $option->id == $forecastCriteria->oem_id? 'selected': '' }}>{{ $option->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="selectAccounts" class="col-sm-2 col-form-label">ODM</label>
+                            <div class="col-sm-10">
+                                <select class="select2" id="odm_id" name="odm_id"  style="width: 100%;">
+                                    <option value="">All</option>
+                                    @foreach($odmOptions as $option)
+                                        <option value="{{ $option->id }}" {{ $option->id == $forecastCriteria->odm_id? 'selected': '' }}>{{ $option->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="selectAccounts" class="col-sm-2 col-form-label">Carrier</label>
+                            <div class="col-sm-10">
+                                <select class="select2" id="carrier_id" name="carrier_id"  style="width: 100%;">
+                                    <option value="">All</option>
+                                    @foreach($carrierOptions as $option)
+                                        <option value="{{ $option->id }}" {{ $option->id == $forecastCriteria->carrier_id? 'selected': '' }}>{{ $option->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -167,7 +189,7 @@
         $(function(){
 
             $('#selectLocations').val({{ $selectLocations }});
-            $('#selectAccounts').val({{ $selectAccounts }});
+            {{--$('#selectAccounts').val({{ $selectAccounts }});--}}
             $('#selectItems').val({{ $forecastCriteria->item_id }});
             $('.select2').select2({
                 theme: 'bootstrap4'
@@ -245,65 +267,65 @@
                 }
             });
 
-            var accounts = {!! $json_accounts !!};
+            {{--var accounts = {!! $json_accounts !!};--}}
 
-            function quickSelect(object, id) {
-                var selects = [];
-                var origin = object.val();
-                for(var i = 0; i < accounts.length; i++) {
-                    if (accounts[i].parent_id == id) {
-                        selects.push(accounts[i].id);
-                    }
-                }
-                selects = selects.concat(origin);
-                selects = selects.filter(function (item, index, selects) {
-                    return selects.indexOf(item, 0) === index;
-                });
+            {{--function quickSelect(object, id) {--}}
+                {{--var selects = [];--}}
+                {{--var origin = object.val();--}}
+                {{--for(var i = 0; i < accounts.length; i++) {--}}
+                    {{--if (accounts[i].parent_id == id) {--}}
+                        {{--selects.push(accounts[i].id);--}}
+                    {{--}--}}
+                {{--}--}}
+                {{--selects = selects.concat(origin);--}}
+                {{--selects = selects.filter(function (item, index, selects) {--}}
+                    {{--return selects.indexOf(item, 0) === index;--}}
+                {{--});--}}
 
-                object.val(selects).change();
-            }
+                {{--object.val(selects).change();--}}
+            {{--}--}}
 
-            function quickUnselect(object, id) {
-                var selects = [];
-                var origin = object.val();
-                for(var i = 0; i < accounts.length; i++) {
-                    if (accounts[i].parent_id == id) {
-                        selects.push(accounts[i].id);
-                    }
-                }
+            {{--function quickUnselect(object, id) {--}}
+                {{--var selects = [];--}}
+                {{--var origin = object.val();--}}
+                {{--for(var i = 0; i < accounts.length; i++) {--}}
+                    {{--if (accounts[i].parent_id == id) {--}}
+                        {{--selects.push(accounts[i].id);--}}
+                    {{--}--}}
+                {{--}--}}
 
-                origin = origin.filter(function (item, index, origin) {
-                    return selects.indexOf(parseInt(item)) === -1;
-                });
-                object.val(origin).change();
-            }
+                {{--origin = origin.filter(function (item, index, origin) {--}}
+                    {{--return selects.indexOf(parseInt(item)) === -1;--}}
+                {{--});--}}
+                {{--object.val(origin).change();--}}
+            {{--}--}}
 
-            $('#selectAccounts').on('select2:select', function (e) {
-                var data = e.params.data;
-                if (data.text == "ODM") {
-                    quickSelect($(this), 2);
-                }
-                if (data.text == "OEM") {
-                    quickSelect($(this), 3);
-                }
-                if (data.text == "Carrier") {
-                    quickSelect($(this), 4);
-                }
+            {{--$('#selectAccounts').on('select2:select', function (e) {--}}
+                {{--var data = e.params.data;--}}
+                {{--if (data.text == "ODM") {--}}
+                    {{--quickSelect($(this), 2);--}}
+                {{--}--}}
+                {{--if (data.text == "OEM") {--}}
+                    {{--quickSelect($(this), 3);--}}
+                {{--}--}}
+                {{--if (data.text == "Carrier") {--}}
+                    {{--quickSelect($(this), 4);--}}
+                {{--}--}}
 
-            });
+            {{--});--}}
 
-            $('#selectAccounts').on('select2:unselect', function (e) {
-                var data = e.params.data;
-                if (data.text == "ODM") {
-                    quickUnselect($(this), 2);
-                }
-                if (data.text == "OEM") {
-                    quickUnselect($(this), 3);
-                }
-                if (data.text == "Carrier") {
-                    quickUnselect($(this), 4);
-                }
-            });
+            {{--$('#selectAccounts').on('select2:unselect', function (e) {--}}
+                {{--var data = e.params.data;--}}
+                {{--if (data.text == "ODM") {--}}
+                    {{--quickUnselect($(this), 2);--}}
+                {{--}--}}
+                {{--if (data.text == "OEM") {--}}
+                    {{--quickUnselect($(this), 3);--}}
+                {{--}--}}
+                {{--if (data.text == "Carrier") {--}}
+                    {{--quickUnselect($(this), 4);--}}
+                {{--}--}}
+            {{--});--}}
 
         })
     </script>

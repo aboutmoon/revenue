@@ -13,17 +13,17 @@ class LocationsImport implements ToCollection, WithHeadingRow
     {
         //market
         foreach ($collection as $row) {
-            $market = Location::firstOrCreate(['name' => $row['market'], 'level_type' => 'Market', 'parent_id' => 1]);
+            $market = Location::firstOrCreate(['name' => trim($row['market']), 'level_type' => 'Market', 'parent_id' => 1]);
 
 
-            $region = Location::firstOrCreate(['name' => $row['region'], 'level_type' => 'Region', 'parent_id' => $market->id]);
+//            $region = Location::firstOrCreate(['name' => $row['region'], 'level_type' => 'Region', 'parent_id' => $market->id]);
 
 
 
-            $sub_region = Location::firstOrCreate(['name' => $row['subregion'], 'level_type' => 'Sub Region', 'parent_id' => $region->id]);
+//            $sub_region = Location::firstOrCreate(['name' => $row['subregion'], 'level_type' => 'Sub Region', 'parent_id' => $region->id]);
 
 
-            $country = Location::firstOrCreate(['name' => $row['country'], 'level_type' => 'Country', 'parent_id' => $sub_region->id]);
+            $country = Location::firstOrCreate(['name' => $row['country'], 'level_type' => 'Country', 'parent_id' => $market->id, 'region' => $row['region'], 'sub_region' => isset($row['subregion'])? $row['subregion']: '']);
 
         }
 

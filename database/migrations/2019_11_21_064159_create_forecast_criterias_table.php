@@ -17,6 +17,9 @@ class CreateForecastCriteriasTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('model_id');
             $table->bigInteger('model_vid');
+            $table->bigInteger('oem_id')->nullable();
+            $table->bigInteger('odm_id')->nullable();
+            $table->bigInteger('carrier_id')->nullable();
             $table->bigInteger('item_id');
             $table->timestamps();
         });
