@@ -448,6 +448,13 @@ class GenerateModelResult implements ShouldQueue
                     }
                 }
 
+                if ($item_id == I_MAINTENANCE) {
+                    if ($parameter->criteria_id == C_YEARLY_MAINTENANCE_PRICE) {
+                        $updateData['c_yearly_maintenance_price'] = $parameter->value;
+                        $updateData['c_yearly_maintenance_price_mg'] = $parameter->monthly_growth;
+                    }
+                }
+
                 DB::table('forecast_devices_view')
                     ->where('model_id', $modelId)
                     ->where('model_vid', $modelVid)
@@ -574,12 +581,24 @@ class GenerateModelResult implements ShouldQueue
                     $dateGroup->i_ads_revenue_sharing = bcadd(bcdiv(bcmul(bcmul(bcmul(bcmul($dateGroup->i_mau, $adsMonthlyPageView), $adsMonthlyPageViewMG), $adsEcpm), $adsEcpmMG), 1000), bcdiv(bcmul(bcmul(bcmul($dateGroup->i_ads_dau, $adsRevenuePer1KAdsDau), $adsRevenuePer1KAdsDauMG), 30), 1000));
                     $dateGroup->i_ads_revenue_sharing = bcmul($dateGroup->i_ads_revenue_sharing, $coverage);
 
+
+                    // nre
                     $monthlyTeamPrice = $dateGroup->c_monthly_team_price;
                     $monthlyTeamPriceMG = pow(bcadd($dateGroup->c_monthly_team_price_mg, 1), $month);
                     $coverage = bcmul($dateGroup->i_nre_cg, pow(bcadd(1, $dateGroup->i_nre_mg), $month));
 
                     $dateGroup->i_nre = bcmul($monthlyTeamPrice, $monthlyTeamPriceMG);
                     $dateGroup->i_nre = bcmul($dateGroup->i_nre, $coverage);
+
+                    // maintenance
+                    $yearlyMaintenancePrice = $dateGroup->c_yearly_maintenance_price;
+                    $yearlyMaintenancePriceMG = bcpow(bcadd(1, $dateGroup->c_yearly_maintenance_price_mg), $month);
+                    $coverage = bcmul($dateGroup->i_maintenance_cg, pow(bcadd(1, $dateGroup->i_maintenance_mg), $month));
+
+                    $dateGroup->i_maintenance = bcdiv(bcmul($yearlyMaintenancePrice, $yearlyMaintenancePriceMG), 12);
+                    $dateGroup->i_maintenance = bcmul($dateGroup->i_maintenance, $coverage);
+
+                    //
 
                     $dateGroup->save();
 
@@ -681,6 +700,16 @@ class GenerateModelResult implements ShouldQueue
                         'date' => $date,
                         'item_id' => I_NRE,
                         'result' => $dateGroup->i_nre,
+                    ]);
+
+                    array_push($insertData, [
+                        'model_id' => $modelId,
+                        'model_vid' => $modelVid,
+                        'location_id' => $dateGroup->location_id,
+                        'project_id' => $dateGroup->project_id,
+                        'date' => $date,
+                        'item_id' => I_MAINTENANCE,
+                        'result' => $dateGroup->i_maintenance,
                     ]);
 
                     if (count($insertData) > BULK_NUMBER) {
