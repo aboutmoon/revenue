@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Project extends Model
 {
     public $timestamps = false;
+    public $guarded = ['id'];
 
     public function oem()
     {
@@ -21,5 +22,15 @@ class Project extends Model
     public function carrier()
     {
         return $this->hasOne('App\Models\Account', 'id', 'carrier_id');
+    }
+
+    public function type()
+    {
+        return $this->hasOne('App\Models\Type', 'id', 'type_id');
+    }
+
+    public function Licensee()
+    {
+        return $this->hasOne('App\Models\Licensee', 'id', 'licensee_id');
     }
 }

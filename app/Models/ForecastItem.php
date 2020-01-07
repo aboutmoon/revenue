@@ -8,8 +8,7 @@ class ForecastItem extends Model
 
     protected $table = 'forecast_items';
 
-    protected $fillable = ['model_id', 'model_vid','odm_id', 'oem_id', 'carrier_id', 'coverage', 'date_from', 'date_to', 'monthly_growth'];
-
+    protected $guarded = ['id','locations', 'items'];
     public function model()
     {
         return $this->belongsTo('App\Models\DataModel', 'id', 'model_id');
@@ -23,6 +22,16 @@ class ForecastItem extends Model
     public function odm()
     {
         return $this->hasOne('App\Models\Account', 'id', 'odm_id');
+    }
+
+    public function licensee()
+    {
+        return $this->hasOne('App\Models\Licensee', 'id', 'licensee_id');
+    }
+
+    public function type()
+    {
+        return $this->hasOne('App\Models\Type', 'id', 'type_id');
     }
 
     public function carrier()

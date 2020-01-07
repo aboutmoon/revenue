@@ -81,7 +81,7 @@
                 {
                     aggregatorName: "Sum",
                     rendererName: "Table",
-                    rows: ['Item','Market'],
+                    rows: ['Item'],
                     cols: ['Year', 'Quarter', 'Month'],
                     // cols: ['Date'],
                     vals: ['Value'],
@@ -97,7 +97,7 @@
 
                     sorters: {
                         "Month": sortAs(["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]),
-                        "Item": sortAs(["Shipment", "Install base", "Activated Device", "MAU", "Ads DAU", "FOTA Fee", "Search Revenue sharing", "Ads Revenue sharing"])
+                        "Item": sortAs(["Shipment", "Install base", "Activated Device", "MAU", "Ads DAU", "Search Revenue sharing", "Ads Revenue sharing","FOTA Fee", "FOTA Royalty Fee", "NRE", "Maintenance", "Payment Revenue sharing V1", "Payments Revenue Sharing (Store V2)", "Payments Revenue Sharing (IAP V2)", "3rd Party License"])
                     }
                 }
             );

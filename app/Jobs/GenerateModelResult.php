@@ -28,34 +28,130 @@ use Illuminate\Support\Facades\Log;
 use PhpParser\Node\Expr\Array_;
 
 const I_SHIPMENT = 2;
-const I_INSTALL_BASE = 3;
-const I_ACTIVATED_DEVICE = 4;
-const I_MAU = 5;
-const I_ADS_MAU = 6;
-const I_FOTA_FEE = 8;
-const I_SEARCH_REVENUE_SHARING = 10;
-const I_ADS_REVENUE_SHARING = 11;
-
-
 const C_SHIPMENT = 1;
 
+const I_INSTALL_BASE = 3;
 const C_CHURN_RATE = 2;
 const C_DEVICE_LIFETIME = 3;
 
+const I_ACTIVATED_DEVICE = 4;
 const C_ACTIVATION_RATIO = 4;
 
+const I_MAU = 5;
 const C_INITIAL_MAU_RATIO = 5;
 const C_MAU_GROWTH_FACTOR = 6;
 
+const I_ADS_MAU = 6;
 const C_ADS_DAU_FROM_MAU = 7;
 
+const I_FOTA_FEE = 8;
 const C_FOTA_FEE = 8;
 
+const I_FOTA_ROYALTY = 9;
+const C_FOTA_ROYALTY_FEE = 9;
+
+const I_SEARCH_REVENUE_SHARING = 10;
 const C_SEARCH_REVENUE_PER_1K_MAU = 10;
 
+const I_ADS_REVENUE_SHARING = 11;
 const C_MONTHLY_PAGE_VIEW = 11;
 const C_ECPM = 12;
 const C_ADS_REVENUE_PER_1K_ADS_DAU = 13;
+
+const I_PAYMENTS_REVENUE_SHARING_STORE_V2 = 13;
+const C_AVERATE_SELLING_PRICE_STORE_ASP = 25;
+const C_MAU_TO_STORE_APP_VIEW_RATIO = 26;
+const C_KAIPAY_COVERAGE = 27;
+const C_STORE_APP_VIEW_OF_PAID_APP = 28;
+const C_CONVERSION_TO_PURCHASE_STORE = 29;
+
+const I_PAYMENTS_REVENUE_SHARING_IAP_V2 = 14;
+const C_APPS_WITH_IAP_RATIO = 30;
+const C_CONVERSION_TO_PURCHASE_IAP = 31;
+const C_AVERAGE_SELLING_PRICE_IAP = 32;
+
+const I_PAYMENTS_REVENUE_SHARING = 15;
+CONST C_OEM_REV_SHARE = 33;
+CONST C_CARRIER_REV_SHARE = 34;
+CONST C_AGGREG_REV_SHARE = 35;
+CONST C_AGGREGATOR_APP_RATIO = 36;
+CONST C_APP_DEV_OR_CONTENT_PROVIDER_REV_SHARE = 37;
+CONST C_KAI_APPS_PAYMENT_REVENUE_RATIO = 38;
+CONST C_BILLING_CUT = 39;
+
+CONST I_REVENUE_3RD_PARTY_LICENSES = 16;
+CONST C_TOUCHPAL_LICESES_FEE = 40;
+
+CONST I_COST_3RD_PARTY_LICENSES = 18;
+CONST C_TOUCHPAL_LICENSES_COST = 41;
+
+CONST I_MAINTENANCE = 19;
+CONST C_YEARLY_MAINTENANCE_PRICE = 42;
+
+CONST I_NRE = 20;
+CONST C_MONTHLY_TEAM_PRICE = 43;
+
+CONST I_APP_PRELOAD = 21;
+CONST C_PLACEMENT_FEE_CARRIER = 44;
+CONST C_PRELOAD_APP_ACTIVATION_RATE_CARRIER = 45;
+CONST C_PLACEMENT_FEE_OPEN_MARKET = 46;
+CONST C_PRELOAD_APP_ACTIVATION_RATE_OPEN_MARKET = 47;
+
+CONST I_CARRIER_TAB_FEE = 22;
+CONST C_CARRIER_TAB_FEE_CARRIER = 48;
+CONST C_CARRIER_TAB_FEE_OPEN_MARKET = 49;
+
+CONST I_YEARLY_APP_PRELOAD = 23;
+CONST C_YEARLY_PLACEMENT_FEE = 50;
+
+CONST I_R_DEVICE_FINANCING = 24;
+CONST C_KTM_FEE = 51;
+CONST C_CONTRACT_PERIOD = 52;
+CONST C_MONTHLY_CHRUN_RATE = 53;
+
+CONST I_C_DEVICE_FINANCING = 25;
+CONST C_DEVICE_FINANCE_COST = 54;
+
+CONST I_MPOS_DEVICE_MANAGEMENT_FEE = 26;
+CONST C_MPOS_ACTIVATION_RATIO = 55;
+CONST C_POS_MONTHLY_FEE = 56;
+
+CONST I_R_PROMOTION_FEE = 27;
+CONST C_PROMOTION_FEE = 58;
+
+CONST I_R_NEW_ACCOUNT_REGISTRATION_REVENUE_SHARING = 28;
+CONST C_R_NEW_ACCOUNT_REGISTRATION_REVENUE_SHARING = 58;
+
+CONST I_C_NEW_ACCOUNT_REGISTRATION_REVENUE_SHARING = 29;
+CONST C_C_NEW_ACCOUNT_REGISTRATION_REVENUE_SHARING = 59;
+
+CONST I_R_MONTHLY_SUBSCRIPTION_REVENUE_SHARING = 30;
+CONST C_R_MONTHLY_SUBSCRIPTION_REVENUE_SHARING = 60;
+
+CONST I_C_MONTHLY_SUBSCRIPTION_REVENUE_SHARING = 31;
+CONST C_C_MONTHLY_SUBSCRIPTION_REVENUE_SHARING = 61;
+
+CONST I_DATA_RETAIL_REVENUE_SHARING = 32;
+CONST C_DATA_RETAIL_REVENUE_SHARING = 62;
+
+CONST I_BILLING_COST = 33;
+CONST C_VAT = 63;
+CONST C_WITHOLDING_TAXES = 64;
+
+CONST I_AVERTISEMENT_PLATFORM = 34;
+CONST C_AVERTISEMENT_PLATFORM_COST = 65;
+
+CONST I_FOTA_CLOUD = 35;
+CONST C_FOTA_COST = 66;
+
+CONST I_STORE_CLOUD = 36;
+CONST C_STORE_COST = 67;
+
+CONST I_PUSH_CLOUD = 37;
+CONST C_PUSH_CLOUD = 68;
+
+CONST I_FTU_SMS = 38;
+CONST C_SMS_COST = 69;
 
 const BULK_NUMBER = 5000;
 
@@ -146,35 +242,102 @@ class GenerateModelResult implements ShouldQueue
                 if ($forecastItem->carrier_id) {
                     $q1->where('carrier_id', $forecastItem->carrier_id);
                 }
+                if ($forecastItem->type_id) {
+                    $q1->where('type_id', $forecastItem->type_id);
+                }
+                if ($forecastItem->licensee_id) {
+                    $q1->where('licensee_id', $forecastItem->licensee_id);
+                }
             })->pluck('id')->toArray();
+
             foreach ($forecastItem->items as $item) {
                 $item_id = $item->id;
                 $updateData = [];
 
                 switch ($item_id) {
                     case I_SHIPMENT:
-                        $updateData['i_shipment_mg'] = $forecastItem->monthly_growth;break;
+                        $updateData['i_shipment_mg'] = $forecastItem->monthly_growth;
+                        $updateData['i_shipment_cg'] = $forecastItem->coverage;
+                        break;
                     case I_INSTALL_BASE:
-                        $updateData['i_install_base_mg'] = $forecastItem->monthly_growth;break;
+                        $updateData['i_install_base_mg'] = $forecastItem->monthly_growth;
+                        $updateData['i_install_base_cg'] = $forecastItem->coverage;
+                        break;
                     case I_ACTIVATED_DEVICE:
-                        $updateData['i_activated_device_mg'] = $forecastItem->monthly_growth;break;
+                        $updateData['i_activated_device_mg'] = $forecastItem->monthly_growth;
+                        $updateData['i_activated_device_cg'] = $forecastItem->coverage;
+                        break;
                     case I_MAU:
-                        $updateData['i_mau_mg'] = $forecastItem->monthly_growth;break;
+                        $updateData['i_mau_mg'] = $forecastItem->monthly_growth;
+                        $updateData['i_mau_cg'] = $forecastItem->coverage;
+                        break;
                     case  I_ADS_MAU:
-                        $updateData['i_ads_mau'] = $forecastItem->monthly_growth;break;
+                        $updateData['i_ads_dau_mg'] = $forecastItem->monthly_growth;
+                        $updateData['i_ads_dau_cg'] = $forecastItem->coverage;
+                        break;
                     case I_FOTA_FEE:
-                        $updateData['i_fota_fee'] = $forecastItem->monthly_growth;break;
+                        $updateData['i_fota_fee_mg'] = $forecastItem->monthly_growth;
+                        $updateData['i_fota_fee_cg'] = $forecastItem->coverage;
+                        break;
+                    case I_FOTA_ROYALTY:
+                        $updateData['i_fota_royalty_mg'] = $forecastItem->monthly_growth;
+                        $updateData['i_fota_royalty_cg'] = $forecastItem->coverage;
+                        break;
                     case I_SEARCH_REVENUE_SHARING:
-                        $updateData['i_search_revenue_sharing'] = $forecastItem->monthly_growth;break;
+                        $updateData['i_search_revenue_sharing_mg'] = $forecastItem->monthly_growth;
+                        $updateData['i_search_revenue_sharing_cg'] = $forecastItem->coverage;
+                        break;
                     case I_ADS_REVENUE_SHARING:
-                        $updateData['i_ads_revenue_sharing'] = $forecastItem->monthly_growth;break;
+                        $updateData['i_ads_revenue_sharing_mg'] = $forecastItem->monthly_growth;
+                        $updateData['i_ads_revenue_sharing_cg'] = $forecastItem->coverage;
+                        break;
+                    case I_PAYMENTS_REVENUE_SHARING_STORE_V2:
+                        $updateData['i_payments_revenue_sharing_store_v2_mg'] = $forecastItem->monthly_growth;
+                        $updateData['i_payments_revenue_sharing_store_v2_cg'] = $forecastItem->coverage;
+                        break;
+                    case I_PAYMENTS_REVENUE_SHARING_IAP_V2:
+                        $updateData['i_payments_revenue_sharing_iap_mg'] = $forecastItem->monthly_growth;
+                        $updateData['i_payments_revenue_sharing_iap_cg'] = $forecastItem->coverage;
+                        break;
+                    case I_PAYMENTS_REVENUE_SHARING:
+                        $updateData['i_payments_revenue_sharing_mg'] = $forecastItem->monthly_growth;
+                        $updateData['i_payments_revenue_sharing_cg'] = $forecastItem->coverage;
+                        break;
+                    case I_REVENUE_3RD_PARTY_LICENSES:
+                        $updateData['i_revenue_3rd_licenses_mg'] = $forecastItem->monthly_growth;
+                        $updateData['i_revenue_3rd_licenses_cg'] = $forecastItem->coverage;
+                        break;
+                    case I_COST_3RD_PARTY_LICENSES:
+                        $updateData['i_cost_3rd_party_licenses_mg'] = $forecastItem->monthly_growth;
+                        $updateData['i_cost_3rd_party_licenses_cg'] = $forecastItem->coverage;
+                        break;
+                    case I_MAINTENANCE:
+                        $updateData['i_maintenance_mg'] = $forecastItem->monthly_growth;
+                        $updateData['i_maintenance_cg'] = $forecastItem->coverage;
+                        break;
+                    case I_NRE:
+                        $updateData['i_nre_mg'] = $forecastItem->monthly_growth;
+                        $updateData['i_nre_cg'] = $forecastItem->coverage;
+                        break;
+                    case I_APP_PRELOAD:
+                        $updateData['i_app_preload_mg'] = $forecastItem->monthly_growth;
+                        $updateData['i_app_preload_cg'] = $forecastItem->coverage;
+                        break;
                     default:
-                        throwExceptionOnError('Error Item');
+                        break;
                 }
 
                 DB::table('forecast_devices_view')
                     ->where('model_id', $modelId)
                     ->where('model_vid', $modelVid)
+                    ->where(function($q1) use($market_ids, $project_ids, $forecastItem){
+                        if ($market_ids) {
+                            $q1->whereIn('market_id', $market_ids);
+                        }
+                        if ($project_ids) {
+                            $q1->whereIn('project_id', $project_ids);
+                        }
+                    })
                     ->whereIn('market_id', $market_ids)
                     ->whereIn('project_id', $project_ids)
                     ->where('date', '>=', $forecastItem->date_from)
@@ -204,7 +367,6 @@ class GenerateModelResult implements ShouldQueue
                 $updateData = [];
                 if ($item_id == I_SHIPMENT) {
                     if ($parameter->criteria_id == C_SHIPMENT)
-//                    $updateData['c_shipment'] = $parameter->value;
                     $updateData['c_shipment_mg'] = $parameter->monthly_growth;
                 }
 
@@ -250,18 +412,25 @@ class GenerateModelResult implements ShouldQueue
                     }
                 }
 
+                if ($item_id == I_FOTA_ROYALTY) {
+                    if ($parameter->criteria_id == C_FOTA_ROYALTY_FEE) {
+                        $updateData['c_fota_royalty_fee'] = $parameter->value;
+                        $updateData['c_fota_royalty_fee_mg'] = $parameter->monthly_growth;
+                    }
+                }
+
                 if ($item_id == I_ADS_REVENUE_SHARING) {
                     if ($parameter->criteria_id == C_MONTHLY_PAGE_VIEW) {
-                        $updateData['c_monthly_page_view'] = $parameter->value;
-                        $updateData['c_monthly_page_view_mg'] = $parameter->monthly_growth;
+                        $updateData['c_ads_monthly_page_view'] = $parameter->value;
+                        $updateData['c_ads_monthly_page_view_mg'] = $parameter->monthly_growth;
                     }
                     if ($parameter->criteria_id == C_ADS_REVENUE_PER_1K_ADS_DAU) {
                         $updateData['c_ads_revenue_per_1k_ads_dau'] = $parameter->value;
                         $updateData['c_ads_revenue_per_1k_ads_dau_mg'] = $parameter->monthly_growth;
                     }
                     if ($parameter->criteria_id == C_ECPM) {
-                        $updateData['c_ecpm'] = $parameter->value;
-                        $updateData['c_ecpm_mg'] = $parameter->monthly_growth;
+                        $updateData['c_ads_ecpm'] = $parameter->value;
+                        $updateData['c_ads_ecpm_mg'] = $parameter->monthly_growth;
                     }
                 }
 
@@ -269,6 +438,13 @@ class GenerateModelResult implements ShouldQueue
                     if ($parameter->criteria_id == C_SEARCH_REVENUE_PER_1K_MAU) {
                         $updateData['c_search_revenue_per_1k_mau'] = $parameter->value;
                         $updateData['c_search_revenue_per_1k_mau_mg'] = $parameter->monthly_growth;
+                    }
+                }
+
+                if ($item_id == I_NRE) {
+                    if ($parameter->criteria_id == C_MONTHLY_TEAM_PRICE) {
+                        $updateData['c_monthly_team_price'] = $parameter->value;
+                        $updateData['c_monthly_team_price_mg'] = $parameter->monthly_growth;
                     }
                 }
 
@@ -297,62 +473,115 @@ class GenerateModelResult implements ShouldQueue
                 $prevDateGroup = null;
                 foreach ($dateGroups as $date => $dateGroup) {
                     bcscale(15);
+
+                    $month = Carbon::parse($date)->month - 1;
+
                     //install base
-                    $lifetime = $dateGroup->c_lifetime;
 
-                    if ($count == 0) {
+                    {
+                        $chrun_rate = bcmul($dateGroup->c_chrun_rate, pow(bcadd(1, $dateGroup->c_chrun_rate_mg), $month));
+                        $coverage = bcmul($dateGroup->i_install_base_cg, pow(bcadd(1, $dateGroup->i_install_base_mg), $month));
+                        $lifetime = $dateGroup->c_lifetime;
 
-                        $dateGroup->i_install_base = $dateGroup->i_shipment;
+                        if ($count == 0) {
 
-                    } elseif ($count <= $lifetime) {
+                            $dateGroup->i_install_base = $dateGroup->i_shipment;
 
-//                        $dateGroup->i_install_base = $prevDateGroup->i_install_base * (1 - $dateGroup->c_chrun_rate) + $dateGroup->i_shipment;
-                        $dateGroup->i_install_base = bcadd(bcmul($prevDateGroup->i_install_base, bcsub(1, $dateGroup->c_chrun_rate)), $dateGroup->i_shipment);
+                        } elseif ($count <= $lifetime) {
 
-                    } elseif ($count > $lifetime) {
+                            $dateGroup->i_install_base = bcadd(bcmul($prevDateGroup->i_install_base, bcsub(1, $chrun_rate)), $dateGroup->i_shipment);
 
-                        $d = Carbon::parse($date)->subMonths($lifetime)->toDateString();
-                        $shipment = $dateGroups[$d]? $dateGroups[$d]->i_shipment: 0;
+                        } elseif ($count > $lifetime) {
 
-//                        $result = $prevDateGroup->i_install_base * (1 - $dateGroup->c_chrun_rate) + $dateGroup->i_shipment - $shipment;
-                        $result = bcsub(bcadd(bcmul($prevDateGroup->i_install_base, bcsub(1, $dateGroup->c_chrun_rate)), $dateGroup->i_shipment), $shipment);
-                        $dateGroup->i_install_base = $result > 0 ? $result: 0;
+                            $d = Carbon::parse($date)->subMonths($lifetime)->toDateString();
+                            $shipment = $dateGroups[$d]? $dateGroups[$d]->i_shipment: 0;
+
+                            $result = bcsub(bcadd(bcmul($prevDateGroup->i_install_base, bcsub(1, $chrun_rate)), $dateGroup->i_shipment), $shipment);
+                            $dateGroup->i_install_base = $result > 0 ? $result: 0;
+                        }
+
+                        $dateGroup->i_install_base = bcmul($dateGroup->i_install_base, $coverage);
                     }
 
+
+
                     // activated device
-                    $month = Carbon::parse($date)->month - 1;
-//                    $dateGroup->i_activated_device =  $dateGroup->i_install_base * $dateGroup->c_activation_ratio * pow(1 + $dateGroup->c_activation_ratio_mg, $month);
-                    $dateGroup->i_activated_device =  bcmul(bcmul($dateGroup->i_install_base, $dateGroup->c_activation_ratio), bcpow(1 + $dateGroup->c_activation_ratio_mg, $month)) ;
+
+                    {
+                        $installBase = $dateGroup->i_install_base;
+                        $activationRatio = $dateGroup->c_activation_ratio;
+                        $activationRatioMG = bcpow(1 + $dateGroup->c_activation_ratio_mg, $month);
+                        $mauGrowthFactor = $dateGroup->c_mau_growth_factor;
+                        $mauGrowthFactorMG = bcpow(1 + $dateGroup->c_mau_growth_factor_mg, $month);
+                        $coverage = bcmul($dateGroup->i_activated_device_cg, pow(bcadd(1, $dateGroup->i_activated_device_mg), $month));
+                    }
+                    $dateGroup->i_activated_device =  bcmul(bcmul($installBase, $activationRatio), $activationRatioMG) ;
 
                     if ($count == 0 || bccomp($prevDateGroup->i_activated_device, 0) == 0) {
                         $mauHelper = bcmul($dateGroup->i_activated_device, $dateGroup->c_mau_growth_factor);
                     } else {
-                        $month = Carbon::parse($date)->month - 1;
                         $year = Carbon::parse($date)->year;
                         $activatedDeviceDiff = bcsub($dateGroup->i_activated_device, $prevDateGroup->i_activated_device);
 
                         if (bccomp($activatedDeviceDiff, 0) >= 0 && $year == 2020) {
-                            $mauHelper = bcadd(bcmul($prevDateGroup->i_activated_device, $dateGroup->c_mau_growth_factor), bcmul(bcpow(bcadd(1, $dateGroup->c_mau_growth_factor_mg), $month), bcmul($activatedDeviceDiff, $dateGroup->c_mau_growth_factor)));
+                            $mauHelper = bcadd(bcmul($prevDateGroup->i_activated_device, $mauGrowthFactor), bcmul($mauGrowthFactorMG, bcmul($activatedDeviceDiff, $mauGrowthFactor)));
                         } else {
-                            $mauHelper = bcadd(bcmul($prevDateGroup->i_activated_device, $dateGroup->c_mau_growth_factor), bcmul($activatedDeviceDiff, $dateGroup->c_mau_growth_factor));
+                            $mauHelper = bcadd(bcmul($prevDateGroup->i_activated_device, $mauGrowthFactor), bcmul($activatedDeviceDiff, $mauGrowthFactor));
                         }
                     }
 
                     $dateGroup->i_mau = bccomp($mauHelper, $dateGroup->i_install_base) > 0 ? $dateGroup->i_install_base: $mauHelper;
+                    $dateGroup->i_mau = bcmul($dateGroup->i_mau, $coverage);
 
-                    // ads mau
-                    $month = Carbon::parse($date)->month - 1;
-                    $dateGroup->i_ads_mau = bcmul(bcmul($dateGroup->i_mau, $dateGroup->c_ads_dau_from_mau), bcpow(bcadd(1, $dateGroup->c_ads_dau_from_mau_mg), $month, 9));
-                    $dateGroup->save();
+                    // ads dau
+                    $adsDauFromMau = $dateGroup->c_ads_dau_from_mau;
+                    $adsDauFromMauMG = pow(bcadd(1, $dateGroup->c_ads_dau_from_mau_mg), $month);
+                    $coverage = bcmul($dateGroup->i_ads_dau_cg, pow(bcadd(1, $dateGroup->i_ads_dau_mg), $month));
+                    $dateGroup->i_ads_dau = bcmul(bcmul(bcmul($dateGroup->i_mau, $adsDauFromMau), $adsDauFromMauMG), $dateGroup->i_ads_revenue_sharing_cg);
+                    $dateGroup->i_ads_dau = bcmul($dateGroup->i_ads_dau, $coverage);
 
                     // fota fee
-                    $dateGroup->i_fota_fee = bcmul($dateGroup->i_shipment, $dateGroup->c_fota_fee);
+                    $fotaFee = $dateGroup->c_fota_fee;
+                    $fotaFeeMG = pow(bcadd(1, $dateGroup->c_fota_fee_mg), $month);
+                    $coverage = bcmul($dateGroup->i_fota_fee_cg, pow(bcadd(1, $dateGroup->i_fota_fee_mg), $month));
+
+                    $dateGroup->i_fota_fee = bcmul(bcmul($dateGroup->i_shipment, $fotaFee), $fotaFeeMG);
+                    $dateGroup->i_fota_fee = bcmul($dateGroup->i_fota_fee, $coverage);
+
+                    $fotaRoyaltyFee = $dateGroup->c_fota_royalty_fee;
+                    $fotaRoyaltyFeeMG = pow(bcadd(1, $dateGroup->c_fota_royalty_fee_mg), $month);
+                    $coverage = bcmul($dateGroup->i_fota_royalty_cg, pow(bcadd(1, $dateGroup->i_fota_royalty_mg), $month));
+                    $dateGroup->i_fota_royalty = bcmul(bcmul($dateGroup->i_shipment, $fotaRoyaltyFee), $fotaRoyaltyFeeMG);
+                    $dateGroup->i_fota_royalty = bcmul($dateGroup->i_fota_royalty, $coverage);
+
+
 
                     // search revenue sharing
-                    $dateGroup->i_search_revenue_sharing = bcmul($dateGroup->i_mau, $dateGroup->c_search_revenue_per_1k_mau);
+                    $searchRevenuePer1KMau = $dateGroup->c_search_revenue_per_1k_mau;
+                    $searchRevenuePer1KMauMG = pow(bcadd(1, $dateGroup->c_search_revenue_per_1k_mau_mg), $month);
+                    $coverage = bcmul($dateGroup->i_search_revenue_sharing_cg, pow(bcadd(1, $dateGroup->i_search_revenue_sharing_mg), $month));
+                    $dateGroup->i_search_revenue_sharing = bcdiv(bcmul(bcmul($dateGroup->i_mau, $searchRevenuePer1KMau), $searchRevenuePer1KMauMG), 1000);
+                    $dateGroup->i_search_revenue_sharing = bcmul($dateGroup->i_search_revenue_sharing, $coverage);
 
                     // ads revenue sharing
-                    $dateGroup->i_ads_revenue_sharing = bcadd(bcmul(bcdiv(bcmul($dateGroup->ads_revenue_per_1k_ads_dau, $dateGroup->i_ads_dau), 1000), 30), bcdiv(bcmul(bcmul($dateGroup->i_mau, $dateGroup->c_monthly_page_view), $dateGroup->c_ecpm), 1000));
+                    $adsRevenuePer1KAdsDau = $dateGroup->c_ads_revenue_per_1k_ads_dau;
+                    $adsRevenuePer1KAdsDauMG = pow(bcadd($dateGroup->c_ads_revenue_per_1k_ads_dau_mg, 1), $month);
+                    $adsMonthlyPageView = $dateGroup->c_ads_monthly_page_view;
+                    $adsMonthlyPageViewMG = pow(bcadd($dateGroup->c_ads_monthly_page_view_mg, 1), $month);
+                    $adsEcpm = $dateGroup->c_ads_ecpm;
+                    $adsEcpmMG = pow(bcadd($dateGroup->c_ads_ecpm_mg, 1), $month);
+                    $coverage = bcmul($dateGroup->i_ads_revenue_sharing_cg, pow(bcadd($dateGroup->i_ads_revenue_sharing_mg, 1), $month));
+                    $dateGroup->i_ads_revenue_sharing = bcadd(bcdiv(bcmul(bcmul(bcmul(bcmul($dateGroup->i_mau, $adsMonthlyPageView), $adsMonthlyPageViewMG), $adsEcpm), $adsEcpmMG), 1000), bcdiv(bcmul(bcmul(bcmul($dateGroup->i_ads_dau, $adsRevenuePer1KAdsDau), $adsRevenuePer1KAdsDauMG), 30), 1000));
+                    $dateGroup->i_ads_revenue_sharing = bcmul($dateGroup->i_ads_revenue_sharing, $coverage);
+
+                    $monthlyTeamPrice = $dateGroup->c_monthly_team_price;
+                    $monthlyTeamPriceMG = pow(bcadd($dateGroup->c_monthly_team_price_mg, 1), $month);
+                    $coverage = bcmul($dateGroup->i_nre_cg, pow(bcadd(1, $dateGroup->i_nre_mg), $month));
+
+                    $dateGroup->i_nre = bcmul($monthlyTeamPrice, $monthlyTeamPriceMG);
+                    $dateGroup->i_nre = bcmul($dateGroup->i_nre, $coverage);
+
+                    $dateGroup->save();
 
                     array_push($insertData, [
                         'model_id' => $modelId,
@@ -401,7 +630,7 @@ class GenerateModelResult implements ShouldQueue
                         'project_id' => $dateGroup->project_id,
                         'date' => $date,
                         'item_id' => I_ADS_MAU,
-                        'result' => $dateGroup->i_ads_mau,
+                        'result' => $dateGroup->i_ads_dau,
                     ]);
 
                     array_push($insertData, [
@@ -412,6 +641,16 @@ class GenerateModelResult implements ShouldQueue
                         'date' => $date,
                         'item_id' => I_FOTA_FEE,
                         'result' => $dateGroup->i_fota_fee,
+                    ]);
+
+                    array_push($insertData, [
+                        'model_id' => $modelId,
+                        'model_vid' => $modelVid,
+                        'location_id' => $dateGroup->location_id,
+                        'project_id' => $dateGroup->project_id,
+                        'date' => $date,
+                        'item_id' => I_FOTA_ROYALTY,
+                        'result' => $dateGroup->i_fota_royalty,
                     ]);
 
                     array_push($insertData, [
@@ -434,6 +673,16 @@ class GenerateModelResult implements ShouldQueue
                         'result' => $dateGroup->i_ads_revenue_sharing,
                     ]);
 
+                    array_push($insertData, [
+                        'model_id' => $modelId,
+                        'model_vid' => $modelVid,
+                        'location_id' => $dateGroup->location_id,
+                        'project_id' => $dateGroup->project_id,
+                        'date' => $date,
+                        'item_id' => I_NRE,
+                        'result' => $dateGroup->i_nre,
+                    ]);
+
                     if (count($insertData) > BULK_NUMBER) {
                         ModelResult::insert($insertData);
                         $insertData = [];
@@ -449,515 +698,5 @@ class GenerateModelResult implements ShouldQueue
             ModelResult::insert($insertData);
         }
 
-        //
-    }
-
-
-//    // expand criteria
-//$this->expandForecastCriterias($modelId, $modelVid);
-//
-//    // expand items
-//$this->expandForecastItem($modelId, $modelVid);
-//
-//    // remove results.
-//DB::table('model_results')->where('model_id', $modelId)->where('model_vid', $modelVid)->delete();
-//
-//    // shipment calculation
-////        $this->forecastCaculate($modelId, $modelVid, 2);
-//
-//$this->installBaseCalculate($modelId, $modelVid, 3);
-//
-//$this->activeDeviceCalculate($modelId, $modelVid, 4);
-//
-//$this->mAUCaculate($modelId, $modelVid, 5);
-
-    public function activeDeviceCalculate($model_id, $model_vid, $item_id) {
-        $itemInstallBase = 3;
-        $installBases = DB::table('forecast_devices')->select(
-            'forecast_devices.location_id',
-            'forecast_devices.project_id',
-            'forecast_devices.date',
-            'forecast_devices.quantity',
-            'forecast_items_view.item_id',
-            'forecast_items_view.coverage',
-            'forecast_items_view.date_from',
-            'forecast_criterias_view.criteria_id',
-            'forecast_criterias_view.value',
-            'model_results.result')
-            ->join('forecast_items_view', function ($join) use ($model_id, $model_vid, $item_id) {
-                $join->on('forecast_devices.market_id', '=', 'forecast_items_view.location_id')
-                    ->on('forecast_devices.project_id', '=', 'forecast_items_view.project_id')
-                    ->on('forecast_devices.date', '=', 'forecast_items_view.date')
-                    ->where('forecast_items_view.model_id', $model_id)
-                    ->where('forecast_items_view.model_vid', $model_vid)
-                    ->where('forecast_items_view.item_id', $item_id);
-            })->join('model_results', function ($join) use ($model_id, $model_vid, $itemInstallBase) {
-                $join->on('forecast_devices.location_id', '=', 'model_results.location_id')
-                    ->on('forecast_devices.project_id', '=', 'model_results.project_id')
-                    ->on('forecast_devices.date', '=', 'model_results.date')
-                    ->where('model_results.model_id', $model_id)
-                    ->where('model_results.model_vid', $model_vid)
-                    ->where('model_results.item_id', $itemInstallBase);
-            })->join('forecast_criterias_view', function($join) use ($model_id, $model_vid, $item_id) {
-                $join->on('forecast_devices.market_id', '=', 'forecast_criterias_view.location_id')
-                    ->on('forecast_devices.project_id', '=', 'forecast_criterias_view.project_id')
-                    ->on('forecast_devices.date', '=', 'forecast_criterias_view.date')
-                    ->where('forecast_criterias_view.model_id', $model_id)
-                    ->where('forecast_criterias_view.model_vid', $model_vid)
-                    ->where('forecast_criterias_view.item_id', $item_id);
-            })->get();
-
-        $container = [];
-        foreach ($installBases as $result) {
-            if (isset($container[$result->location_id][$result->project_id][$result->date])) {
-                $container[$result->location_id][$result->project_id][$result->date][$result->criteria_id]=$result;
-            } else {
-                $container[$result->location_id][$result->project_id][$result->date][$result->criteria_id]=$result;
-            }
-        }
-
-        $insertData = [];
-        foreach ($container as $location) {
-
-
-            foreach ($location as $project) {
-                foreach ($project as $date) {
-                    $activeRatio = (double)$date[4]->value;
-                    $base = $date[4];
-                    $installBase = (double)$base->result;
-                    $data = [
-                        'model_id' => $model_id,
-                        'model_vid' => $model_vid,
-                        'item_id' => $base->item_id,
-                        'location_id' => $base->location_id,
-                        'project_id' => $base->project_id,
-                        'date' => $base->date
-                    ];
-                    $data['result'] = $installBase * $activeRatio;
-                    array_push($insertData, $data);
-                }
-            }
-            if (count($insertData) > 7000) {
-                ModelResult::insert($insertData);
-                $insertData = [];
-            }
-        }
-
-        if ($insertData) {
-            ModelResult::insert($insertData);
-        }
-
-    }
-
-    public function forecastCaculate($model_id, $model_vid, $item_id) {
-        $results = DB::table('forecast_devices')
-            ->select(
-            'forecast_devices.location_id',
-                    'forecast_devices.project_id',
-                    'forecast_devices.date',
-                    'forecast_items_view.item_id',
-                    'forecast_criterias_view.value'
-                )
-            ->join('forecast_items_view', function ($join) use ($model_id, $model_vid, $item_id) {
-            $join->on('forecast_devices.market_id', '=', 'forecast_items_view.location_id')
-            ->on('forecast_devices.project_id', '=', 'forecast_items_view.project_id')
-            ->on('forecast_devices.date', '=', 'forecast_items_view.date')
-                ->where('forecast_items_view.model_id', $model_id)
-                ->where('forecast_items_view.model_vid', $model_vid)
-                ->where('forecast_items_view.item_id', $item_id);
-        })->leftJoin('forecast_criterias_view', function($join) use ($model_id, $model_vid, $item_id) {
-            $join->on('forecast_devices.market_id', '=', 'forecast_criterias_view.location_id')
-            ->on('forecast_devices.project_id', '=', 'forecast_criterias_view.project_id')
-            ->on('forecast_devices.date', '=', 'forecast_criterias_view.date')
-                ->where('forecast_criterias_view.model_id', $model_id)
-                ->where('forecast_criterias_view.model_vid', $model_vid)
-                ->where('forecast_criterias_view.item_id', $item_id);
-        })->get();
-
-        $insertData = [];
-        foreach ($results as $result) {
-            array_push($insertData, [
-                'model_id' => $model_id,
-                'model_vid' => $model_vid,
-                'project_id' => $result->project_id,
-                'location_id' => $result->location_id,
-                'date' => $result->date,
-                'item_id' => $result->item_id,
-                'result' => $result->value
-            ]);
-            if (count($insertData) > 7000) {
-                ModelResult::insert($insertData);
-                $insertData = [];
-            }
-        }
-
-        if ($insertData) {
-            ModelResult::insert($insertData);
-        }
-
-    }
-
-
-    private function getCountrys($ls) {
-        $countrys = [];
-        foreach ($ls as $l) {
-            $temp = [];
-            $this->getChildLocations($l, $temp);
-
-            $countrys = array_merge($countrys, $temp);
-        }
-
-        return $countrys;
-    }
-
-    private function expandForecastCriterias($modelId, $modelVid) {
-
-        DB::table('forecast_criterias_view')->where('model_id', $modelId)->where('model_vid', $modelVid)->delete();
-
-        $insertData = [];
-        $forecastCriterias = ForecastCriteria::with(['accounts', 'locations', 'parameters', 'item'])->where('model_id', $modelId)->where('model_vid', $modelVid)->get();
-
-        foreach ($forecastCriterias as $forecastCriteria) {
-            $projects = Project::where(function ($q1) use ($forecastCriteria) {
-                if ($forecastCriteria->oem_id) {
-                    $q1->whereIn('oem_id', $forecastCriteria->oem_id);
-                }
-                if ($forecastCriteria->odm_id) {
-                    $q1->whereIn('odm_id', $forecastCriteria->odm_id);
-                }
-                if ($forecastCriteria->carrier_id) {
-                    $q1->whereIn('carrier_id', $forecastCriteria->carrier_id);
-                }
-            })->get();
-
-            $project_ids = [];
-            foreach ($projects as $project) {
-                array_push($project_ids, $project->id);
-            }
-
-            $markets = $forecastCriteria->locations;
-            $market_ids = [];
-            foreach ($markets as $market) {
-                array_push($market_ids, $market->id);
-            }
-
-            foreach ($market_ids as $market_id) {
-                foreach ($project_ids as $project_id) {
-                    $parameters = $forecastCriteria->parameters;
-                    foreach ($parameters as $parameter) {
-                        $start = $parameter->date_from;
-                        $date_from = Carbon::parse($parameter->date_from);
-                        $date_to = Carbon::parse($parameter->date_to);
-                        $value = $parameter->value;
-                        $monthly_growth = $parameter->monthly_growth;
-                        while ($date_from->lte($date_to)) {
-                            array_push($insertData, [
-                                'model_id' => $modelId,
-                                'model_vid' => $modelVid,
-                                'item_id' => $forecastCriteria->item_id,
-                                'project_id' => $project_id,
-                                'location_id' => $market_id,
-                                'criteria_id' => $parameter->criteria_id,
-                                'value' => $value,
-                                'date' => $date_from->toDateString(),
-                                'date_from' => $start
-                            ]);
-                            $value = $value * (1 + $monthly_growth);
-                            if (count($insertData) > 7000) {
-                                ForecastCriteriasView::insert($insertData);
-                                $insertData = [];
-                            }
-                            $date_from->addMonth();
-                        }
-                    }
-                }
-            }
-        }
-        if ($insertData) {
-            ForecastCriteriasView::insert($insertData);
-        }
-    }
-
-    public function installBaseCalculate($model_id, $model_vid, $item_id) {
-        $results = DB::table('forecast_devices')->select(
-            'forecast_devices.location_id',
-            'forecast_devices.project_id',
-            'forecast_devices.date',
-            'forecast_devices.quantity',
-            'forecast_devices.market_id',
-            'forecast_items_view.item_id',
-            'forecast_items_view.coverage',
-            'forecast_items_view.date_from',
-            'forecast_criterias_view.criteria_id',
-            'forecast_criterias_view.value')
-            ->join('forecast_items_view', function ($join) use ($model_id, $model_vid, $item_id) {
-                $join->on('forecast_devices.market_id', '=', 'forecast_items_view.location_id')
-                    ->on('forecast_devices.project_id', '=', 'forecast_items_view.project_id')
-                    ->on('forecast_devices.date', '=', 'forecast_items_view.date')
-                    ->where('forecast_items_view.model_id', $model_id)
-                    ->where('forecast_items_view.model_vid', $model_vid)
-                    ->where('forecast_items_view.item_id', $item_id);
-            })->leftJoin('forecast_criterias_view', function($join) use ($model_id, $model_vid, $item_id) {
-                $join->on('forecast_devices.market_id', '=', 'forecast_criterias_view.location_id')
-                    ->on('forecast_devices.project_id', '=', 'forecast_criterias_view.project_id')
-                    ->on('forecast_devices.date', '=', 'forecast_criterias_view.date')
-                    ->where('forecast_criterias_view.model_id', $model_id)
-                    ->where('forecast_criterias_view.model_vid', $model_vid)
-                    ->where('forecast_criterias_view.item_id', $item_id);
-            })->get();
-
-        $container = [];
-        foreach ($results as $result) {
-            if (isset($container[$result->location_id][$result->project_id][$result->date])) {
-                $container[$result->location_id][$result->project_id][$result->date][$result->criteria_id]=$result;
-            } else {
-                $container[$result->location_id][$result->project_id][$result->date][$result->criteria_id]=$result;
-            }
-
-        }
-
-        $insertData = [];
-        foreach ($container as $location) {
-
-
-            foreach ($location as $project) {
-                $temp = [];
-                foreach ($project as $date) {
-                    $churnRate = (double)$date[2]->value;
-                    $lifetime = (int)$date[3]->value;
-                    $base = $date[2];
-                    $quantity = (double)$base->quantity;
-                    $data = [
-                        'model_id' => $model_id,
-                        'model_vid' => $model_vid,
-                        'item_id' => $base->item_id,
-                        'location_id' => $base->location_id,
-                        'project_id' => $base->project_id,
-                        'date' => $base->date
-                    ];
-                    if ($base->date_from == $base->date) {
-                        $data['result'] = $quantity;
-                        $temp[$base->date] = [
-                            'quantity' => $quantity,
-                            'install_base' => $data['result']
-                        ];
-                    } elseif (count($temp) < $lifetime ) {
-                        $prevMonth = Carbon::parse($base->date)->subMonth()->toDateString();
-                        $data['result'] = $temp[$prevMonth]['install_base'] * (1 - $churnRate) +  $quantity;
-                        $temp[$base->date] = [
-                            'quantity' => $quantity,
-                            'install_base' => $data['result']
-                        ];
-                    } elseif (count($temp) >= $lifetime) {
-                        $prevMonth = Carbon::parse($base->date)->subMonth()->toDateString();
-                        $prevLifeMonth = Carbon::parse($base->date)->subMonths($lifetime)->toDateString();
-                        $data['result'] = $temp[$prevMonth]['install_base'] * (1 - $churnRate) + $quantity - (1 - $lifetime * $churnRate) * $temp[$prevLifeMonth]['install_base'];
-                        $temp[$base->date] = [
-                            'quantity' => $quantity,
-                            'install_base' => $data['result']
-                        ];
-                    }
-                    array_push($insertData, $data);
-                }
-            }
-            if (count($insertData) > BULK_NUMBER) {
-                ModelResult::insert($insertData);
-                $insertData = [];
-            }
-        }
-        if ($insertData) {
-            ModelResult::insert($insertData);
-        }
-    }
-
-    public function mAUCaculate($model_id, $model_vid, $item_id) {
-        $item_install_base = 3;
-        $item_active_device = 4;
-        $searchs = DB::table('forecast_devices')->select(
-            'forecast_devices.location_id',
-            'forecast_devices.project_id',
-            'forecast_devices.date',
-            'forecast_devices.quantity',
-            'forecast_items_view.item_id',
-            'forecast_items_view.coverage',
-            'forecast_items_view.date_from',
-            'forecast_criterias_view.criteria_id',
-            'forecast_criterias_view.value',
-            'install_base.result as install_base',
-            'install_base.result as active_device'
-        )
-            ->join('forecast_items_view', function ($join) use ($model_id, $model_vid, $item_id) {
-                $join->on('forecast_devices.market_id', '=', 'forecast_items_view.location_id')
-                    ->on('forecast_devices.project_id', '=', 'forecast_items_view.project_id')
-                    ->on('forecast_devices.date', '=', 'forecast_items_view.date')
-                    ->where('forecast_items_view.model_id', $model_id)
-                    ->where('forecast_items_view.model_vid', $model_vid)
-                    ->where('forecast_items_view.item_id', $item_id);
-            })->join('model_results as install_base', function ($join) use ($model_id, $model_vid, $item_install_base) {
-                $join->on('forecast_devices.location_id', '=', 'install_base.location_id')
-                    ->on('forecast_devices.project_id', '=', 'install_base.project_id')
-                    ->on('forecast_devices.date', '=', 'install_base.date')
-                    ->where('install_base.model_id', $model_id)
-                    ->where('install_base.model_vid', $model_vid)
-                    ->where('install_base.item_id', $item_install_base);
-            })->join('model_results as active_device', function ($join) use ($model_id, $model_vid, $item_active_device) {
-                $join->on('forecast_devices.location_id', '=', 'active_device.location_id')
-                    ->on('forecast_devices.project_id', '=', 'active_device.project_id')
-                    ->on('forecast_devices.date', '=', 'active_device.date')
-                    ->where('active_device.model_id', $model_id)
-                    ->where('active_device.model_vid', $model_vid)
-                    ->where('active_device.item_id', $item_active_device);
-            })->leftJoin('forecast_criterias_view', function($join) use ($model_id, $model_vid, $item_id) {
-                $join->on('forecast_devices.market_id', '=', 'forecast_criterias_view.location_id')
-                    ->on('forecast_devices.project_id', '=', 'forecast_criterias_view.project_id')
-                    ->on('forecast_devices.date', '=', 'forecast_criterias_view.date')
-                    ->where('forecast_criterias_view.model_id', $model_id)
-                    ->where('forecast_criterias_view.model_vid', $model_vid)
-                    ->where('forecast_criterias_view.item_id', $item_id);
-            })->get();
-
-        $container = [];
-        foreach ($searchs as $result) {
-            if (isset($container[$result->location_id][$result->project_id][$result->date])) {
-                $container[$result->location_id][$result->project_id][$result->date][$result->criteria_id]=$result;
-            } else {
-                $container[$result->location_id][$result->project_id][$result->date][$result->criteria_id]=$result;
-            }
-        }
-        $insertData = [];
-        foreach ($container as $location) {
-
-
-            foreach ($location as $project) {
-                $temp = [];
-                foreach ($project as $date) {
-                    $initialMAURatio = (double)$date[5]->value;
-                    $growthFactor = (double)$date[6]->value;
-                    $base = $date[5];
-                    $installBase = $base->install_base;
-                    $activeDevice = $base->active_device;
-                    $data = [
-                        'model_id' => $model_id,
-                        'model_vid' => $model_vid,
-                        'item_id' => $base->item_id,
-                        'location_id' => $base->location_id,
-                        'project_id' => $base->project_id,
-                        'date' => $base->date
-                    ];
-                    if ($base->date_from == $base->date) {
-                        $data['result'] = $activeDevice * $initialMAURatio;
-                        $temp[$base->date] = [
-                            'mau' => $data['result'],
-                            'install_base' => $installBase
-                        ];
-                    } else {
-                        $prevMonth = Carbon::parse($base->date)->subMonth()->toDateString();
-                        if ($temp[$prevMonth]['install_base'] == 0) {
-                            $data['result'] = 0;
-                        } else {
-                            $data['result'] = $temp[$prevMonth]['mau'] * (($installBase / $temp[$prevMonth]['install_base']) * $growthFactor);
-                        }
-                        $temp[$base->date] = [
-                            'mau' => $data['result'],
-                            'install_base' => $installBase
-                        ];
-                    }
-                    array_push($insertData, $data);
-                }
-                if (count($insertData) > BULK_NUMBER) {
-                    ModelResult::insert($insertData);
-                    $insertData = [];
-                }
-            }
-
-            if ($insertData) {
-                ModelResult::insert($insertData);
-            }
-
-        }
-
-        if ($insertData) {
-            ModelResult::insert($insertData);
-        }
-    }
-
-    public function expandForecastItem($modelId, $modelVid) {
-        DB::table('forecast_items_view')->where('model_id', $modelId)->where('model_vid', $modelVid)->delete();
-
-        $forecastItems = ForecastItem::with(['locations', 'items'])->where('model_id', $modelId)->where('model_vid', $modelVid)->get();
-
-        $insertData = [];
-
-        foreach ($forecastItems as $forecastItem) {
-
-            $projects = Project::where(function ($q1) use ($forecastItem) {
-                if ($forecastItem->oem_id) {
-                    $q1->whereIn('oem_id', $forecastItem->oem_id);
-                }
-                if ($forecastItem->odm_id) {
-                    $q1->whereIn('odm_id', $forecastItem->odm_id);
-                }
-                if ($forecastItem->carrier_id) {
-                    $q1->whereIn('carrier_id', $forecastItem->carrier_id);
-                }
-            })->get();
-
-            $project_ids = [];
-            foreach ($projects as $project) {
-                array_push($project_ids, $project->id);
-            }
-
-            $markets = $forecastItem->locations;
-            $market_ids = [];
-            foreach ($markets as $market) {
-                array_push($market_ids, $market->id);
-            }
-
-            foreach ($project_ids as $project_id) {
-                foreach ($market_ids as $market_id) {
-                    foreach ($forecastItem->items as $item) {
-                        $start = $forecastItem->date_from;
-                        $date_from = Carbon::parse($forecastItem->date_from);
-                        $date_to = Carbon::parse($forecastItem->date_to);
-                        $coverage = $forecastItem->coverage;
-                        $monthly_growth = $forecastItem->monthly_growth;
-                        while ($date_from->lte($date_to)) {
-                            ForecastItemsView::create([
-                            'model_id' => $modelId,
-                            'model_vid' => $modelVid,
-                            'item_id' => $item->id,
-                            'location_id' => $market_id,
-                            'project_id' => $project_id,
-                            'coverage' => $coverage,
-                            'date' => $date_from->toDateString(),
-                            'date_from' => $start
-                        ]);
-                            $coverage = $coverage * ( 1 + $monthly_growth);
-                            if (count($insertData) > BULK_NUMBER) {
-                                ForecastItemsView::insert($insertData);
-                                $insertData = [];
-                            }
-                            $date_from->addMonth();
-                        }
-                    }
-                }
-            }
-        }
-
-        if ($insertData) {
-            ForecastCriteriasView::insert($insertData);
-        }
-    }
-
-
-    private function getChildLocations(Location $l, &$countrys) {
-        if ($l->level_type == 'Country') {
-            array_push($countrys, $l->id);
-        } else {
-            $locations = Location::where('parent_id', $l->id)->get();
-            foreach ($locations as $location) {
-                $this->getChildLocations($location, $countrys);
-            }
-        }
     }
 }

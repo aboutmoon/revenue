@@ -11,8 +11,10 @@ use App\Models\ForecastItemAccount;
 use App\Models\ForecastItemLocation;
 
 
+use App\Models\Licensee;
 use App\Models\Location;
 use App\Models\Account;
+use App\Models\Type;
 use Illuminate\Http\Request;
 
 class ForecastItemsController extends Controller
@@ -47,12 +49,15 @@ class ForecastItemsController extends Controller
         $odm = Account::where('name', 'ODM')->first();
         $carrier = Account::where('name', 'Carrier')->first();
 
+        $types = Type::all();
+        $licensees = Licensee::all();
+
         $oemOptions = Account::with(['parent'])->where('level_type', 'Account')->where('parent_id', $oem->id)->get();
         $odmOptions = Account::with(['parent'])->where('level_type', 'Account')->where('parent_id', $odm->id)->get();
         $carrierOptions = Account::with(['parent'])->where('level_type', 'Account')->where('parent_id', $carrier->id)->get();
         $locations = Location::with(['parent'])->where('level_type', 'Market')->get();
 
-        return view('forecast-items.edit', compact('locations','oemOptions', 'odmOptions', 'carrierOptions','items','forecastItem', 'selectLocations', 'selectItems', 'model'));
+        return view('forecast-items.edit', compact('types','licensees','locations','oemOptions', 'odmOptions', 'carrierOptions','items','forecastItem', 'selectLocations', 'selectItems', 'model'));
     }
 
     public function update(Request $request, ForecastItem $forecastItem)
@@ -99,6 +104,9 @@ class ForecastItemsController extends Controller
         $odm = Account::where('name', 'ODM')->first();
         $carrier = Account::where('name', 'Carrier')->first();
 
+        $types = Type::all();
+        $licensees = Licensee::all();
+
         $oemOptions = Account::with(['parent'])->where('level_type', 'Account')->where('parent_id', $oem->id)->get();
         $odmOptions = Account::with(['parent'])->where('level_type', 'Account')->where('parent_id', $odm->id)->get();
         $carrierOptions = Account::with(['parent'])->where('level_type', 'Account')->where('parent_id', $carrier->id)->get();
@@ -106,7 +114,7 @@ class ForecastItemsController extends Controller
         $locations = Location::with(['parent'])->where('level_type', 'Market')->get();
 
 
-        return view('forecast-items.create', compact('oemOptions','odmOptions', 'carrierOptions', 'model', 'items', 'locations', 'modelId', 'modelVid'));
+        return view('forecast-items.create', compact('types','licensees', 'oemOptions', 'odmOptions', 'carrierOptions', 'model', 'items', 'locations', 'modelId', 'modelVid'));
     }
 
     public function store(Request $request, ForecastItem $forecastItem)
@@ -128,7 +136,6 @@ class ForecastItemsController extends Controller
                 'model_vid' => $forecastItem->model_vid
             ))
         );
-
     }
 
 

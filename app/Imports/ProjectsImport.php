@@ -2,8 +2,10 @@
 
 namespace App\Imports;
 
+use App\Models\Licensee;
 use App\Models\Project;
 use App\Models\Account;
+use App\Models\Type;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -40,8 +42,19 @@ class ProjectsImport implements ToCollection, WithHeadingRow
                 $product['carrier_id'] = 0;
             }
 
-            $product['type'] = $row['type']? $row['type']: '';
-            $product['brand'] = $row['brand']? $row['brand']: '';
+            $type = Type::where('name', $row['type'])->first();
+            if ($type) {
+                $product['type_id'] = $type->id;
+            } else {
+                $product['type_id'] = 0;
+            }
+
+            $licensee = Licensee::where('name', $row['brand'])->first();
+            if ($licensee) {
+                $product['licensee_id'] = $licensee->id;
+                $product['brand_id'] = $licensee->id;
+            }
+
             $product['confidence'] = $row['confidence']? $row['confidence']: '';
 //            $product['licensee'] = $row['licensee']? $row['licensee']: '';
 //            $product['connectivity'] = $row['connectivity']? $row['connectivity']: '';

@@ -31,6 +31,8 @@
                             <th>OEM</th>
                             <th>ODM</th>
                             <th>Carrier</th>
+                            <th>Licensee</th>
+                            <th>Type</th>
                             <th>Items</th>
                             <th>Coverage</th>
                             <th>From</th>
@@ -41,7 +43,7 @@
                         <tbody>
                         @foreach( $forecastItems as $forecastItem)
                             <tr>
-                                <th>
+                                <td>
                                     <div class="btn-group">
                                         <a class="btn btn-info btn-sm" href="{{ route('forecast-items.edit', array('forecast_item' => $forecastItem->id)) }}">
                                             <i class="fas fa-pencil-alt"></i>Edit
@@ -52,30 +54,36 @@
                                             Delete
                                         </a>
                                     </div>
-                                </th>
-                                <th>
+                                </td>
+                                <td>
                                     @foreach( $forecastItem->locations as $location)
                                         <span class="badge badge-success">{{ $location->name }}</span>
                                     @endforeach
-                                </th>
-                                <th>
+                                </td>
+                                <td>
                                     <span class="badge badge-success">{{ $forecastItem->oem? $forecastItem->oem->name: '' }}</span>
-                                </th>
-                                <th>
+                                </td>
+                                <td>
                                     <span class="badge badge-success">{{ $forecastItem->odm? $forecastItem->odm->name: '' }}</span>
-                                </th>
-                                <th>
+                                </td>
+                                <td>
                                     <span class="badge badge-success">{{ $forecastItem->carrier? $forecastItem->carrier->name: '' }}</span>
-                                </th>
-                                <th>
+                                </td>
+                                <td>
+                                    <span class="badge badge-success">{{ $forecastItem->licensee? $forecastItem->licensee->name: '' }}</span>
+                                </td>
+                                <td>
+                                    <span class="badge badge-success">{{ $forecastItem->type? $forecastItem->type->name: '' }}</span>
+                                </td>
+                                <td>
                                     @foreach( $forecastItem->items as $item)
                                         <span class="badge badge-success">{{ $item->name }}</span>
                                     @endforeach
-                                </th>
-                                <th>{{ $forecastItem->coverage }}</th>
-                                <th>{{ $forecastItem->date_from }}</th>
-                                <th>{{ $forecastItem->date_to }}</th>
-                                <th>{{ $forecastItem->monthly_growth }}</th>
+                                </td>
+                                <td>{{ $forecastItem->coverage }}</td>
+                                <td>{{ $forecastItem->date_from }}</td>
+                                <td>{{ $forecastItem->date_to }}</td>
+                                <td>{{ $forecastItem->monthly_growth }}</td>
                             </tr>
                         @endforeach
                         </tbody>

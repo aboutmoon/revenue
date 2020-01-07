@@ -41,7 +41,6 @@ const BULK_NUMBER = 5000;
 class HomeController extends Controller
 {
     public function index() {
-        $this->abc(1,1);
         return view('home');
     }
 

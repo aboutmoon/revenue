@@ -5,6 +5,8 @@ namespace App\Imports;
 use App\Models\Account;
 use App\Models\Location;
 use App\Models\Project;
+use App\Models\Type;
+use App\Models\Licensee;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use App\Models\ForecastDevice;
@@ -25,53 +27,45 @@ class ForecastDevicesImport implements ToCollection, WithHeadingRow
         $oem = Account::firstOrCreate(['name' => 'OEM', 'level_type' => 'Category', 'parent_id' => 1]);
         $carrier = Account::firstOrCreate(['name' => 'Carrier', 'level_type' => 'Category', 'parent_id' => 1]);
 
-        $oems = Account::where('parent_id', $oem->id)->get()->keyBy('name');
-        $odms = Account::where('parent_id', $odm->id)->get()->keyBy('name');
-        $carriers = Account::where('parent_id', $carrier->id)->get()->keyBy('name');
-
         $insertData = [];
         foreach ($collection as $index => $row) {
 
             $product = [];
 
-            if ($row['oem']) {
-
-                if ($oems[$row['oem']]) {
-                    $product['oem_id'] = $oems[$row['oem']]->id;
-                } else {
-                    Log::info('['. $index .']' . 'oem not exist' . $row['oem']);
-                    continue;
-                }
+            $oemAccount = Account::where('name', $row['oem'])->where('parent_id', $oem->id)->first();
+            if ($oemAccount) {
+                $product['oem_id'] = $oemAccount->id;
             } else {
                 $product['oem_id'] = 0;
             }
 
-            if ($row['odm']) {
-                if ($odms[$row['odm']]) {
-                    $product['odm_id'] = $odms[$row['odm']]->id;
-                } else {
-                    Log::info('['. $index .']' . 'odm not exist' . $row['odm']);
-                    continue;
-                }
+            $odmAccount = Account::where('name', $row['odm'])->where('parent_id', $odm->id)->first();
+            if ($odmAccount) {
+                $product['odm_id'] = $odmAccount->id;
             } else {
                 $product['odm_id'] = 0;
             }
 
-            if ($row['carrier']) {
-                if ($carriers[$row['carrier']]) {
-                    $product['carrier_id'] = $carriers[$row['carrier']]->id;
-                } else {
-                    Log::info('['. $index .']' . 'carrier_id not exist' . $row['carrier']);
-                    continue;
-                }
+            $carrierAccount = Account::where('name', $row['carrier'])->where('parent_id', $carrier->id)->first();
+            if ($carrierAccount) {
+                $product['carrier_id'] = $carrierAccount->id;
             } else {
                 $product['carrier_id'] = 0;
             }
 
+            $type = Type::where('name', $row['type'])->first();
+            if ($type) {
+                $product['type_id'] = $type->id;
+            } else {
+                $product['type_id'] = 0;
+            }
 
+            $licensee = Licensee::where('name', $row['brand'])->first();
+            if ($licensee) {
+                $product['licensee_id'] = $licensee->id;
+                $product['brand_id'] = $licensee->id;
+            }
 
-            $product['type'] = $row['type']? $row['type']: '';
-            $product['brand'] = $row['brand']? $row['brand']: '';
             $product['confidence'] = $row['confidence']? $row['confidence']: '';
 //            $product['licensee'] = $row['licensee']? $row['licensee']: '';
 //            $product['connectivity'] = $row['connectivity']? $row['connectivity']: '';
