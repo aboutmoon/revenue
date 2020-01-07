@@ -58,6 +58,16 @@ const C_MONTHLY_PAGE_VIEW = 11;
 const C_ECPM = 12;
 const C_ADS_REVENUE_PER_1K_ADS_DAU = 13;
 
+CONST I_PAYMENTS_REVENUE_SHARING_STORE_V1 = 12;
+
+const C_AVERATE_SELLING_PRICE_ASP_V1 = 20;
+const C_MAU_TO_STORE_APP_VIEW_RATIO_V1 = 21;
+const C_KAIPAY_COVERAGE_V1 = 22;
+const C_STORE_APP_VIEW_OF_PAID_APP_V1 = 23;
+const C_CONVERSION_TO_PURCHASE_STORE_V1 = 24;
+
+
+
 const I_PAYMENTS_REVENUE_SHARING_STORE_V2 = 13;
 const C_AVERATE_SELLING_PRICE_STORE_ASP = 25;
 const C_MAU_TO_STORE_APP_VIEW_RATIO = 26;
@@ -323,6 +333,10 @@ class GenerateModelResult implements ShouldQueue
                         $updateData['i_app_preload_mg'] = $forecastItem->monthly_growth;
                         $updateData['i_app_preload_cg'] = $forecastItem->coverage;
                         break;
+                    case I_PAYMENTS_REVENUE_SHARING_STORE_V1:
+                        $updateData['i_v1_payments_revenue_sharing_store_mg'] = $forecastItem->monthly_growth;
+                        $updateData['i_v1_payments_revenue_sharing_store_cg'] = $forecastItem->coverage;
+                        break;
                     default:
                         break;
                 }
@@ -452,6 +466,31 @@ class GenerateModelResult implements ShouldQueue
                     if ($parameter->criteria_id == C_YEARLY_MAINTENANCE_PRICE) {
                         $updateData['c_yearly_maintenance_price'] = $parameter->value;
                         $updateData['c_yearly_maintenance_price_mg'] = $parameter->monthly_growth;
+                    }
+                }
+
+
+
+                if ($item_id == I_PAYMENTS_REVENUE_SHARING_STORE_V1) {
+                    if ($parameter->criteria_id == C_AVERATE_SELLING_PRICE_ASP_V1) {
+                        $updateData['c_v1_store_average_selling_price'] = $parameter->value;
+                        $updateData['c_v1_store_average_selling_price_mg'] = $parameter->monthly_growth;
+                    }
+                    if ($parameter->criteria_id == C_MAU_TO_STORE_APP_VIEW_RATIO_V1) {
+                        $updateData['c_v1_mau_to_store_app_view_ratio'] = $parameter->value;
+                        $updateData['c_v1_mau_to_store_app_view_ratio_mg'] = $parameter->monthly_growth;
+                    }
+                    if ($parameter->criteria_id == C_KAIPAY_COVERAGE_V1) {
+                        $updateData['c_v1_kai_pay_coverage'] = $parameter->value;
+                        $updateData['c_v1_kai_pay_coverage_mg'] = $parameter->monthly_growth;
+                    }
+                    if ($parameter->criteria_id == C_STORE_APP_VIEW_OF_PAID_APP_V1) {
+                        $updateData['c_v1_store_app_view_of_paid_app'] = $parameter->value;
+                        $updateData['c_v1_store_app_view_of_paid_app_mg'] = $parameter->monthly_growth;
+                    }
+                    if ($parameter->criteria_id == C_CONVERSION_TO_PURCHASE_STORE_V1) {
+                        $updateData['c_v1_conversion_to_purchase_store'] = $parameter->value;
+                        $updateData['c_v1_conversion_to_purchase_store_mg'] = $parameter->monthly_growth;
                     }
                 }
 
@@ -598,7 +637,24 @@ class GenerateModelResult implements ShouldQueue
                     $dateGroup->i_maintenance = bcdiv(bcmul($yearlyMaintenancePrice, $yearlyMaintenancePriceMG), 12);
                     $dateGroup->i_maintenance = bcmul($dateGroup->i_maintenance, $coverage);
 
-                    //
+                    //payment store v1
+                    {
+                        $averageSellingPriceV1 = $dateGroup->c_v1_store_average_selling_price;
+                        $averageSellingPriceMGV1 = bcpow(bcadd(1, $dateGroup->c_v1_store_average_selling_price_mg), $month);
+                        $mauToStoreAppViewRatioV1 = $dateGroup->c_v1_mau_to_store_app_view_ratio;
+                        $mauToStoreAppViewRatioMGV1 = bcpow(bcadd(1, $dateGroup->c_v1_mau_to_store_app_view_ratio_mg), $month);
+                        $kaiPayCoverageV1 = $dateGroup->c_v1_kai_pay_coverage;
+                        $kaiPayCoverageMGV1 = bcpow(bcadd(1, $dateGroup->c_v1_kai_pay_coverage_mg), $month);
+                        $storeAppViewOfPaidAppV1 = $dateGroup->c_v1_store_app_view_of_paid_app;
+                        $storeAppViewOfPaidAppMGV1 = bcpow(bcadd(1, $dateGroup->c_v1_store_app_view_of_paid_app_mg), $month);
+                        $conversionToPurchaseStoreV1 = $dateGroup->c_v1_conversion_to_purchase_store;
+                        $conversionToPurchaseStoreMGV1 = bcpow(bcadd(1, $dateGroup->c_v1_conversion_to_purchase_store_mg), 1);
+
+                        $coverage = bcmul($dateGroup->i_v1_payments_revenue_sharing_store_cg, bcpow(bcadd(1, $dateGroup->i_v1_payments_revenue_sharing_store_mg), $month));
+
+                        $dateGroup->i_v1_payments_revenue_sharing_store = bcmul($dateGroup->i_mau, bcmul(bcmul(bcmul(bcmul(bcmul($averageSellingPriceV1, $averageSellingPriceMGV1),bcmul($mauToStoreAppViewRatioV1, $mauToStoreAppViewRatioMGV1)), bcmul($kaiPayCoverageV1, $kaiPayCoverageMGV1)), bcmul($storeAppViewOfPaidAppV1, $storeAppViewOfPaidAppMGV1)), bcmul($conversionToPurchaseStoreV1, $conversionToPurchaseStoreMGV1)));
+                        $dateGroup->i_v1_payments_revenue_sharing_store = bcmul($dateGroup->i_v1_payments_revenue_sharing_store, $coverage);
+                    }
 
                     $dateGroup->save();
 
@@ -710,6 +766,16 @@ class GenerateModelResult implements ShouldQueue
                         'date' => $date,
                         'item_id' => I_MAINTENANCE,
                         'result' => $dateGroup->i_maintenance,
+                    ]);
+
+                    array_push($insertData, [
+                        'model_id' => $modelId,
+                        'model_vid' => $modelVid,
+                        'location_id' => $dateGroup->location_id,
+                        'project_id' => $dateGroup->project_id,
+                        'date' => $date,
+                        'item_id' => I_PAYMENTS_REVENUE_SHARING_STORE_V1,
+                        'result' => $dateGroup->i_v1_payments_revenue_sharing_store,
                     ]);
 
                     if (count($insertData) > BULK_NUMBER) {

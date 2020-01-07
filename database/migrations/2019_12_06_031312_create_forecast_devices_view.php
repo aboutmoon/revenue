@@ -89,6 +89,7 @@ class CreateForecastDevicesView extends Migration
             $table->decimal('c_ads_ecpm_mg', 32, 15)->default(0);
             $table->decimal('c_ads_revenue_per_1k_ads_dau', 32, 15)->default(0);
             $table->decimal('c_ads_revenue_per_1k_ads_dau_mg', 32, 15)->default(0);
+
             $table->decimal('c_ads_carrier_rev_share', 32, 15)->default(0);
             $table->decimal('c_ads_carrier_rev_share_mg', 32, 15)->default(0);
             $table->decimal('c_ads_aggreg_rev_share', 32, 15)->default(0);
