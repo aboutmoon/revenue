@@ -35,7 +35,7 @@
                             <label for="selectAccounts" class="col-sm-2 col-form-label">OEM</label>
                             <div class="col-sm-10">
                                 <select class="select2" id="oem_id" name="oem_id"  style="width: 100%;">
-                                    <option value="">All</option>
+                                    <option value="">All</option><option value="-1">IS NULL</option>
                                     @foreach($oemOptions as $option)
                                         <option value="{{ $option->id }}">{{ $option->name }}</option>
                                     @endforeach
@@ -47,7 +47,7 @@
                             <label for="selectAccounts" class="col-sm-2 col-form-label">ODM</label>
                             <div class="col-sm-10">
                                 <select class="select2" id="odm_id" name="odm_id"  style="width: 100%;">
-                                    <option value="">All</option>
+                                    <option value="">All</option><option value="-1">IS NULL</option>
                                     @foreach($odmOptions as $option)
                                         <option value="{{ $option->id }}">{{ $option->name }}</option>
                                     @endforeach
@@ -59,7 +59,7 @@
                             <label for="selectAccounts" class="col-sm-2 col-form-label">Carrier</label>
                             <div class="col-sm-10">
                                 <select class="select2" id="carrier_id" name="carrier_id"  style="width: 100%;">
-                                    <option value="">All</option>
+                                    <option value="">All</option><option value="-1">IS NULL</option>
                                     @foreach($carrierOptions as $option)
                                         <option value="{{ $option->id }}">{{ $option->name }}</option>
                                     @endforeach

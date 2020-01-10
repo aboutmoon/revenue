@@ -22,14 +22,16 @@ class ModelResultsController extends Controller
                 'carrier.name as Carrier',
                 'l1.name as Country',
                 'l2.name as Market',
-                'items.name as Item',
+                'i1.name as Item',
+                'i2.name as Category',
                 'model_results.date as Date',
                 'model_results.result as Value'
             )
             ->join('projects', 'model_results.project_id', '=', 'projects.id')
             ->join('locations as l1', 'model_results.location_id', '=', 'l1.id')
             ->join('locations as l2', 'l1.parent_id', '=', 'l2.id')
-            ->join('items', 'model_results.item_id', '=', 'items.id')
+            ->join('items as i1', 'model_results.item_id', '=', 'i1.id')
+            ->join('items as i2', 'i1.parent_id', '=', 'i2.id')
             ->leftJoin('accounts as oem', 'projects.oem_id', '=', 'oem.id')
             ->leftJoin('accounts as odm', 'projects.odm_id', '=', 'odm.id')
             ->leftJoin('accounts as carrier', 'projects.carrier_id', '=', 'carrier.id')

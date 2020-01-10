@@ -23,20 +23,20 @@ class AddColumnsToTableForecastDevicesView extends Migration
             $table->decimal('c_ads_oem_rev_share_mg', 32, 15)->default(0);
 
             //payments revenue sharing store v1
-            $table->decimal('i_v1_payments_revenue_sharing_store', 32, 15)->default(0);
-            $table->decimal('i_v1_payments_revenue_sharing_store_mg', 32, 15)->default(0);
-            $table->decimal('i_v1_payments_revenue_sharing_store_cg', 32, 15)->default(0);
+            $table->decimal('i_payments_revenue_sharing_store_v1', 32, 15)->default(0);
+            $table->decimal('i_payments_revenue_sharing_store_v1_mg', 32, 15)->default(0);
+            $table->decimal('i_payments_revenue_sharing_store_v1_cg', 32, 15)->default(0);
 
-            $table->decimal('c_v1_store_average_selling_price', 32, 15)->default(0);
-            $table->decimal('c_v1_store_average_selling_price_mg', 32, 15)->default(0);
-            $table->decimal('c_v1_mau_to_store_app_view_ratio', 32, 15)->default(0);
-            $table->decimal('c_v1_mau_to_store_app_view_ratio_mg', 32, 15)->default(0);
-            $table->decimal('c_v1_kai_pay_coverage', 32, 15)->default(0);
-            $table->decimal('c_v1_kai_pay_coverage_mg', 32, 15)->default(0);
-            $table->decimal('c_v1_store_app_view_of_paid_app', 32, 15)->default(0);
-            $table->decimal('c_v1_store_app_view_of_paid_app_mg', 32, 15)->default(0);
-            $table->decimal('c_v1_conversion_to_purchase_store', 32, 15)->default(0);
-            $table->decimal('c_v1_conversion_to_purchase_store_mg', 32, 15)->default(0);
+            $table->decimal('c_store_average_selling_price_v1', 32, 15)->default(0);
+            $table->decimal('c_store_average_selling_price_v1_mg', 32, 15)->default(0);
+            $table->decimal('c_mau_to_store_app_view_ratio_v1', 32, 15)->default(0);
+            $table->decimal('c_mau_to_store_app_view_ratio_v1_mg', 32, 15)->default(0);
+            $table->decimal('c_kai_pay_coverage_v1', 32, 15)->default(0);
+            $table->decimal('c_kai_pay_coverage_v1_mg', 32, 15)->default(0);
+            $table->decimal('c_store_app_view_of_paid_app_v1', 32, 15)->default(0);
+            $table->decimal('c_store_app_view_of_paid_app_v1_mg', 32, 15)->default(0);
+            $table->decimal('c_conversion_to_purchase_store_v1', 32, 15)->default(0);
+            $table->decimal('c_conversion_to_purchase_store_v1_mg', 32, 15)->default(0);
         });
     }
 

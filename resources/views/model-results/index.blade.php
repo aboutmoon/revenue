@@ -81,7 +81,7 @@
                 {
                     aggregatorName: "Sum",
                     rendererName: "Table",
-                    rows: ['Item'],
+                    rows: ['Category', 'Item'],
                     cols: ['Year', 'Quarter', 'Month'],
                     // cols: ['Date'],
                     vals: ['Value'],
@@ -97,7 +97,30 @@
 
                     sorters: {
                         "Month": sortAs(["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]),
-                        "Item": sortAs(["Shipment", "Install base", "Activated Device", "MAU", "Ads DAU", "Search Revenue sharing", "Ads Revenue sharing","FOTA Fee", "FOTA Royalty", "NRE", "Maintenance", "Payment Revenue sharing V1", "Payments Revenue Sharing (Store V2)", "Payments Revenue Sharing (IAP V2)", "3rd Party License"])
+                        "Item": sortAs([
+                            "Shipment",
+                            "Install base",
+                            "Activated Device",
+                            "MAU",
+                            "Ads DAU",
+                            "Search Revenue sharing",
+                            "Ads Revenue sharing","FOTA Fee",
+                            "FOTA Royalty",
+                            "NRE",
+                            "Maintenance",
+                            "Payments Revenue Sharing (Store V1)",
+                            "Payments Revenue Sharing (Store V2)",
+                            "Payments Revenue Sharing (IAP V2)",
+                            "3rd Party Licenses",
+                            "Device Financing",
+                            "Yearly App Preload/Placement Fee",
+                            "Carrier tab fee", "App Preload/Placement Fee",
+                            "FOTA (Cloud)",
+                            "Store (Cloud)",
+                            "Push (Cloud)",
+                            "FTU (SMS)",
+                        ]),
+                        "Category": sortAs(["Global", "Revenue", "Cost"])
                     }
                 }
             );

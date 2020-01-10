@@ -106,16 +106,16 @@ class CreateForecastDevicesView extends Migration
             $table->decimal('i_payments_revenue_sharing_store_v2_mg', 32, 15)->default(0);
             $table->decimal('i_payments_revenue_sharing_store_v2_cg', 32, 15)->default(0);
 
-            $table->decimal('c_store_average_selling_price', 32, 15)->default(0);
-            $table->decimal('c_store_average_selling_price_mg', 32, 15)->default(0);
-            $table->decimal('c_mau_to_store_app_view_ratio', 32, 15)->default(0);
-            $table->decimal('c_mau_to_store_app_view_ratio_mg', 32, 15)->default(0);
-            $table->decimal('c_kai_pay_coverage', 32, 15)->default(0);
-            $table->decimal('c_kai_pay_coverage_mg', 32, 15)->default(0);
-            $table->decimal('c_store_app_view_of_paid_app', 32, 15)->default(0);
-            $table->decimal('c_store_app_view_of_paid_app_mg', 32, 15)->default(0);
-            $table->decimal('c_conversion_to_purchase_store', 32, 15)->default(0);
-            $table->decimal('c_conversion_to_purchase_store_mg', 32, 15)->default(0);
+            $table->decimal('c_store_average_selling_price_v2', 32, 15)->default(0);
+            $table->decimal('c_store_average_selling_price_v2_mg', 32, 15)->default(0);
+            $table->decimal('c_mau_to_store_app_view_ratio_v2', 32, 15)->default(0);
+            $table->decimal('c_mau_to_store_app_view_ratio_v2_mg', 32, 15)->default(0);
+            $table->decimal('c_kai_pay_coverage_v2', 32, 15)->default(0);
+            $table->decimal('c_kai_pay_coverage_v2_mg', 32, 15)->default(0);
+            $table->decimal('c_store_app_view_of_paid_app_v2', 32, 15)->default(0);
+            $table->decimal('c_store_app_view_of_paid_app_v2_mg', 32, 15)->default(0);
+            $table->decimal('c_conversion_to_purchase_store_v2', 32, 15)->default(0);
+            $table->decimal('c_conversion_to_purchase_store_v2_mg', 32, 15)->default(0);
 
 
             //Payments Revenue Sharing IAP V2
@@ -123,8 +123,8 @@ class CreateForecastDevicesView extends Migration
             $table->decimal('i_payments_revenue_sharing_iap_mg', 32, 15)->default(0);
             $table->decimal('i_payments_revenue_sharing_iap_cg', 32, 15)->default(0);
 
-            $table->decimal('c_oem_rev_share_iap', 32, 15)->default(0);
-            $table->decimal('c_oem_rev_share_iap_mg', 32, 15)->default(0);
+            $table->decimal('c_apps_with_iap_ratio', 32, 15)->default(0);
+            $table->decimal('c_apps_with_iap_ratio_mg', 32, 15)->default(0);
             $table->decimal('c_conversion_to_purchase_iap', 32, 15)->default(0);
             $table->decimal('c_conversion_to_purchase_iap_mg', 32, 15)->default(0);
             $table->decimal('c_iap_average_selling_price', 32, 15)->default(0);
