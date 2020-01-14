@@ -8,6 +8,8 @@ use App\Models\Account;
 use App\Models\Location;
 use App\Models\DataModel;
 use App\Models\ForecastCriteria;
+use App\Models\Type;
+use App\Models\Licensee;
 use App\Models\ForecastCriteriaAccount;
 use App\Models\ForecastCriteriaLocation;
 use App\Models\ForecastCriteriaParameter;
@@ -34,6 +36,9 @@ class ForecastCriteriasController extends Controller
         $odm = Account::where('name', 'ODM')->first();
         $carrier = Account::where('name', 'Carrier')->first();
 
+        $types = Type::all();
+        $licensees = Licensee::all();
+
         $oemOptions = Account::with(['parent'])->where('level_type', 'Account')->where('parent_id', $oem->id)->get();
         $odmOptions = Account::with(['parent'])->where('level_type', 'Account')->where('parent_id', $odm->id)->get();
         $carrierOptions = Account::with(['parent'])->where('level_type', 'Account')->where('parent_id', $carrier->id)->get();
@@ -48,7 +53,7 @@ class ForecastCriteriasController extends Controller
         }
         $selectLocations = json_encode($selectLocations);
 
-        return view('forecast-criterias.edit', compact('oemOptions','odmOptions', 'carrierOptions','selectLocations','forecastCriteria','model','items', 'locations', 'criterias'));
+        return view('forecast-criterias.edit', compact('licensees','types','oemOptions','odmOptions', 'carrierOptions','selectLocations','forecastCriteria','model','items', 'locations', 'criterias'));
     }
 
     public function update(Request $request, ForecastCriteria $forecastCriteria)
@@ -101,6 +106,9 @@ class ForecastCriteriasController extends Controller
         $odm = Account::where('name', 'ODM')->first();
         $carrier = Account::where('name', 'Carrier')->first();
 
+        $types = Type::all();
+        $licensees = Licensee::all();
+
         $oemOptions = Account::with(['parent'])->where('level_type', 'Account')->where('parent_id', $oem->id)->get();
         $odmOptions = Account::with(['parent'])->where('level_type', 'Account')->where('parent_id', $odm->id)->get();
         $carrierOptions = Account::with(['parent'])->where('level_type', 'Account')->where('parent_id', $carrier->id)->get();
@@ -108,7 +116,7 @@ class ForecastCriteriasController extends Controller
 
         $criterias = Criteria::all();
 
-        return view('forecast-criterias.create', compact('oemOptions', 'odmOptions', 'carrierOptions','model','items', 'locations', 'modelId', 'modelVid', 'criterias'));
+        return view('forecast-criterias.create', compact('types', 'licensees', 'oemOptions', 'odmOptions', 'carrierOptions','model','items', 'locations', 'modelId', 'modelVid', 'criterias'));
     }
 
     public function store(Request $request, ForecastCriteria $forecastCriteria)

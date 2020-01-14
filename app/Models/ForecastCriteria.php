@@ -8,7 +8,7 @@ class ForecastCriteria extends Model
 {
     protected $table = 'forecast_criterias';
 
-    protected $fillable = ['model_id', 'model_vid', 'item_id', 'oem_id', 'odm_id', 'carrier_id'];
+    protected $guarded = ['id', 'locations', 'projects', 'parameters'];
 
     public function oem()
     {
@@ -56,5 +56,15 @@ class ForecastCriteria extends Model
             'id',
             'location_id'
         );
+    }
+
+    public function licensee()
+    {
+        return $this->hasOne('App\Models\Licensee', 'id', 'licensee_id');
+    }
+
+    public function type()
+    {
+        return $this->hasOne('App\Models\Type', 'id', 'type_id');
     }
 }

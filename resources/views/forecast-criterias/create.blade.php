@@ -68,6 +68,30 @@
                         </div>
 
                         <div class="form-group row">
+                            <label for="selectTypes" class="col-sm-2 col-form-label">Type</label>
+                            <div class="col-sm-10">
+                                <select class="select2" id="selectTypes" name="type_id" style="width: 100%;">
+                                    <option value="">All</option><option value="-1">IS NULL</option>
+                                    @foreach($types as $type)
+                                        <option value="{{ $type->id }}">{{ $type->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="selectLicensees" class="col-sm-2 col-form-label">Licensee</label>
+                            <div class="col-sm-10">
+                                <select class="select2" id="selectLicensees" name="licensee_id" style="width: 100%;">
+                                    <option value="">All</option><option value="-1">IS NULL</option>
+                                    @foreach($licensees as $licensee)
+                                        <option value="{{ $licensee->id }}">{{ $licensee->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             <label for="selectLocations" class="col-sm-2 col-form-label">Locations</label>
                             <div class="col-sm-10">
                                 <select class="select2" id="selectLocations" name="locations[]" multiple="multiple" style="width: 100%;">

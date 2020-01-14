@@ -31,6 +31,8 @@
                             <th>OEM</th>
                             <th>ODM</th>
                             <th>Carrier</th>
+                            <th>Licensee</th>
+                            <th>Type</th>
                             <th>Item</th>
                             <th>Parameters</th>
                         </tr>
@@ -63,6 +65,12 @@
                                 </td>
                                 <td>
                                     <span class="badge badge-success">{{ $forecastCriteria->carrier? $forecastCriteria->carrier->name: '' }}</span>
+                                </td>
+                                <td>
+                                    <span class="badge badge-success">{{ $forecastCriteria->licensee? $forecastCriteria->licensee->name: '' }}</span>
+                                </td>
+                                <td>
+                                    <span class="badge badge-success">{{ $forecastCriteria->type? $forecastCriteria->type->name: '' }}</span>
                                 </td>
                                 <td>
                                     {{ $forecastCriteria->item->name }}

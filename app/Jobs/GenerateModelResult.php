@@ -367,6 +367,8 @@ class GenerateModelResult implements ShouldQueue
                         $updateData['i_c_ads_revenue_sharing_mg'] = $forecastItem->monthly_growth;
                         $updateData['i_c_ads_revenue_sharing_cg'] = $forecastItem->coverage;
                         break;
+                    case I_PAYMENTS_REVENUE_SHARING:
+
                     case I_BILLING_COST:
                         $updateData['i_billing_cost_mg'] = $forecastItem->monthly_growth;
                         $updateData['i_billing_cost_cg'] = $forecastItem->coverage;
@@ -426,6 +428,12 @@ class GenerateModelResult implements ShouldQueue
                 }
                 if ($forecastCriteria->carrier_id) {
                     $q1->where('carrier_id', $forecastCriteria->carrier_id);
+                }
+                if ($forecastCriteria->type_id) {
+                    $q1->where('type_id', $forecastCriteria->type_id);
+                }
+                if ($forecastCriteria->licensee_id) {
+                    $q1->where('licensee_id', $forecastCriteria->licensee_id);
                 }
             })->pluck('id')->toArray();
             $item_id = $forecastCriteria->item_id;
@@ -1033,7 +1041,7 @@ class GenerateModelResult implements ShouldQueue
 
                         $coverage = bcmul($dateGroup->i_c_ads_revenue_sharing_cg, bcpow(bcadd(1, $dateGroup->i_c_ads_revenue_sharing_mg), $month));
 
-                        $itemAdsRevenueSharing = bcmul($adsRevenueSharing, $coverage);
+                        $itemAdsRevenueSharing = $dateGroup->i_ads_revenue_sharing;
                         if ($dateGroup->market_id == $indiaMarket->id) {
                             $dateGroup->i_c_ads_revenue_sharing = bcmul(0.58, $itemAdsRevenueSharing);
                         } else {
