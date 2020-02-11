@@ -45,6 +45,9 @@
                                         <a class="btn btn-info btn-sm" href="{{ route('forecast-criterias.edit', array('forecast_criteria' => $forecastCriteria->id)) }}">
                                             <i class="fas fa-pencil-alt"></i>Edit
                                         </a>
+                                        <a class="btn btn-info btn-sm" href="{{ route('forecast-criterias.copy', array('forecast_criteria' => $forecastCriteria->id)) }}">
+                                            <i class="fas fa-pencil-alt"></i>Copy
+                                        </a>
                                         <a class="btn btn-danger btn-sm btn-delete-model" data-url="{{ route('forecast-criterias.destroy', array('forecast_criteria' => $forecastCriteria->id)) }}">
                                             <i class="fas fa-trash">
                                             </i>
@@ -106,6 +109,8 @@
                         @endforeach
                         </tbody>
                     </table>
+
+                    {{ $forecastCriterias->appends(['model_id' => $modelId, 'model_vid' => $modelVid])->links() }}
                 </div>
                 <!-- /.card-body -->
             </div>

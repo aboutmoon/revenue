@@ -65,6 +65,8 @@ const C_MAU_TO_STORE_APP_VIEW_RATIO_V1 = 21;
 const C_KAIPAY_COVERAGE_V1 = 22;
 const C_STORE_APP_VIEW_OF_PAID_APP_V1 = 23;
 const C_CONVERSION_TO_PURCHASE_STORE_V1 = 24;
+CONST C_REVENUE_SHARING_CARRIER_STORE_V1 = 90;
+CONST C_REVENUE_SHARING_CARRIER_OEM_V1 = 91;
 
 
 
@@ -74,11 +76,27 @@ const C_MAU_TO_STORE_APP_VIEW_RATIO_V2 = 26;
 const C_KAIPAY_COVERAGE_V2 = 27;
 const C_STORE_APP_VIEW_OF_PAID_APP_V2 = 28;
 const C_CONVERSION_TO_PURCHASE_STORE_V2 = 29;
+CONST C_AGGREG_REV_SHARE_STORE_V2 = 92;
+CONST C_AGGREGATOR_APP_RATIO_STORE_V2 = 93;
+CONST C_APP_DEV_STORE_V2 = 94;
+CONST C_KAI_APP_PAYMENT_RATIO_STORE_V2 = 86;
+CONST C_BILLING_CUT_STORE_V2 = 87;
+CONST C_REV_SHARE_CARRIER = 88;
+CONST C_REV_SHARE_OEM = 89;
 
 const I_PAYMENTS_REVENUE_SHARING_IAP_V2 = 14;
+
 const C_APPS_WITH_IAP_RATIO = 30;
 const C_CONVERSION_TO_PURCHASE_IAP = 31;
 const C_AVERAGE_SELLING_PRICE_IAP = 32;
+CONST C_PRS_IAP_CARRIER_SHARING = 79;
+CONST C_PRS_IAP_CARRIER_OEM = 80;
+CONST C_PRS_IAP_AGGREG_REV_SHARE = 81;
+CONST C_PRS_IAP_AGGREG_APP_RATIO = 82;
+CONST C_PRS_IAP_APP_DEV_REV_SHARE = 83;
+CONST C_PRS_IAP_KAI_APPS_RATIO = 84;
+CONST C_PRS_IAP_BILLING_CUT = 85;
+
 
 const I_PAYMENTS_REVENUE_SHARING = 15;
 CONST C_OEM_REV_SHARE = 33;
@@ -176,6 +194,16 @@ CONST I_COST_SEARCH_REVENUE_SHARING = 40;
 
 CONST C_SRS_REVENUE_SHARING_CARRIER = 70;
 CONST C_SRS_REVENUE_SHARING_OEM = 71;
+
+CONST I_COST_PAYMENT_REVENUE_SHARING = 41;
+
+CONST C_PRS_REVENUE_SHARING_CARRIER = 72;
+CONST C_PRS_REVENUE_SHARING_OEM = 73;
+CONST C_PRS_BILLING_CUT = 74;
+CONST C_PRS_KAI_APPS_PAYMENT_REVENUE_RATIO = 75;
+CONST C_PRS_APP_DEV_REV_SHARE = 76;
+CONST C_PRS_AGGREGATOR_APP_RATIO = 77;
+CONST C_PRS_AGGREGATOR_REV_SHARE = 78;
 
 
 const BULK_NUMBER = 5000;
@@ -400,6 +428,10 @@ class GenerateModelResult implements ShouldQueue
                         $updateData['i_ptu_sms_mg'] = $forecastItem->monthly_growth;
                         $updateData['i_ptu_sms_cg'] = $forecastItem->coverage;
                         break;
+                    case I_COST_PAYMENT_REVENUE_SHARING:
+                        $updateData['i_c_payment_revenue_sharing_mg'] = $forecastItem->monthly_growth;
+                        $updateData['i_c_payment_revenue_sharing_cg'] = $forecastItem->coverage;
+                        break;
                     default:
                         break;
                 }
@@ -560,6 +592,15 @@ class GenerateModelResult implements ShouldQueue
                         $updateData['c_conversion_to_purchase_store_v1'] = $parameter->value;
                         $updateData['c_conversion_to_purchase_store_v1_mg'] = $parameter->monthly_growth;
                     }
+                    if ($parameter->criteria_id == C_REVENUE_SHARING_CARRIER_STORE_V1) {
+                        $updateData['c_prs_store_carrier_sharing_v1'] = $parameter->value;
+                        $updateData['c_prs_store_carrier_sharing_mg_v1'] = $parameter->monthly_growth;
+                    }
+                    if ($parameter->criteria_id == C_REVENUE_SHARING_CARRIER_OEM_V1) {
+                        $updateData['c_prs_store_oem_sharing_v1'] = $parameter->value;
+                        $updateData['c_prs_store_oem_sharing_mg_v1'] = $parameter->monthly_growth;
+                    }
+
                 }
 
                 if ($item_id == I_PAYMENTS_REVENUE_SHARING_STORE_V2) {
@@ -583,6 +624,34 @@ class GenerateModelResult implements ShouldQueue
                         $updateData['c_conversion_to_purchase_store_v2'] = $parameter->value;
                         $updateData['c_conversion_to_purchase_store_v2_mg'] = $parameter->monthly_growth;
                     }
+                    if ($parameter->criteria_id == C_AGGREG_REV_SHARE_STORE_V2) {
+                        $updateData['c_prs_aggreg_rev_share_v2'] = $parameter->value;
+                        $updateData['c_prs_aggreg_rev_share_mg_v2'] = $parameter->monthly_growth;
+                    }
+                    if ($parameter->criteria_id == C_AGGREGATOR_APP_RATIO_STORE_V2) {
+                        $updateData['c_prs_aggreg_app_ratio_v2'] = $parameter->value;
+                        $updateData['c_prs_aggreg_app_ratio_mg_v2'] = $parameter->monthly_growth;
+                    }
+                    if ($parameter->criteria_id == C_APP_DEV_STORE_V2) {
+                        $updateData['c_prs_app_dev_store_v2'] = $parameter->value;
+                        $updateData['c_prs_app_dev_store_mg_v2'] = $parameter->monthly_growth;
+                    }
+                    if ($parameter->criteria_id == C_REV_SHARE_CARRIER) {
+                        $updateData['c_prs_store_carrier_sharing_v2'] = $parameter->value;
+                        $updateData['c_prs_store_carrier_sharing_mg_v2'] = $parameter->monthly_growth;
+                    }
+                    if ($parameter->criteria_id == C_REV_SHARE_OEM) {
+                        $updateData['c_prs_store_oem_sharing_v2'] = $parameter->value;
+                        $updateData['c_prs_store_oem_sharing_mg_v2'] = $parameter->monthly_growth;
+                    }
+                    if ($parameter->criteria_id == C_KAI_APP_PAYMENT_RATIO_STORE_V2) {
+                        $updateData['c_prs_kai_app_ratio_store_v2'] = $parameter->value;
+                        $updateData['c_prs_kai_app_ratio_store_mg_v2'] = $parameter->monthly_growth;
+                    }
+                    if ($parameter->criteria_id == C_BILLING_CUT_STORE_V2) {
+                        $updateData['c_prs_billing_cut_store_v2'] = $parameter->value;
+                        $updateData['c_prs_billing_cut_store_mg_v2'] = $parameter->monthly_growth;
+                    }
                 }
 
 
@@ -599,6 +668,35 @@ class GenerateModelResult implements ShouldQueue
                         $updateData['c_iap_average_selling_price'] = $parameter->value;
                         $updateData['c_iap_average_selling_price_mg'] = $parameter->monthly_growth;
                     }
+                    if ($parameter->criteria_id == C_PRS_IAP_CARRIER_SHARING) {
+                        $updateData['c_prs_carrier_sharing_iap'] = $parameter->value;
+                        $updateData['c_prs_carrier_sharing_mg_iap'] = $parameter->monthly_growth;
+                    }
+                    if ($parameter->criteria_id == C_PRS_IAP_CARRIER_OEM) {
+                        $updateData['c_prs_oem_sharing_iap'] = $parameter->value;
+                        $updateData['c_prs_oem_sharing_mg_iap'] = $parameter->monthly_growth;
+                    }
+                    if ($parameter->criteria_id == C_PRS_IAP_AGGREG_REV_SHARE) {
+                        $updateData['c_prs_aggrev_rev_share_iap'] = $parameter->value;
+                        $updateData['c_prs_aggrev_rev_share_iap_mg'] = $parameter->monthly_growth;
+                    }
+                    if ($parameter->criteria_id == C_PRS_IAP_AGGREG_APP_RATIO) {
+                        $updateData['c_prs_aggregator_app_ratio_iap'] = $parameter->value;
+                        $updateData['c_prs_aggregator_app_ratio_iap_mg'] = $parameter->monthly_growth;
+                    }
+                    if ($parameter->criteria_id == C_PRS_IAP_APP_DEV_REV_SHARE) {
+                        $updateData['c_prs_app_dev_or_content_provider_rev_share_iap'] = $parameter->value;
+                        $updateData['c_prs_app_dev_or_content_provider_rev_share_iap_mg'] = $parameter->monthly_growth;
+                    }
+                    if ($parameter->criteria_id == C_PRS_IAP_KAI_APPS_RATIO) {
+                        $updateData['c_prs_apps_payment_revenue_ratio_iap'] = $parameter->value;
+                        $updateData['c_prs_apps_payment_revenue_ratio_iap_mg'] = $parameter->monthly_growth;
+                    }
+                    if ($parameter->criteria_id == C_PRS_IAP_BILLING_CUT) {
+                        $updateData['c_prs_billing_cut_iap'] = $parameter->value;
+                        $updateData['c_prs_billing_cut_iap_mg'] = $parameter->monthly_growth;
+                    }
+
                 }
 
                 if ($item_id == I_REVENUE_3RD_PARTY_LICENSES) {
@@ -764,7 +862,42 @@ class GenerateModelResult implements ShouldQueue
                     }
                 }
 
+                if ($item_id == I_COST_PAYMENT_REVENUE_SHARING) {
+                    if ($parameter->criteria_id == C_PRS_AGGREGATOR_APP_RATIO) {
+                        $updateData['c_prs_aggregator_app_ratio'] = $parameter->value;
+                        $updateData['c_prs_aggregator_app_ratio_mg'] = $parameter->monthly_growth;
+                    }
 
+                    if ($parameter->criteria_id == C_PRS_AGGREGATOR_REV_SHARE) {
+                        $updateData['c_prs_aggreg_rev_share'] = $parameter->value;
+                        $updateData['c_prs_aggreg_rev_share_mg'] = $parameter->monthly_growth;
+                    }
+
+                    if ($parameter->criteria_id == C_PRS_APP_DEV_REV_SHARE) {
+                        $updateData['c_prs_app_dev_or_content_provider_rev_share'] = $parameter->value;
+                        $updateData['c_prs_app_dev_or_content_provider_rev_share_mg'] = $parameter->monthly_growth;
+                    }
+
+                    if ($parameter->criteria_id == C_PRS_BILLING_CUT) {
+                        $updateData['c_prs_billing_cut'] = $parameter->value;
+                        $updateData['c_prs_billing_cut_mg'] = $parameter->monthly_growth;
+                    }
+
+                    if ($parameter->criteria_id == C_PRS_KAI_APPS_PAYMENT_REVENUE_RATIO) {
+                        $updateData['c_prs_kai_apps_prs_revenue_ratio'] = $parameter->value;
+                        $updateData['c_prs_kai_apps_prs_revenue_ratio_mg'] = $parameter->monthly_growth;
+                    }
+
+                    if ($parameter->criteria_id == C_PRS_REVENUE_SHARING_CARRIER) {
+                        $updateData['c_prs_carrier_rev_share'] = $parameter->value;
+                        $updateData['c_prs_carrier_rev_share_mg'] = $parameter->monthly_growth;
+                    }
+
+                    if ($parameter->criteria_id == C_PRS_REVENUE_SHARING_OEM) {
+                        $updateData['c_prs_oem_rev_share'] = $parameter->value;
+                        $updateData['c_prs_oem_rev_share_mg'] = $parameter->monthly_growth;
+                    }
+                }
                     DB::table('forecast_devices_view')
                         ->where('model_id', $modelId)
                         ->where('model_vid', $modelVid)
@@ -790,7 +923,7 @@ class GenerateModelResult implements ShouldQueue
                     $count = 0;
                     $prevDateGroup = null;
                     foreach ($dateGroups as $date => $dateGroup) {
-                        bcscale(17);
+                        bcscale(30);
 
                         $month = Carbon::parse($date)->month - 1;
 
@@ -894,7 +1027,6 @@ class GenerateModelResult implements ShouldQueue
                         $adsRevenueSharing = bcadd(bcdiv(bcmul(bcmul(bcmul(bcmul($dateGroup->i_mau, $adsMonthlyPageView), $adsMonthlyPageViewMG), $adsEcpm), $adsEcpmMG), 1000), bcdiv(bcmul(bcmul(bcmul($adsDAU, $adsRevenuePer1KAdsDau), $adsRevenuePer1KAdsDauMG), 30), 1000));
                         $dateGroup->i_ads_revenue_sharing = bcmul($adsRevenueSharing, $coverage);
 
-
                         // nre
                         $monthlyTeamPrice = $dateGroup->c_monthly_team_price;
                         $monthlyTeamPriceMG = bcpow(bcadd($dateGroup->c_monthly_team_price_mg, 1), $month);
@@ -984,7 +1116,17 @@ class GenerateModelResult implements ShouldQueue
                             $dfMonthlyChrunRate = $dateGroup->c_df_monthly_chrun_rate;
                             $dfMonthlyChrunRateMG = bcpow(bcadd(1, $dateGroup->c_df_monthly_chrun_rate_mg), $month);
 
-                            $coverage = bcmul($dateGroup->i_r_device_financing_cg, bcpow(bcadd(1, $dateGroup->i_r_device_financing_mg), $month));
+                            $index = 0;
+                            $deviceFinance = 0;
+                            while ($count - $index >= 0 && $index <= 5) {
+                                $d = Carbon::parse($date)->subMonths($index)->toDateString();
+                                $coverage = bcmul($dateGroups[$d]->i_r_device_financing_cg, bcpow(bcadd(1, $dateGroups[$d]->i_r_device_financing_mg), $month));
+                                $itemShipment = bcmul($dateGroups[$d]->i_shipment, $coverage);
+
+                                $deviceFinance = bcadd($deviceFinance, bcmul($itemShipment, bcmul(bcmul($dfKimFee, $dfKimFeeMG), bcpow(bcadd(1, $dfMonthlyChrunRate), $index))));
+                                $index++;
+                            }
+                            $dateGroup->i_r_device_financing = $deviceFinance;
                         }
 
                         // yearly preload
@@ -1138,6 +1280,115 @@ class GenerateModelResult implements ShouldQueue
                             $coverage = bcmul($dateGroup->i_c_search_revenue_sharing_cg, bcpow(bcadd(1, $dateGroup->i_c_search_revenue_sharing_mg), $month));
 
                             $dateGroup->i_c_search_revenue_sharing = bcadd(bcmul($dateGroup->i_search_revenue_sharing, $revenueSharingCarrier), bcmul($revenueSharingOEM, bcsub($dateGroup->i_search_revenue_sharing, bcmul($dateGroup->i_search_revenue_sharing, $revenueSharingCarrier))));
+                        }
+//
+                        // (Cost) Payment Revenue sharing
+                        {
+
+                            $prsAggregatorAppRatioStoreV1 = 0;
+                            $prsAggregatorAppRatioStoreV2 = $dateGroup->c_prs_aggreg_app_ratio_v2;
+                            $prsAggregatorAppRatioASPV2 = $dateGroup->c_prs_aggregator_app_ratio_iap;
+
+                            $prsAggregRevShareStoreV1 = 0;
+                            $prsAggregRevShareStoreV2 = $dateGroup->c_prs_aggreg_rev_share_v2;
+                            $prsAggregRevShareASPV2 = $dateGroup->c_prs_aggrev_rev_share_iap;
+
+                            $prsAppDevContentProviderRevShareStoreV1 = 0;
+                            $prsAppDevContentProviderRevShareStoreV2 = $dateGroup->c_prs_app_dev_store_v2;
+                            $prsAppDevContentProviderRevShareASPV2 = $dateGroup->c_prs_app_dev_or_content_provider_rev_share_iap;
+
+                            $prsBillingCutStoreV1 = 0;
+                            $prsBillingCutStoreV2 = $dateGroup->c_prs_billing_cut_store_v2;
+                            $prsBillingCutASPV2 = $dateGroup->c_prs_billing_cut_iap;
+
+                            $prsKaiAppsRevenueRatioStoreV1 = 0;
+                            $prsKaiAppsRevenueRatioStoreV2 = $dateGroup->c_prs_kai_app_ratio_store_v2;
+                            $prsKaiAppsRevenueRatioASPV2 = $dateGroup->c_prs_apps_payment_revenue_ratio_iap;
+
+                            $prsCarrierRevShareStoreV1 = $dateGroup->c_prs_store_carrier_sharing_v1;
+                            $prsCarrierRevShareStoreV2 = $dateGroup->c_prs_store_carrier_sharing_v2;
+                            $prsCarrierRevShareASPV2 = $dateGroup->c_prs_carrier_sharing_iap;
+
+                            $prsOemRevShareStoreV1 = $dateGroup->c_prs_store_oem_sharing_v1;
+                            $prsOemRevShareStoreV2 = $dateGroup->c_prs_store_oem_sharing_v2;
+                            $prsOemRevShareASPV2 = $dateGroup->c_prs_oem_sharing_iap;
+
+
+                            $all = bcadd(bcadd($dateGroup->i_payments_revenue_sharing_iap, $dateGroup->i_payments_revenue_sharing_store_v2), $dateGroup->i_payments_revenue_sharing_store_v1);
+                            $v1 = $dateGroup->i_payments_revenue_sharing_store_v1;
+                            $v2 = $dateGroup->i_payments_revenue_sharing_store_v2;
+                            $aspv2 = $dateGroup->i_payments_revenue_sharing_iap;
+                            if ($dateGroup->market_id == $indiaMarket->id) {
+                                $dateGroup->i_c_payment_revenue_sharing = bcmul(0.58, $all);
+                            } else {
+                                $billingStoreV1 = 0;
+                                $billingStoreV2 = bcmul($v2, $prsBillingCutStoreV2);
+                                $billingStoreV2 = $billingStoreV2 > 0? $billingStoreV2:0;
+                                $billingAIPV2 = bcmul($aspv2, $prsBillingCutASPV2);
+                                $billingAIPV2 = $billingAIPV2 > 0? $billingAIPV2:0;
+
+                                $publisherStoreV1 = 0;
+                                $publisherStoreV2 = bcmul(bcsub($v2, $billingStoreV2), bcmul(bcsub(1, $prsKaiAppsRevenueRatioStoreV2), $prsAppDevContentProviderRevShareStoreV2));
+                                $publisherStoreV2  = $publisherStoreV2 > 0? $publisherStoreV2: 0;
+                                $publisherAIPV2 = bcmul(bcsub($aspv2, $billingAIPV2), bcmul(bcsub(1, $prsKaiAppsRevenueRatioASPV2), $prsAppDevContentProviderRevShareASPV2));
+                                $publisherAIPV2  = $publisherAIPV2 > 0? $publisherAIPV2: 0;
+
+                                $aggregatorStoreV1 = 0;
+                                $aggregatorStoreV2 = bcmul(bcsub(bcsub($v2, $billingStoreV2), $publisherStoreV2), bcmul($prsAggregatorAppRatioStoreV2, $prsAggregRevShareStoreV2));
+                                $aggregatorStoreV2  = $aggregatorStoreV2 > 0? $aggregatorStoreV2: 0;
+                                $aggregatorAIPV2 = bcmul(bcsub(bcsub($aspv2, $billingAIPV2), $publisherAIPV2), bcmul($prsAggregatorAppRatioASPV2, $prsAggregRevShareASPV2));
+                                $aggregatorAIPV2  = $aggregatorAIPV2 > 0? $aggregatorAIPV2: 0;
+
+                                $carrierStoreV1 = bcmul($v1, $prsCarrierRevShareStoreV1);
+                                $carrierStoreV1  = $carrierStoreV1 > 0? $carrierStoreV1: 0;
+                                $carrierStoreV2 = bcmul(bcsub(bcsub(bcsub($v2, $billingStoreV2), $aggregatorStoreV2), $publisherStoreV2), $prsCarrierRevShareStoreV2);
+                                $carrierStoreV2  = $carrierStoreV2 > 0? $carrierStoreV2: 0;
+                                $carrierAIPV2 = bcmul(bcsub(bcsub(bcsub($aspv2, $billingAIPV2), $aggregatorAIPV2), $publisherAIPV2), $prsCarrierRevShareASPV2);
+                                $carrierAIPV2  = $carrierAIPV2 > 0? $carrierAIPV2: 0;
+
+                                $oemStoreV1 = bcmul(bcsub($v1, $carrierStoreV1), $prsOemRevShareStoreV1);
+                                $oemStoreV1  = $oemStoreV1 > 0? $oemStoreV1: 0;
+                                $oemStoreV2 = bcmul(bcsub(bcsub(bcsub(bcsub($v2, $carrierStoreV2), $aggregatorStoreV2), $publisherStoreV2), $billingStoreV2), $prsOemRevShareStoreV2);
+                                $oemStoreV2  = $oemStoreV2 > 0? $oemStoreV2: 0;
+                                $oemAIPV2 = bcmul(bcsub(bcsub(bcsub(bcsub($aspv2, $carrierAIPV2), $aggregatorAIPV2), $publisherAIPV2), $billingAIPV2), $prsOemRevShareASPV2);
+                                $oemAIPV2  = $oemAIPV2 > 0? $oemAIPV2: 0;
+
+                                $storeV1 = bcadd(bcadd(bcadd(bcadd($publisherStoreV1, $aggregatorStoreV1), $carrierStoreV1), $oemStoreV1), $billingStoreV1);
+                                $storeV1  = $storeV1 > 0? $storeV1: 0;
+                                $storeV2 = bcadd(bcadd(bcadd(bcadd($publisherStoreV2, $aggregatorStoreV2), $carrierStoreV2), $oemStoreV2), $billingStoreV2);
+                                $storeV2  = $storeV2 > 0? $storeV2: 0;
+                                $ASPV2 = bcadd(bcadd(bcadd(bcadd($publisherAIPV2, $aggregatorAIPV2), $carrierAIPV2), $oemAIPV2), $billingAIPV2);
+                                $ASPV2 = $ASPV2 > 0? $ASPV2: 0;
+                                if (($dateGroup->project_id == 62 || $dateGroup->project_id == 90) && ($date == '2020-06-01')) {
+
+
+                                    Log::info('StoreV1-' . $v1);
+                                    Log::info('StoreV2-' . $v2);
+                                    Log::info('ASPV2-' . $aspv2);
+                                    Log::info('Date-' . $date);
+
+                                    Log::info('BillingStoreV1-' . $billingStoreV1);
+                                    Log::info('BillingStoreV2-' . $billingStoreV2);
+                                    Log::info('BillingASPV2-' . $billingAIPV2);
+                                    Log::info('PublisherStoreV1-' . $publisherStoreV1);
+                                    Log::info('PublisherStoreV2-' . $publisherStoreV2);
+                                    Log::info('PublisherASPV2-' . $publisherAIPV2);
+                                    Log::info('AggregatorStoreV1-' . $aggregatorStoreV1);
+                                    Log::info('AggregatorStoreV2-' . $aggregatorStoreV2);
+                                    Log::info('AggregatorASPV1-' . $aggregatorAIPV2);
+                                    Log::info('CarrierStoreV1-' . $carrierStoreV1);
+                                    Log::info('CarrierStoreV2-' . $carrierStoreV2);
+                                    Log::info('CarrierASPV2-' . $carrierAIPV2);
+                                    Log::info('OEMStoreV1-' . $oemStoreV1);
+                                    Log::info('OEMStoreV2-' . $oemStoreV2);
+                                    Log::info('OEMASPV2-' . $oemAIPV2);
+                                }
+
+
+                                $dateGroup->i_c_payment_revenue_sharing = bcadd(bcadd($storeV1, $storeV2), $ASPV2);
+                                $dateGroup->i_c_payment_revenue_sharing = $dateGroup->i_c_payment_revenue_sharing > 0 ? $dateGroup->i_c_payment_revenue_sharing: 0;
+
+                            }
                         }
 
 
@@ -1389,8 +1640,28 @@ class GenerateModelResult implements ShouldQueue
                             'location_id' => $dateGroup->location_id,
                             'project_id' => $dateGroup->project_id,
                             'date' => $date,
+                            'item_id' => I_R_DEVICE_FINANCING,
+                            'result' => $dateGroup->i_r_device_financing,
+                        ]);
+
+                        array_push($insertData, [
+                            'model_id' => $modelId,
+                            'model_vid' => $modelVid,
+                            'location_id' => $dateGroup->location_id,
+                            'project_id' => $dateGroup->project_id,
+                            'date' => $date,
                             'item_id' => I_COST_SEARCH_REVENUE_SHARING,
                             'result' => $dateGroup->i_c_search_revenue_sharing,
+                        ]);
+
+                        array_push($insertData, [
+                            'model_id' => $modelId,
+                            'model_vid' => $modelVid,
+                            'location_id' => $dateGroup->location_id,
+                            'project_id' => $dateGroup->project_id,
+                            'date' => $date,
+                            'item_id' => I_COST_PAYMENT_REVENUE_SHARING,
+                            'result' => $dateGroup->i_c_payment_revenue_sharing,
                         ]);
 
 

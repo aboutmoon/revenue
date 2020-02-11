@@ -23,7 +23,7 @@ class ForecastCriteriasController extends Controller
         $modelId = $request->get('model_id');
         $modelVid = $request->get('model_vid');
 
-        $forecastCriterias = ForecastCriteria::with(['item', 'parameters', 'accounts', 'locations'])->where('model_id', $modelId)->where('model_vid', $modelVid)->get();
+        $forecastCriterias = ForecastCriteria::with(['item', 'parameters', 'accounts', 'locations'])->where('model_id', $modelId)->where('model_vid', $modelVid)->paginate(15);;
         return view('forecast-criterias.index', compact('forecastCriterias','modelId', 'modelVid'));
     }
 
@@ -146,6 +146,30 @@ class ForecastCriteriasController extends Controller
                 'model_vid' => $forecastCriteria->model_vid
             ))
         );
+    }
+
+    public function copy(Request $request, ForecastCriteria $forecastCriteria) {
+        $data = $forecastCriteria->toArray();
+        unset($data['id']);
+        $new = ForecastCriteria::create($data);
+
+        foreach ( $forecastCriteria->locations as $location)
+        {
+            ForecastCriteriaLocation::firstOrCreate(['id' => $new->id, 'location_id' => $location->id]);
+        }
+
+        foreach ( $forecastCriteria->parameters as $parameter)
+        {
+            ForecastCriteriaParameter::firstOrCreate([
+                'forecast_criteria_id' => $new->id,
+                'criteria_id' => $parameter->criteria_id,
+                'value' => $parameter->value,
+                'monthly_growth' => $parameter->monthly_growth,
+                'date_from' => $parameter->date_from,
+                'date_to' => $parameter->date_to
+            ]);
+        }
+        return back();
     }
 
 
